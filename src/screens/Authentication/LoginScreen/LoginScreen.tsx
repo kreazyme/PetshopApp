@@ -1,10 +1,25 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { decreaseAction, increaseAction } from "../../../redux/actions";
 
 const LoginScreenComp = () => {
     return (
         <View style={styles.container}>
-            <Text style={{ fontSize: 30, color: "red" }}>132321</Text>
+            <TouchableOpacity
+                onPress={() => {
+                    increaseAction(2)
+                }}
+            >
+                <Text>Button + </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    decreaseAction(2)
+                }}
+            >
+                <Text>Button - </Text>
+            </TouchableOpacity>
+            <Text style={{ fontSize: 30, color: "red" }}>{"gkolahdnfgioud"}</Text>
         </View>
     );
 }

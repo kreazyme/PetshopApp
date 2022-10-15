@@ -1,0 +1,3 @@
+export const INCREAMENT = "INCREAMENT";
+export const DECREAMENT = "DECREAMENT";
+export const CHANGE_APP_MODE = "CHANGE_APP_MODE";

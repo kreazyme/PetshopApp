@@ -12,7 +12,10 @@
   "dependencies": {
     "dotenv": "^16.0.3",
     "react": "18.1.0",
-    "react-native": "0.70.2"
+    "react-native": "0.70.2",
+    "react-redux": "^8.0.4",
+    "redux": "^4.2.0",
+    "redux-saga": "^1.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
