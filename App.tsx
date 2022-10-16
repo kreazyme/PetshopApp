@@ -4,6 +4,7 @@ import {
   StatusBar,
   StyleSheet,
   useColorScheme,
+  View,
 } from 'react-native';
 import {
   Colors
@@ -11,7 +12,7 @@ import {
 import { LoginScreen } from './src';
 import { Provider } from 'react-redux';
 import Redux from "./src/redux/store/store"
-
+import { AppNavigation } from './src';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -21,17 +22,7 @@ const App = () => {
   };
 
   return (
-    <Provider
-      store={Redux.store}
-    >
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={backgroundStyle.backgroundColor}
-        />
-        <LoginScreen />
-      </SafeAreaView>
-    </Provider>
+    <AppNavigation />
   );
 };
 
