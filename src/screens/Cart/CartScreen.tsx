@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Dimensions, Button, Text, Alert, ScrollView, TouchableOpacity, TextInput, StatusBar } from "react-native";
 
 export default () => {
     return (
@@ -16,4 +16,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
+
 });
+
+
