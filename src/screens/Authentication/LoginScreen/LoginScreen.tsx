@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Dimensions, Button, Text, Alert, ScrollView, TouchableOpacity, TextInput, StatusBar } from "react-native";
+import { decreaseAction, increaseAction } from "../../../redux/actions";
 
 const windownWidth = Dimensions.get('window').width;
 const SIGN_IN = 'SIGN_IN';
@@ -102,13 +103,10 @@ const styles = StyleSheet.create({
         //justifyContent: 'center',
         //paddingLeft: 30,
 
-        backgroundColor: '#F6F5F5',
-    },
-    textTitle: {
-        fontSize: 30,
-        color: 'black',
-    },
+        backgroundColor: '#F6F5F5',},
+        textTitle: {
+            fontSize: 30,
+            color: 'black',
+        },
 
-});
-
-
+    })
