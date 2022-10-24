@@ -8,6 +8,7 @@ export const ic_app_logo = require("../assets/icons/ic_app_logo.png");
 export const ic_dot_orange = require("../assets/icons/ic_dot_orange.png");
 export const ic_menu = require("../assets/icons/ic_menu.png");
 export const ic_search = require("../assets/icons/ic_search.png");
+export const ic_trash = require("../assets/icons/ic_trash.png");
 
 
 //images
