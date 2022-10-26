@@ -9,7 +9,7 @@ import {
 import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
-import { LoginScreen } from './src';
+import { ForgetSignIn, LoginScreen } from './src';
 import { Provider } from 'react-redux';
 import Redux from "./src/redux/store/store"
 import { AppNavigation } from './src';
