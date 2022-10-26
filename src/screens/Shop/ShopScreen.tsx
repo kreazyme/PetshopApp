@@ -1,62 +1,29 @@
+import { NavigationContainer } from "@react-navigation/native";
 import React, { useState } from "react";
 import { View, StyleSheet, FlatList, TextInput } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import FastImage from "react-native-fast-image";
 import { fonts, ic_app_logo, ic_menu, ic_search } from "../../shared";
 import colors from "../../shared/colors";
+import { AppHeader } from "../Header";
 import { ItemProduct } from "./Components";
 
 const ShopScreenComp = () => {
-
-    const [data, setData] = React.useState<any>([]);
     const [searchToken, setSearchToken] = React.useState<String>("");
+    const [data, setData] = React.useState<any>([]);
     const [open, setOpen] = useState(true);
     const [value, setValue] = useState(null);
     const [items, setItems] = useState([
         { label: 'Apple', value: 'apple' },
         { label: 'Banana', value: 'banana' }
     ]);
-
     React.useEffect(() => {
         const array = [1, 2, 1, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5]
         setData(array);
     }, [])
-
-
-    const renderHeader = (() => {
-        return <View style={styles.wrapHeader}>
-            <View style={styles.wrapHeaderLogo}>
-                <FastImage
-                    source={ic_app_logo}
-                    resizeMode="contain"
-                    style={styles.wrapLogo}
-                />
-                <FastImage
-                    source={ic_menu}
-                    resizeMode="contain"
-                    style={styles.wrapMenu}
-                />
-            </View>
-            <View style={styles.wrapSearchBox}>
-                <TextInput
-                    placeholder="Search here"
-                    style={styles.txtSearch}
-                    onChangeText={(value) => { setSearchToken(value) }}
-                />
-                <View style={styles.container} />
-                <FastImage
-                    source={ic_search}
-                    resizeMode="contain"
-                    style={styles.wrapSearch}
-                />
-            </View>
-        </View>
-    })
-
     const renderItem = ({ item }: any) => {
         return <ItemProduct />
     }
-
     const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
 
     const headerComponent = (() => {
@@ -73,7 +40,7 @@ const ShopScreenComp = () => {
 
     return (
         <View style={styles.container}>
-            {renderHeader()}
+            <AppHeader/>
             <FlatList
                 data={data}
                 renderItem={renderItem}
