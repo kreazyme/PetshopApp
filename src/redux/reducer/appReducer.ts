@@ -9,7 +9,7 @@ const appReducer = (state = initData, { type, payload }: any) => {
         case CHANGE_APP_MODE:
             return {
                 ...state,
-                CHANGE_APP_MODE: payload
+                darkMode: payload
             }
         default:
             return state

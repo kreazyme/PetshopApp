@@ -18,3 +18,9 @@ export interface ITypeProduct {
     tittle: String,
     amount: Number
 }
+
+export interface IProductCart {
+    title: String,
+    price: number,
+    image: any
+}
