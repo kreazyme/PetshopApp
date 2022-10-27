@@ -9,7 +9,9 @@ export const ic_dot_orange = require("../assets/icons/ic_dot_orange.png");
 export const ic_menu = require("../assets/icons/ic_menu.png");
 export const ic_search = require("../assets/icons/ic_search.png");
 export const ic_trash = require("../assets/icons/ic_trash.png");
+export const ic_back = require("../assets/icons/ic_back.png");
 
 
 //images
 export const cat = require("../assets/images/cat_demo.jpg");
+export const img_avatar = require("../assets/images/img_avatar.png");

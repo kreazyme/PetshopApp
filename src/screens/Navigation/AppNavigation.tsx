@@ -6,6 +6,7 @@ import FastImage from "react-native-fast-image";
 import { fonts, ic_heart, ic_shop, ic_store, ic_user, SCREENNAME } from "../../shared";
 import colors from "../../shared/colors";
 import CartScreen from "../Cart/CartScreen";
+import { EditProfileScreen } from "../Profile/EditProfileScreen";
 import ProfileScreen from "../Profile/ProfileScreen";
 import { ShopScreen } from "../Shop";
 import { WishListScreen } from "../WishList";
@@ -60,7 +61,7 @@ const appNavigationComp = () => {
                 />
                 <Tab.Screen
                     name={SCREENNAME.PROFILE_SCREEN}
-                    component={ProfileScreen}
+                    component={EditProfileScreen}
                     options={{
                         tabBarLabel: "",
                         tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_user, "Profile") }
