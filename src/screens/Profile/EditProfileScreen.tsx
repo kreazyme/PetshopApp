@@ -2,10 +2,11 @@ import React from "react";
 import { View, StyleSheet, Text, StatusBar, TextInput, ScrollView, Button, TouchableOpacity } from "react-native";
 import DatePicker from "react-native-date-picker";
 import FastImage from "react-native-fast-image";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import { fonts, ic_back, img_avatar } from "../../shared";
 import colors from "../../shared/colors";
 
-const EditProfileScreenComp = () => {
+const EditProfileScreenComp = ({ navigation }: any) => {
 
     const [image, setImage] = React.useState<String>("");
     const [name, setName] = React.useState<String>("12312");
@@ -21,16 +22,29 @@ const EditProfileScreenComp = () => {
 
     const renderHeader = (() => {
         return <View style={styles.wrapHeader}>
-            <FastImage
-                source={ic_back}
-                resizeMode="contain"
-                style={styles.wrapButtonBack}
-            />
+            <TouchableOpacity
+                onPress={() => {
+                    navigation.goBack();
+                }}
+            >
+                <FastImage
+                    source={ic_back}
+                    resizeMode="contain"
+                    style={styles.wrapButtonBack}
+                />
+            </TouchableOpacity>
             <View style={styles.wrapTextHeader}>
                 <Text style={styles.txtHeader}>
                     Edit Profile
                 </Text>
             </View>
+            <TouchableOpacity
+                onPress={() => {
+                    navigation.goBack();
+                }}
+            >
+                <Icon name="done" style={styles.ButtonIcon} />
+            </TouchableOpacity>
         </View>
     })
 
@@ -152,5 +166,11 @@ const styles = StyleSheet.create({
     },
     wrapDatePicker: {
         padding: 20
-    }
+    },
+    ButtonIcon: {
+        marginRight: 16,
+        alignItems: 'center',
+        fontSize: 24,
+        color: 'black'
+    },
 });

@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import { View, StyleSheet, FlatList, TextInput, Text, TouchableOpacity } from "react-native";
-import DropDownPicker from "react-native-dropdown-picker";
-import FastImage from "react-native-fast-image";
-import { fonts, ic_app_logo, ic_menu, ic_search } from "../../shared";
+import { fonts, SCREENNAME } from "../../shared";
 import colors from "../../shared/colors";
-import { ItemProduct } from "../Shop/Components";
 import Icon from "react-native-vector-icons/MaterialIcons"
 import BlackIcon from "react-native-vector-icons/FontAwesome"
 import DeIcon from "react-native-vector-icons/FontAwesome5"
 import { AppHeader } from "../Header";
 
-export default () => {
+export default ({ navigation }: any) => {
     const renderBody = (() => {
         return (
             <View style={styles.containerBody}>
@@ -20,6 +17,13 @@ export default () => {
 
                 </View>
                 <View style={styles.wrapBody}>
+                    <TouchableOpacity
+                        onPress={() => { navigation.navigate(SCREENNAME.EDIT_PROFILE_SCREEN) }}
+                        style={styles.wrapButton}>
+                        <Text style={styles.ButtonText}>Person</Text>
+                        <View style={styles.container}></View>
+                        <Icon name="person" style={styles.ButtonIcon} />
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.wrapButton}>
                         <Text style={styles.ButtonText}>Dasdboard</Text>
                         <View style={styles.container}></View>
@@ -56,7 +60,7 @@ export default () => {
     })
     return (
         <View style={styles.container} >
-            <AppHeader/>
+            <AppHeader />
             {renderBody()}
         </View>
     );

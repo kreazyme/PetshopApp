@@ -1,7 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Button } from "react-native";
 import FastImage from "react-native-fast-image";
 import { fonts, ic_heart, ic_shop, ic_store, ic_user, SCREENNAME } from "../../shared";
 import colors from "../../shared/colors";
@@ -13,6 +14,9 @@ import { WishListScreen } from "../WishList";
 const Tab = createBottomTabNavigator();
 
 const appNavigationComp = () => {
+
+    const Stack = createNativeStackNavigator();
+
     const tabbarIcon = ((focus: any, icon: any, txtName: String) => {
         return (
             <View style={styles.wrapIconTabbar}>
@@ -28,46 +32,63 @@ const appNavigationComp = () => {
             </View>
         )
     })
+
+    const HomeStack = (() => {
+        return <Tab.Navigator
+            tabBarOptions={{
+                style: styles.wrapTabbar
+            }}
+        >
+            <Tab.Screen
+                name={SCREENNAME.SHOP_SCREEN}
+                component={ShopScreen}
+                options={{
+                    tabBarLabel: "",
+                    tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_store, "Shop") }
+                }}
+            />
+            <Tab.Screen
+                name={SCREENNAME.CART_SCREEN}
+                component={CartScreen}
+                options={{
+                    tabBarLabel: "",
+                    tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_shop, "Cart") }
+                }}
+            />
+            <Tab.Screen
+                name={SCREENNAME.WISHLIST_SCREEN}
+                component={WishListScreen}
+                options={{
+                    tabBarLabel: "",
+                    tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_heart, "WishList") }
+                }}
+            />
+            <Tab.Screen
+                name={SCREENNAME.PROFILE_SCREEN}
+                component={ProfileScreen}
+                options={{
+                    tabBarLabel: "",
+                    tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_user, "Profile") }
+                }}
+            />
+        </Tab.Navigator>
+
+    })
+
     return (
         <NavigationContainer>
-            <Tab.Navigator
-                tabBarOptions={{
-                    style: styles.wrapTabbar
-                }}
-            >
-                <Tab.Screen
-                    name={SCREENNAME.SHOP_SCREEN}
-                    component={ShopScreen}
-                    options={{
-                        tabBarLabel: "",
-                        tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_store, "Shop") }
-                    }}
+            <Stack.Navigator initialRouteName={SCREENNAME.HOME_STACK}>
+                <Stack.Screen
+                    name={SCREENNAME.HOME_STACK}
+                    options={{ headerShown: false }}
+                    component={HomeStack}
                 />
-                <Tab.Screen
-                    name={SCREENNAME.CART_SCREEN}
-                    component={CartScreen}
-                    options={{
-                        tabBarLabel: "",
-                        tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_shop, "Cart") }
-                    }}
-                />
-                <Tab.Screen
-                    name={SCREENNAME.WISHLIST_SCREEN}
-                    component={WishListScreen}
-                    options={{
-                        tabBarLabel: "",
-                        tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_heart, "WishList") }
-                    }}
-                />
-                <Tab.Screen
-                    name={SCREENNAME.PROFILE_SCREEN}
+                <Stack.Screen
+                    name={SCREENNAME.EDIT_PROFILE_SCREEN}
+                    options={{ headerShown: false }}
                     component={EditProfileScreen}
-                    options={{
-                        tabBarLabel: "",
-                        tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_user, "Profile") }
-                    }}
                 />
-            </Tab.Navigator>
+            </Stack.Navigator>
         </NavigationContainer>
     );
 }
