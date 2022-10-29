@@ -12,10 +12,12 @@ const ShopScreenComp = () => {
     const [searchToken, setSearchToken] = React.useState<String>("");
     const [data, setData] = React.useState<any>([]);
     const [open, setOpen] = useState(true);
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState("all");
     const [items, setItems] = useState([
-        { label: 'Apple', value: 'apple' },
-        { label: 'Banana', value: 'banana' }
+        { label: 'All Product', value: 'all' },
+        { label: `Pet's Toys`, value: 'toys' },
+        { label: 'Cat Food', value: 'cat' },
+        { label: 'Dog Food', value: 'dog' }
     ]);
     React.useEffect(() => {
         const array = [1, 2, 1, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5]
@@ -27,20 +29,22 @@ const ShopScreenComp = () => {
     const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
 
     const headerComponent = (() => {
-        return <DropDownPicker
-            open={open}
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
-
-        />
+        return <View style={{ height: open ? 200 : 50, margin: 20 }}>
+            <DropDownPicker
+                open={open}
+                value={value}
+                items={items}
+                setOpen={setOpen}
+                setValue={setValue}
+                setItems={setItems}
+                style={{ flex: 1 }}
+            />
+        </View>
     })
 
     return (
         <View style={styles.container}>
-            <AppHeader/>
+            <AppHeader />
             <FlatList
                 data={data}
                 renderItem={renderItem}
