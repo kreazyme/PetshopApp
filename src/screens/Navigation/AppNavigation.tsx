@@ -9,6 +9,9 @@ import CartScreen from "../Cart/CartScreen";
 import ProfileScreen from "../Profile/ProfileScreen";
 import { ShopScreen } from "../Shop";
 import { WishListScreen } from "../WishList";
+// import 'react-native-gesture-handler';
+// import { createDrawerNavigator } from '@react-navigation/drawer';
+// const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
 const appNavigationComp = () => {
@@ -27,8 +30,18 @@ const appNavigationComp = () => {
             </View>
         )
     })
+    const Login = () => {
+        return (
+            <View>
+                <Text>Heloo</Text>
+            </View>
+        );
+    }
     return (
         <NavigationContainer>
+            {/* <Drawer.Navigator >
+                <Drawer.Screen name="Login" component={Login} />
+            </Drawer.Navigator> */}
             <Tab.Navigator
                 tabBarOptions={{
                     style: styles.wrapTabbar

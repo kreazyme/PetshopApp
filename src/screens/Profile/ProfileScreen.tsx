@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, FlatList, TextInput, Text, TouchableOpacity } from "react-native";
-import DropDownPicker from "react-native-dropdown-picker";
-import FastImage from "react-native-fast-image";
 import { fonts, ic_app_logo, ic_menu, ic_search } from "../../shared";
 import colors from "../../shared/colors";
-import { ItemProduct } from "../Shop/Components";
 import Icon from "react-native-vector-icons/MaterialIcons"
 import BlackIcon from "react-native-vector-icons/FontAwesome"
 import DeIcon from "react-native-vector-icons/FontAwesome5"
@@ -54,9 +51,10 @@ export default () => {
             </View>
         );
     })
+
     return (
         <View style={styles.container} >
-            <AppHeader/>
+            <AppHeader />
             {renderBody()}
         </View>
     );

@@ -34,7 +34,6 @@ const ShopScreenComp = () => {
             setOpen={setOpen}
             setValue={setValue}
             setItems={setItems}
-
         />
     })
 
