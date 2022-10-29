@@ -11,11 +11,15 @@ import { EditProfileScreen } from "../Profile/EditProfileScreen";
 import ProfileScreen from "../Profile/ProfileScreen";
 import { ShopScreen } from "../Shop";
 import { WishListScreen } from "../WishList";
-const Tab = createBottomTabNavigator();
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { DrawerScreen } from "../Drawer";
+
 
 const appNavigationComp = () => {
 
     const Stack = createNativeStackNavigator();
+    const Tab = createBottomTabNavigator();
+    const Drawer = createDrawerNavigator();
 
     const tabbarIcon = ((focus: any, icon: any, txtName: String) => {
         return (
@@ -75,20 +79,35 @@ const appNavigationComp = () => {
 
     })
 
+    const HomeDrawer = (() => {
+        return <Stack.Navigator initialRouteName={SCREENNAME.HOME_STACK}>
+            <Stack.Screen
+                name={SCREENNAME.HOME_STACK}
+                options={{ headerShown: false }}
+                component={HomeStack}
+            />
+            <Stack.Screen
+                name={SCREENNAME.EDIT_PROFILE_SCREEN}
+                options={{ headerShown: false }}
+                component={EditProfileScreen}
+            />
+        </Stack.Navigator>
+    })
+
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName={SCREENNAME.HOME_STACK}>
-                <Stack.Screen
-                    name={SCREENNAME.HOME_STACK}
+            <Drawer.Navigator initialRouteName={"Homepage"}>
+                <Drawer.Screen
                     options={{ headerShown: false }}
-                    component={HomeStack}
+                    name={"Homepage"}
+                    component={HomeDrawer}
                 />
-                <Stack.Screen
-                    name={SCREENNAME.EDIT_PROFILE_SCREEN}
+                <Drawer.Screen
                     options={{ headerShown: false }}
-                    component={EditProfileScreen}
+                    name={"About Us"}
+                    component={DrawerScreen}
                 />
-            </Stack.Navigator>
+            </Drawer.Navigator>
         </NavigationContainer>
     );
 }
