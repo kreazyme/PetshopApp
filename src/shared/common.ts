@@ -9,6 +9,11 @@ export const SCREENNAME = {
     //Stack navigation
     EDIT_PROFILE_SCREEN: "EDIT_PROFILE_SCREEN",
     HOME_STACK: "HOME_STACK",
+
+
+    //Drawer
+    HOME_DRAWER: "HOME_DRAWER",
+    CATEGORY_DRAWER: "CATEGORY_DRAWER",
 }
 
 export const fonts = {
