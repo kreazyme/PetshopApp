@@ -66,3 +66,6 @@ buck-out/
 
 package-lock.json
 yarn.lock
+/yarn.lock
+/yarn.lock
+*.lock

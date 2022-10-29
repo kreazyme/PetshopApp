@@ -1,8 +1,19 @@
 export const SCREENNAME = {
+
+    // Tab navigation
     SHOP_SCREEN: "SHOP_SCREEN",
     PROFILE_SCREEN: "PROFILE_SCREEN",
     WISHLIST_SCREEN: "WISHLIST_SCREEN",
-    CART_SCREEN: "CART_SCREEN"
+    CART_SCREEN: "CART_SCREEN",
+
+    //Stack navigation
+    EDIT_PROFILE_SCREEN: "EDIT_PROFILE_SCREEN",
+    HOME_STACK: "HOME_STACK",
+
+
+    //Drawer
+    HOME_DRAWER: "HOME_DRAWER",
+    CATEGORY_DRAWER: "CATEGORY_DRAWER",
 }
 
 export const fonts = {

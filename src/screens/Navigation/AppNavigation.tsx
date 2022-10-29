@@ -1,11 +1,13 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Button } from "react-native";
 import FastImage from "react-native-fast-image";
 import { fonts, ic_heart, ic_shop, ic_store, ic_user, SCREENNAME } from "../../shared";
 import colors from "../../shared/colors";
 import CartScreen from "../Cart/CartScreen";
+import { EditProfileScreen } from "../Profile/EditProfileScreen";
 import ProfileScreen from "../Profile/ProfileScreen";
 import { ShopScreen } from "../Shop";
 import { WishListScreen } from "../WishList";
@@ -13,8 +15,16 @@ import { WishListScreen } from "../WishList";
 // import { createDrawerNavigator } from '@react-navigation/drawer';
 // const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { DrawerScreen } from "../Drawer";
+
 
 const appNavigationComp = () => {
+
+    const Stack = createNativeStackNavigator();
+    const Tab = createBottomTabNavigator();
+    const Drawer = createDrawerNavigator();
+
     const tabbarIcon = ((focus: any, icon: any, txtName: String) => {
         return (
             <View style={styles.wrapIconTabbar}>
@@ -30,56 +40,78 @@ const appNavigationComp = () => {
             </View>
         )
     })
-    const Login = () => {
-        return (
-            <View>
-                <Text>Heloo</Text>
-            </View>
-        );
-    }
+
+    const HomeStack = (() => {
+        return <Tab.Navigator
+            tabBarOptions={{
+                style: styles.wrapTabbar
+            }}
+        >
+            <Tab.Screen
+                name={SCREENNAME.SHOP_SCREEN}
+                component={ShopScreen}
+                options={{
+                    tabBarLabel: "",
+                    tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_store, "Shop") }
+                }}
+            />
+            <Tab.Screen
+                name={SCREENNAME.CART_SCREEN}
+                component={CartScreen}
+                options={{
+                    tabBarLabel: "",
+                    tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_shop, "Cart") }
+                }}
+            />
+            <Tab.Screen
+                name={SCREENNAME.WISHLIST_SCREEN}
+                component={WishListScreen}
+                options={{
+                    tabBarLabel: "",
+                    tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_heart, "WishList") }
+                }}
+            />
+            <Tab.Screen
+                name={SCREENNAME.PROFILE_SCREEN}
+                component={ProfileScreen}
+                options={{
+                    tabBarLabel: "",
+                    tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_user, "Profile") }
+                }}
+            />
+        </Tab.Navigator>
+
+    })
+
+    const HomeDrawer = (() => {
+        return <Stack.Navigator initialRouteName={SCREENNAME.HOME_STACK}>
+            <Stack.Screen
+                name={SCREENNAME.HOME_STACK}
+                options={{ headerShown: false }}
+                component={HomeStack}
+            />
+            <Stack.Screen
+                name={SCREENNAME.EDIT_PROFILE_SCREEN}
+                options={{ headerShown: false }}
+                component={EditProfileScreen}
+            />
+        </Stack.Navigator>
+    })
+
     return (
         <NavigationContainer>
-            {/* <Drawer.Navigator >
-                <Drawer.Screen name="Login" component={Login} />
-            </Drawer.Navigator> */}
-            <Tab.Navigator
-                tabBarOptions={{
-                    style: styles.wrapTabbar
-                }}
-            >
-                <Tab.Screen
-                    name={SCREENNAME.SHOP_SCREEN}
-                    component={ShopScreen}
-                    options={{
-                        tabBarLabel: "",
-                        tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_store, "Shop") }
-                    }}
+            <Drawer.Navigator initialRouteName={"Homepage"}>
+                <Drawer.Screen
+                    options={{ headerShown: false }}
+                    name={"Homepage"}
+                    component={HomeDrawer}
                 />
-                <Tab.Screen
-                    name={SCREENNAME.CART_SCREEN}
-                    component={CartScreen}
-                    options={{
-                        tabBarLabel: "",
-                        tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_shop, "Cart") }
-                    }}
+                <Drawer.Screen
+                    options={{ headerShown: false }}
+                    name={"About Us"}
+                    component={DrawerScreen}
                 />
-                <Tab.Screen
-                    name={SCREENNAME.WISHLIST_SCREEN}
-                    component={WishListScreen}
-                    options={{
-                        tabBarLabel: "",
-                        tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_heart, "WishList") }
-                    }}
-                />
-                <Tab.Screen
-                    name={SCREENNAME.PROFILE_SCREEN}
-                    component={ProfileScreen}
-                    options={{
-                        tabBarLabel: "",
-                        tabBarIcon: ({ focused }) => { return tabbarIcon(focused, ic_user, "Profile") }
-                    }}
-                />
-            </Tab.Navigator>
+            </Drawer.Navigator>
         </NavigationContainer>
     );
 }
