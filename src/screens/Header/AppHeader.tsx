@@ -4,10 +4,6 @@ import FastImage from "react-native-fast-image";
 import { fonts, ic_app_logo, ic_menu, ic_search } from "../../shared";
 import colors from "../../shared/colors";
 import { NavigationContainer } from '@react-navigation/native';
-// import 'react-native-gesture-handler';
-// import { createDrawerNavigator } from '@react-navigation/drawer';
-// const Drawer = createDrawerNavigator();
-
 const appAppHeaderComp = ({ navigation }: any) => {
     //const [searchToken, setSearchToken] = React.useState<String>("");
     return (
@@ -16,8 +12,9 @@ const appAppHeaderComp = ({ navigation }: any) => {
 }
 
 export const AppHeader = React.memo(appAppHeaderComp)
-const AppNavbar = ({ navigation }: any) => {
+const AppNavbar = ({navigation}: any) => {
     const [searchToken, setSearchToken] = React.useState<String>("");
+    
     return (
         <View style={styles.wrapHeader}>
             <View style={styles.wrapHeaderLogo}>
@@ -26,7 +23,7 @@ const AppNavbar = ({ navigation }: any) => {
                     resizeMode="contain"
                     style={styles.wrapLogo}
                 />
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => {}}>
                     <FastImage
                         source={ic_menu}
                         resizeMode="contain"
