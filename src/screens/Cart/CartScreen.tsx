@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Dimensions, Button, Text, Alert, ScrollView, TouchableOpacity, TextInput, StatusBar, FlatList } from "react-native";
 import { cat, fonts, IProductCart } from "../../shared";
 import colors from "../../shared/colors";
+import { AppHeader } from "../Header";
 import { CartComponent } from "./Components";
 
 const listProduct = [
@@ -63,16 +64,19 @@ export default () => {
 
     const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
     return (
-        <View style={styles.container}>
-            <FlatList
-                renderItem={({ item }) => (
-                    <CartComponent item={item} />
-                )}
-                data={listProduct}
-                keyExtractor={keyExtractor}
-                showsVerticalScrollIndicator={false}
-                ListFooterComponent={renderCheckout}
-            />
+        <View style={{flex:1}}>
+            <AppHeader/>
+            <View style={styles.container}>
+                <FlatList
+                    renderItem={({ item }) => (
+                        <CartComponent item={item} />
+                    )}
+                    data={listProduct}
+                    keyExtractor={keyExtractor}
+                    showsVerticalScrollIndicator={false}
+                    ListFooterComponent={renderCheckout}
+                />
+            </View>
         </View>
     );
 }

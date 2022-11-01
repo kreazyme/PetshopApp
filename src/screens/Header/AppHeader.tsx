@@ -1,21 +1,23 @@
-import React from "react";
-import { View, StyleSheet, Text, TextInput, Button, Alert } from "react-native";
+import React, { useRef, useState } from "react";
+import { View, StyleSheet, Text, TextInput, Button, Alert, TouchableOpacity, DrawerLayoutAndroid } from "react-native";
 import FastImage from "react-native-fast-image";
 import { fonts, ic_app_logo, ic_menu, ic_search } from "../../shared";
 import colors from "../../shared/colors";
 import { NavigationContainer } from '@react-navigation/native';
-const appAppHeaderComp = () => {
+// import 'react-native-gesture-handler';
+// import { createDrawerNavigator } from '@react-navigation/drawer';
+// const Drawer = createDrawerNavigator();
+
+const appAppHeaderComp = ({ navigation }: any) => {
+    //const [searchToken, setSearchToken] = React.useState<String>("");
+    return (
+        <AppNavbar />
+    );
+}
+
+export const AppHeader = React.memo(appAppHeaderComp)
+const AppNavbar = ({ navigation }: any) => {
     const [searchToken, setSearchToken] = React.useState<String>("");
-    const HomeScreen = (() => {
-        return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Button
-                    onPress={() => Alert.alert('Helo')}
-                    title="Go to notifications"
-                />
-            </View>
-        );
-    })
     return (
         <View style={styles.wrapHeader}>
             <View style={styles.wrapHeaderLogo}>
@@ -24,12 +26,14 @@ const appAppHeaderComp = () => {
                     resizeMode="contain"
                     style={styles.wrapLogo}
                 />
+                <TouchableOpacity>
+                    <FastImage
+                        source={ic_menu}
+                        resizeMode="contain"
+                        style={styles.wrapMenu}>
+                    </FastImage>
+                </TouchableOpacity>
 
-                <FastImage
-                    source={ic_menu}
-                    resizeMode="contain"
-                    style={styles.wrapMenu}>   
-                </FastImage>
             </View>
             <View style={styles.wrapSearchBox}>
                 <TextInput
@@ -46,10 +50,7 @@ const appAppHeaderComp = () => {
             </View>
         </View>
     );
-
 }
-
-export const AppHeader = React.memo(appAppHeaderComp)
 const styles = StyleSheet.create({
     container: {
         flex: 1,

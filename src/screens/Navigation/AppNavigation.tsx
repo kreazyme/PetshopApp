@@ -11,6 +11,10 @@ import { EditProfileScreen } from "../Profile/EditProfileScreen";
 import ProfileScreen from "../Profile/ProfileScreen";
 import { ShopScreen } from "../Shop";
 import { WishListScreen } from "../WishList";
+// import 'react-native-gesture-handler';
+// import { createDrawerNavigator } from '@react-navigation/drawer';
+// const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DrawerScreen } from "../Drawer";
 

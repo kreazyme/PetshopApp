@@ -5,7 +5,6 @@ import { AppNavigation } from './src';
 import 'react-native-gesture-handler';
 
 const App = () => {
-
   return (
     <Provider store={Redux.store}>
       <AppNavigation />

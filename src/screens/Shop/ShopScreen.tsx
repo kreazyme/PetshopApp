@@ -29,6 +29,14 @@ const ShopScreenComp = () => {
     const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
 
     const headerComponent = (() => {
+        return <DropDownPicker
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setItems}
+        />
         return <View style={{ height: open ? 200 : 50, margin: 20 }}>
             <DropDownPicker
                 open={open}
