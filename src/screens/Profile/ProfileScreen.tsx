@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, StyleSheet, FlatList, TextInput, Text, TouchableOpacity } from "react-native";
-import { fonts, ic_app_logo, ic_menu, ic_search } from "../../shared";
 import { fonts, SCREENNAME } from "../../shared";
 import colors from "../../shared/colors";
 import Icon from "react-native-vector-icons/MaterialIcons"

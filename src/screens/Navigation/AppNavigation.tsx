@@ -11,20 +11,15 @@ import { EditProfileScreen } from "../Profile/EditProfileScreen";
 import ProfileScreen from "../Profile/ProfileScreen";
 import { ShopScreen } from "../Shop";
 import { WishListScreen } from "../WishList";
-// import 'react-native-gesture-handler';
-// import { createDrawerNavigator } from '@react-navigation/drawer';
-// const Drawer = createDrawerNavigator();
-const Tab = createBottomTabNavigator();
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DrawerScreen } from "../Drawer";
-
+import { DrawerContent} from "../Drawer/DrawerContent"
 
 const appNavigationComp = () => {
 
     const Stack = createNativeStackNavigator();
     const Tab = createBottomTabNavigator();
     const Drawer = createDrawerNavigator();
-
     const tabbarIcon = ((focus: any, icon: any, txtName: String) => {
         return (
             <View style={styles.wrapIconTabbar}>
@@ -100,17 +95,17 @@ const appNavigationComp = () => {
 
     return (
         <NavigationContainer>
-            <Drawer.Navigator initialRouteName={"Homepage"}>
+            <Drawer.Navigator drawerContent={props => <DrawerContent  />}>
                 <Drawer.Screen
                     options={{ headerShown: false }}
                     name={"Homepage"}
                     component={HomeDrawer}
                 />
-                <Drawer.Screen
+                {/* <Drawer.Screen
                     options={{ headerShown: false }}
                     name={"About Us"}
                     component={DrawerScreen}
-                />
+                /> */}
             </Drawer.Navigator>
         </NavigationContainer>
     );
