@@ -1,14 +1,17 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import FastImage from "react-native-fast-image";
-import { cat, fonts, ic_add_shop, ic_dot_orange, ic_heart } from "../../../shared";
+import { cat, fonts, ic_add_shop, ic_dot_orange, ic_heart, IProductprops } from "../../../shared";
 import colors from "../../../shared/colors";
 
-const ItemProductComp = () => {
 
-    const name = "Cat 123"
-    const price = "20000"
+const ItemProductComp = ({ item }: IProductprops) => {
+
+    const name = item.name
+    const price = item.price
     const image = cat
+
+    console.log(JSON.stringify(item))
 
 
     return (

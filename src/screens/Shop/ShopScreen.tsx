@@ -1,30 +1,47 @@
 import { NavigationContainer } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, StyleSheet, FlatList, TextInput } from "react-native";
+import { View, StyleSheet, FlatList, TextInput, ActivityIndicator } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import FastImage from "react-native-fast-image";
-import { fonts, ic_app_logo, ic_menu, ic_search } from "../../shared";
+import { fonts, ic_app_logo, ic_menu, ic_search, IProduct, IProductprops } from "../../shared";
 import colors from "../../shared/colors";
 import { AppHeader } from "../Header";
 import { ItemProduct } from "./Components";
 
 const ShopScreenComp = () => {
     const [searchToken, setSearchToken] = React.useState<String>("");
-    const [data, setData] = React.useState<any>([]);
+    // const [data, setData] = React.useState<any>([]);
     const [open, setOpen] = useState(true);
     const [value, setValue] = useState("all");
+    const [data, setData] = useState<IProduct[]>([]);
     const [items, setItems] = useState([
         { label: 'All Product', value: 'all' },
         { label: `Pet's Toys`, value: 'toys' },
         { label: 'Cat Food', value: 'cat' },
         { label: 'Dog Food', value: 'dog' }
     ]);
+
+    const loadData = async () => {
+        fetch('https://demoaapi.free.beeceptor.com/demo12')
+            .then((response) => response.json())
+            .then((responseJson) => {
+                setData(responseJson);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
     React.useEffect(() => {
-        const array = [1, 2, 1, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5]
-        setData(array);
+        loadData();
     }, [])
-    const renderItem = ({ item }: any) => {
-        return <ItemProduct />
+
+    React.useEffect(() => {
+        if (data.length > 0) {
+        }
+    }, [data]);
+    const renderItem = ({ item }: IProductprops) => {
+        return <ItemProduct item={item} />
     }
     const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
 
@@ -41,6 +58,14 @@ const ShopScreenComp = () => {
             />
         </View>
     })
+
+    if (data.length === 0) {
+        return <View style={styles.wrapLoading}>
+            <ActivityIndicator
+                color={colors.cyan}
+                size={"large"} />
+        </View>
+    }
 
     return (
         <View style={styles.container}>
@@ -99,5 +124,10 @@ const styles = StyleSheet.create({
     txtSearch: {
         fontSize: fonts.font20,
         paddingHorizontal: 20
+    },
+    wrapLoading: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
     }
 });
