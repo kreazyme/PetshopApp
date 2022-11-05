@@ -6,12 +6,8 @@ export interface IUser {
     role: boolean
 }
 
-export interface IProduct {
-    id: String,
-    title: String,
-    type: ITypeProduct,
-    description: String,
-    category?: String[]
+export interface IProductprops {
+    item: IProduct
 }
 
 export interface ITypeProduct {
@@ -23,4 +19,14 @@ export interface IProductCart {
     title: String,
     price: number,
     image: any
+}
+
+export interface IProduct {
+    name: string
+    price: string
+    assets: Assets
+}
+
+export interface Assets {
+    url: string
 }
