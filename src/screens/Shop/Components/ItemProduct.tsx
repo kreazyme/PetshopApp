@@ -11,9 +11,6 @@ const ItemProductComp = ({ item }: IProductprops) => {
     const price = item.price
     const image = cat
 
-    console.log(JSON.stringify(item))
-
-
     return (
         <View style={styles.container}>
             <View style={styles.wrapIcon}>

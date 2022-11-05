@@ -35,11 +35,6 @@ const ShopScreenComp = () => {
     React.useEffect(() => {
         loadData();
     }, [])
-
-    React.useEffect(() => {
-        if (data.length > 0) {
-        }
-    }, [data]);
     const renderItem = ({ item }: IProductprops) => {
         return <ItemProduct item={item} />
     }
