@@ -24,3 +24,9 @@ export interface IProductCart {
     price: number,
     image: any
 }
+export interface IProductWishList {
+    title: String,
+    price: number,
+    image: any,
+    status: boolean,
+}
