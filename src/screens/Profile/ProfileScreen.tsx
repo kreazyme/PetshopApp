@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, FlatList, TextInput, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, FlatList, TextInput, Text, TouchableOpacity, ScrollView } from "react-native";
 import { fonts, SCREENNAME } from "../../shared";
 import colors from "../../shared/colors";
 import Icon from "react-native-vector-icons/MaterialIcons"
@@ -10,52 +10,54 @@ import { AppHeader } from "../Header";
 export default ({ navigation }: any) => {
     const renderBody = (() => {
         return (
-            <View style={styles.containerBody}>
-                <View style={styles.wrapHome}>
-                    <Text style={styles.TextAccount}>My account</Text>
-                    <Text style={styles.TextHome}>Home / My account</Text>
+            <ScrollView>
+                <View style={styles.containerBody}>
+                    <View style={styles.wrapHome}>
+                        <Text style={styles.TextAccount}>My account</Text>
+                        <Text style={styles.TextHome}>Home / My account</Text>
 
+                    </View>
+                    <View style={styles.wrapBody}>
+                        <TouchableOpacity
+                            onPress={() => { navigation.navigate(SCREENNAME.EDIT_PROFILE_SCREEN) }}
+                            style={styles.wrapButton}>
+                            <Text style={styles.ButtonText}>Person</Text>
+                            <View style={styles.container}></View>
+                            <Icon name="person" style={styles.ButtonIcon} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.wrapButton}>
+                            <Text style={styles.ButtonText}>Dasdboard</Text>
+                            <View style={styles.container}></View>
+                            <Icon name="dashboard" style={styles.ButtonIcon} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.wrapButton}>
+                            <Text style={styles.ButtonText}>Orders</Text>
+                            <View style={styles.container}></View>
+                            <DeIcon name="border-all" style={styles.ButtonIcon} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.wrapButton}>
+                            <Text style={styles.ButtonText}>Downloads</Text>
+                            <View style={styles.container}></View>
+                            <BlackIcon name="download" style={styles.ButtonIcon} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.wrapButton}>
+                            <Text style={styles.ButtonText}>Addresses</Text>
+                            <View style={styles.container}></View>
+                            <DeIcon name="map-marked-alt" style={styles.ButtonIcon} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.wrapButton}>
+                            <Text style={styles.ButtonText}>Account details</Text>
+                            <View style={styles.container}></View>
+                            <Icon name="account-box" style={styles.ButtonIcon} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.wrapButton}>
+                            <Text style={styles.ButtonText}>Logout</Text>
+                            <View style={styles.container}></View>
+                            <Icon name="logout" style={styles.ButtonIcon} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={styles.wrapBody}>
-                    <TouchableOpacity
-                        onPress={() => { navigation.navigate(SCREENNAME.EDIT_PROFILE_SCREEN) }}
-                        style={styles.wrapButton}>
-                        <Text style={styles.ButtonText}>Person</Text>
-                        <View style={styles.container}></View>
-                        <Icon name="person" style={styles.ButtonIcon} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.wrapButton}>
-                        <Text style={styles.ButtonText}>Dasdboard</Text>
-                        <View style={styles.container}></View>
-                        <Icon name="dashboard" style={styles.ButtonIcon} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.wrapButton}>
-                        <Text style={styles.ButtonText}>Orders</Text>
-                        <View style={styles.container}></View>
-                        <DeIcon name="border-all" style={styles.ButtonIcon} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.wrapButton}>
-                        <Text style={styles.ButtonText}>Downloads</Text>
-                        <View style={styles.container}></View>
-                        <BlackIcon name="download" style={styles.ButtonIcon} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.wrapButton}>
-                        <Text style={styles.ButtonText}>Addresses</Text>
-                        <View style={styles.container}></View>
-                        <DeIcon name="map-marked-alt" style={styles.ButtonIcon} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.wrapButton}>
-                        <Text style={styles.ButtonText}>Account details</Text>
-                        <View style={styles.container}></View>
-                        <Icon name="account-box" style={styles.ButtonIcon} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.wrapButton}>
-                        <Text style={styles.ButtonText}>Logout</Text>
-                        <View style={styles.container}></View>
-                        <Icon name="logout" style={styles.ButtonIcon} />
-                    </TouchableOpacity>
-                </View>
-            </View>
+            </ScrollView>
         );
     })
 

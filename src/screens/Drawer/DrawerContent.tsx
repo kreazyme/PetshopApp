@@ -156,9 +156,9 @@ const BodyComponent = () => {
 }
 const styles = StyleSheet.create({
     wrapText: {
+        backgroundColor: "#3F3C9A",
         height: 3,
         width: "100%",
-        backgroundColor: "#3F3C9A",
         position: 'absolute',
         bottom: 0
     },
