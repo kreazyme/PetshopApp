@@ -1,9 +1,142 @@
 import React from "react";
-import { View, StyleSheet, Dimensions, Button, Text, Alert, ScrollView, TouchableOpacity, TextInput, StatusBar } from "react-native";
-import { decreaseAction, increaseAction } from "../../../redux/actions";
+import { View, StyleSheet, Dimensions, Text, TouchableOpacity, TextInput, Alert } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
-const windownWidth = Dimensions.get('window').width;
-const LoginScreenComp = () => {
+import { ActivityIndicator } from "react-native-paper";
+import colors from "../../../shared/colors";
+import { SCREENNAME } from "../../../shared";
+import { useDispatch } from "react-redux";
+import { SAVE_APP_TOKEN } from "../../../redux/actions/actionTypes";
+const LoginScreenComp = ({ navigation }: any) => {
+
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [email, setEmail] = React.useState<string>("");
+    const [password, setPassword] = React.useState<string>("");
+    const dispatch = useDispatch();
+
+    const handleLogin = (async () => {
+        setIsLoading(true);
+        var body = JSON.stringify({
+            email: "user11@gmail.com",
+            password: "123456"
+        })
+        await fetch('https://petshopdut.herokuapp.com/user/login',
+            {
+                method: "POST",
+                headers: {
+                    Accept: '*/*',
+                    'Content-Type': 'application/json',
+                    "Connection": "keep-alive"
+                },
+                body: body,
+            }
+        ).finally(() => {
+            setIsLoading(false);
+        }).then(response => response.json())
+            .then((response,) => {
+                if (response.status === 400) {
+                    showPopup();
+                }
+                else {
+                    dispatch({
+                        type: SAVE_APP_TOKEN,
+                        payload: response.accesstoken
+                    })
+                    navigation.navigate(SCREENNAME.HOME_STACK)
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
+        setIsLoading(false);
+    })
+
+    const showPopup = () => {
+        Alert.alert(
+            "Login Failed",
+            "Try another password or username",
+            [
+                { text: "OK" }
+            ]
+        );
+    }
+
+    const HeaderComponent = () => {
+        return (
+            <View style={styles.container}>
+                <View style={styles.ViewSignIn} >
+                    <Text style={styles.LableSignIn}>Sign in</Text>
+                    <View style={{ flex: 1 }} />
+                    <TouchableOpacity >
+                        <View style={{ marginRight: 20 }} >
+                            <Icon name="close" size={25} />
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+    }
+
+    const BodyComponent = () => {
+        return (
+            <View style={styles.containerJust}>
+                <Text style={styles.TextLogin}>Login in your account</Text>
+                <View style={styles.LabelEmail}>
+                    <TextInput
+                        onChangeText={(text) => setEmail(text)}
+                        style={styles.InputEmail}
+                        value={email}
+                        placeholder="Email" />
+                </View>
+                <View style={styles.LabelEmail}>
+                    <TextInput
+                        value={password}
+                        onChangeText={(text) => setPassword(text)}
+                        style={styles.InputEmail}
+                        placeholder="Passord" />
+                </View>
+                <View style={styles.TextForget}>
+                    <TouchableOpacity style={{ position: 'absolute', right: 0 }}>
+                        <Text style={{ color: 'black', }}>Forget password?</Text>
+                    </TouchableOpacity>
+                </View>
+                {
+                    isLoading
+                        ?
+                        <View style={styles.wrapLoading}>
+                            <ActivityIndicator
+                                color={colors.cyan}
+                            />
+                        </View>
+                        :
+                        <TouchableOpacity
+                            onPress={() => {
+                                handleLogin();
+                            }}
+                            style={styles.ButtonLogin}>
+                            <Text style={{ color: 'white', fontSize: 16 }}>Login</Text>
+                        </TouchableOpacity>
+                }
+            </View >
+        );
+    }
+
+
+    const EndComponent = () => {
+        return (
+            <View style={styles.container}>
+                <View style={styles.ViewEnd}>
+                    <View style={styles.ViewG}></View>
+                    <View style={styles.ViewG}></View>
+                </View>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={{}}>
+                        <Text style={{ color: 'black', }}>No account yet? Create an Account</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+    }
 
     return (
         <View style={styles.container}>
@@ -20,57 +153,6 @@ const LoginScreenComp = () => {
     );
 }
 export const LoginScreen = React.memo(LoginScreenComp)
-const HeaderComponent = () => {
-    return (
-        <View style={styles.container}>
-            <View style={styles.ViewSignIn} >
-                <Text style={styles.LableSignIn}>Sign in</Text>
-                <View style={{ flex: 1 }} />
-                <TouchableOpacity >
-                    <View style={{ marginRight: 20 }} >
-                        <Icon name="close" size={25} />
-                    </View>
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
-}
-const BodyComponent = () => {
-    return (
-        <View style={styles.containerJust}>
-            <Text style={styles.TextLogin}>Login in your account</Text>
-            <View style={styles.LabelEmail}>
-                <TextInput style={styles.InputEmail} placeholder="Email" />
-            </View>
-            <View style={styles.LabelEmail}>
-                <TextInput style={styles.InputEmail} placeholder="Passord" />
-            </View>
-            <View style={styles.TextForget}>
-                <TouchableOpacity style={{ position: 'absolute', right: 0 }}>
-                    <Text style={{ color: 'black', }}>Forget password?</Text>
-                </TouchableOpacity>
-            </View>
-            <TouchableOpacity style={styles.ButtonLogin}>
-                <Text style={{ color: 'white', fontSize: 16 }}>Login</Text>
-            </TouchableOpacity>
-        </View>
-    );
-}
-const EndComponent = () => {
-    return (
-        <View style={styles.container}>
-            <View style={styles.ViewEnd}>
-                <View style={styles.ViewG}></View>
-                <View style={styles.ViewG}></View>
-            </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity style={{}}>
-                    <Text style={{ color: 'black', }}>No account yet? Create an Account</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
-}
 
 const styles = StyleSheet.create({
     container: {
@@ -110,7 +192,7 @@ const styles = StyleSheet.create({
         marginLeft: 30,
     },
     LabelEmail: {
-        width: windownWidth - 60,
+        marginHorizontal: 30,
         height: 45, marginTop: 20,
         marginLeft: 30,
         borderWidth: 1,
@@ -119,13 +201,12 @@ const styles = StyleSheet.create({
         borderRadius: 150 / 2,
     },
     InputEmail: {
-        height: '100%',
         flex: 1,
         fontSize: 20,
         padding: 10
     },
     TextForget: {
-        width: windownWidth - 60,
+        marginHorizontal: 30,
         height: 30,
         marginTop: 20,
         marginLeft: 30,
@@ -134,7 +215,7 @@ const styles = StyleSheet.create({
     },
     ButtonLogin: {
         height: 50,
-        width: windownWidth - 60,
+        marginHorizontal: 30,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#5250A4',
@@ -144,7 +225,7 @@ const styles = StyleSheet.create({
     },
     ViewEnd: {
         height: 40,
-        width: windownWidth - 60,
+        marginHorizontal: 30,
         marginLeft: 30,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -154,21 +235,11 @@ const styles = StyleSheet.create({
         height: 1,
         width: '30%',
         backgroundColor: '#CFCFCF'
+    },
+    wrapLoading: {
+        margin: 5,
+        width: 30,
+        justifyContent: "center",
+        alignSelf: "center",
     }
 })
-
-
-{/* <View style={{ height: 50, flexDirection: 'row', backgroundColor: 'white' }}>
-                <TouchableOpacity style={{ width: '50%', height: '100%', justifyContent: 'center', alignItems: 'center' }}
-                    onPress={() => { setPage(SIGN_IN) }}
-                    disabled={page === SIGN_IN ? true : false}>
-                    <Text style={styles.textTitle}>Sign In</Text>
-                    {page === SIGN_IN ? <View style={{ position: 'absolute', bottom: 0, height: 3, width: '100%', backgroundColor: 'black' }}></View> : null}
-                </TouchableOpacity>
-                <TouchableOpacity style={{ width: '50%', height: '100%', justifyContent: 'center', alignItems: 'center' }}
-                    onPress={() => { setPage(REGISTER) }}
-                    disabled={page === REGISTER ? true : false}>
-                    <Text style={styles.textTitle}>Register</Text>
-                    {page === REGISTER ? <View style={{ position: 'absolute', bottom: 0, height: 3, width: '100%', backgroundColor: 'black' }}></View> : null}
-                </TouchableOpacity>
-            </View> */}

@@ -9,6 +9,7 @@ export const SCREENNAME = {
     //Stack navigation
     EDIT_PROFILE_SCREEN: "EDIT_PROFILE_SCREEN",
     HOME_STACK: "HOME_STACK",
+    LOGIN_SCREEN: "LOGIN_SCREEN",
 
 
     //Drawer

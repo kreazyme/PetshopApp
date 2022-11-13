@@ -13,13 +13,17 @@ import { ShopScreen } from "../Shop";
 import { WishListScreen } from "../WishList";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DrawerScreen } from "../Drawer";
-import { DrawerContent} from "../Drawer/DrawerContent"
+import { DrawerContent } from "../Drawer/DrawerContent"
+import { LoginScreen } from "../Authentication";
+import { useSelector } from "react-redux";
 
 const appNavigationComp = () => {
 
     const Stack = createNativeStackNavigator();
     const Tab = createBottomTabNavigator();
     const Drawer = createDrawerNavigator();
+    const token = useSelector(state => state?.appReducer.token);
+    console.log("Token: " + token)
     const tabbarIcon = ((focus: any, icon: any, txtName: String) => {
         return (
             <View style={styles.wrapIconTabbar}>
@@ -79,7 +83,14 @@ const appNavigationComp = () => {
     })
 
     const HomeDrawer = (() => {
-        return <Stack.Navigator initialRouteName={SCREENNAME.HOME_STACK}>
+        return <Stack.Navigator
+            initialRouteName={token.length === 0 ? SCREENNAME.LOGIN_SCREEN : SCREENNAME.HOME_STACK
+            }>
+            <Stack.Screen
+                name={SCREENNAME.LOGIN_SCREEN}
+                options={{ headerShown: false }}
+                component={LoginScreen}
+            />
             <Stack.Screen
                 name={SCREENNAME.HOME_STACK}
                 options={{ headerShown: false }}
@@ -95,17 +106,14 @@ const appNavigationComp = () => {
 
     return (
         <NavigationContainer>
-            <Drawer.Navigator drawerContent={props => <DrawerContent  />}>
+            <Drawer.Navigator
+                initialRouteName={SCREENNAME.HOME_DRAWER}
+                drawerContent={props => <DrawerContent />}>
                 <Drawer.Screen
                     options={{ headerShown: false }}
                     name={"Homepage"}
                     component={HomeDrawer}
                 />
-                {/* <Drawer.Screen
-                    options={{ headerShown: false }}
-                    name={"About Us"}
-                    component={DrawerScreen}
-                /> */}
             </Drawer.Navigator>
         </NavigationContainer>
     );

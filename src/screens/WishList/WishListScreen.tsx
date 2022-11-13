@@ -6,7 +6,7 @@ import { CHANGE_APP_MODE } from "../../redux/actions/actionTypes";
 const WishListScreenComp = () => {
 
     const dispatch = useDispatch()
-    const darkMode = useSelector(state => state?.appReducer.darkMode);
+    const darkMode = useSelector(state => state?.appReducer.token);
     React.useEffect(() => {
         console.log("darkMode " + JSON.stringify(darkMode))
     }, [darkMode])
