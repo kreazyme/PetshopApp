@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity, FlatList } from "react-native";
 import { cat, fonts, IProductCart, IProductWishList } from "../../shared";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CHANGE_APP_MODE } from "../../redux/actions/actionTypes";
 import { AppHeader } from "../Header";
 import { WishListComponent } from "./Component";

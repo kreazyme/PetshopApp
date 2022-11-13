@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import FastImage from "react-native-fast-image";
-import { cat, fonts, ic_trash, IProductCart, IProductWishList } from "../../../shared";
+import { cat, fonts, ic_trash, IProductCart, IProductWishList, ic_add_shop } from "../../../shared";
 import colors from "../../../shared/colors";
 interface IProductWishListParams {
     item: IProductWishList
@@ -53,15 +53,23 @@ const WishListComponentComp = ({ item }: IProductWishListParams) => {
                         style={styles.txtName}>
                         {productName || ""}
                     </Text>
-                    <FastImage
-                        source={ic_trash}
-                        style={styles.wrapTrash}
-                        resizeMode="contain"
-                    />
+                    <View>
+                        <FastImage
+                            source={ic_trash}
+                            style={styles.wrapTrash}
+                            resizeMode="contain"
+                        />
+                        <FastImage
+                            source={ic_add_shop}
+                            style={styles.wrapAdd}
+                            resizeMode="contain"
+                        />
+                    </View>
                 </View>
 
                 {renderPrice("Price: ", price)}
                 {renderStatus("Stock status: ", status)}
+
                 <View style={styles.wrapPadding} />
             </View>
         </View>
@@ -92,6 +100,11 @@ const styles = StyleSheet.create({
         height: 24,
         aspectRatio: 1,
         margin: 10,
+    },
+    wrapAdd: {
+        height: 24,
+        aspectRatio: 1,
+        marginLeft: 10,
     },
     wrapTrashDetail: {
         flexDirection: "row",
