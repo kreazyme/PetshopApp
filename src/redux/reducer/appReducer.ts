@@ -1,7 +1,8 @@
-import { INCREAMENT, DECREAMENT, CHANGE_APP_MODE } from './../actions/actionTypes';
+import { INCREAMENT, DECREAMENT, CHANGE_APP_MODE, SAVE_APP_TOKEN } from './../actions/actionTypes';
 
 const initData = {
     darkMode: false,
+    token: "",
 }
 
 const appReducer = (state = initData, { type, payload }: any) => {
@@ -10,6 +11,11 @@ const appReducer = (state = initData, { type, payload }: any) => {
             return {
                 ...state,
                 darkMode: payload
+            }
+        case SAVE_APP_TOKEN:
+            return {
+                ...state,
+                token: payload
             }
         default:
             return state
