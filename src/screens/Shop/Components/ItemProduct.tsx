@@ -47,6 +47,7 @@ const ItemProductComp = ({ item }: IProductprops) => {
                 />
             </View>
         </View>
+
     );
 }
 
