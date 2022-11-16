@@ -22,10 +22,11 @@ const ShopScreenComp = () => {
     ]);
 
     const loadData = async () => {
-        fetch('https://demoaapi.free.beeceptor.com/demo12')
+        fetch('https://petshopdut.herokuapp.com/api/products')
             .then((response) => response.json())
             .then((responseJson) => {
-                setData(responseJson);
+                console.log(JSON.stringify(responseJson));
+                setData(responseJson.products);
             })
             .catch((error) => {
                 console.error(error);
@@ -41,15 +42,7 @@ const ShopScreenComp = () => {
     const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
 
     const headerComponent = (() => {
-        return <DropDownPicker
-            open={open}
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
-        />
-        return <View style={{ height: open ? 200 : 50, margin: 20 }}>
+        return <View style={{ padding: 20, height: open ? 240 : 90 }}>
             <DropDownPicker
                 open={open}
                 value={value}
@@ -57,7 +50,6 @@ const ShopScreenComp = () => {
                 setOpen={setOpen}
                 setValue={setValue}
                 setItems={setItems}
-                style={{ flex: 1 }}
             />
         </View>
     })

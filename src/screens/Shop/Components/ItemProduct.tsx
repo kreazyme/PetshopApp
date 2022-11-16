@@ -1,18 +1,27 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import FastImage from "react-native-fast-image";
-import { cat, fonts, ic_add_shop, ic_dot_orange, ic_heart, IProductprops } from "../../../shared";
+import { cat, fonts, ic_add_shop, ic_dot_orange, ic_heart, IProductprops, SCREENNAME } from "../../../shared";
 import colors from "../../../shared/colors";
+import { useNavigation } from "@react-navigation/native";
 
 
 const ItemProductComp = ({ item }: IProductprops) => {
 
-    const name = item.name
+    const navigation = useNavigation();
+    // const router = useRoute();
+    const name = item.title
     const price = item.price
-    const image = cat
+    const image = item.images.url
+
+    console.log("image", image)
 
     return (
-        <View style={styles.container}>
+        <TouchableOpacity
+            onPress={() => {
+                navigation.navigate(SCREENNAME.DETAIL_PRODUCT_SCREEN, { item: item })
+            }}
+            style={styles.container}>
             <View style={styles.wrapIcon}>
                 <FastImage
                     source={ic_dot_orange}
@@ -28,7 +37,7 @@ const ItemProductComp = ({ item }: IProductprops) => {
             </View>
             <FastImage
                 style={styles.wrapProductImage}
-                source={image}
+                source={{ uri: image }}
                 resizeMode="center"
             />
             <View style={styles.wrapDetail}>
@@ -46,8 +55,7 @@ const ItemProductComp = ({ item }: IProductprops) => {
                     style={styles.imgIcon}
                 />
             </View>
-        </View>
-
+        </TouchableOpacity>
     );
 }
 
