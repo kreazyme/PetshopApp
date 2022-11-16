@@ -1,22 +1,26 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import FastImage from "react-native-fast-image";
-import { cat, fonts } from "../../shared";
+import { cat, fonts, IProduct } from "../../shared";
 import { useNavigation } from "@react-navigation/native";
-import Icon from "react-native-vector-icons/MaterialIcons";
 import colors from "../../shared/colors";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { useRoute } from "@react-navigation/native";
 
 const DetailProductScreenComp = () => {
 
     const navigation = useNavigation();
-    const image = cat;
-    const title = "Lorem ipsum, or lipsum as it is sometimes"
-    const price = "1000000"
-    const description = "Stock up on the perfect afternoon snack, lunchtime side or baking choice with a Three-Pound Bag of Honeycrisp Apples from Good & Gather™. Boasting the perfect blend of sweet and crisp flavors, these delicious Honeycrisp apples promise to hit the spot when you’re craving something fresh and tasty, and the crisp, juicy texture is sure to satisfy."
-    const amount = 20000;
-    const listCategory = ["Cat's food", "Dog's food"]
+    const route = useRoute();
 
+    const { item } = route.params as { item: IProduct };
+    const image = item.images.url;
+    const title = item.title
+    const price = item.price
+    const description = item.description
+    const amount = item.amount;
+    const listCategory = ["Cat's food", "Dog's food"]
+    console.log(item);
 
     const renderAddtoCart = (() => {
         return <TouchableOpacity style={styles.wrapCheckout}>
@@ -25,7 +29,6 @@ const DetailProductScreenComp = () => {
     })
     const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
 
-    // const renderCategory
 
     return (
         <View style={styles.container}>
@@ -37,12 +40,12 @@ const DetailProductScreenComp = () => {
                             navigation.goBack();
                         }}
                     >
-                        <Icon name="arrow_back" style={styles.ButtonIcon} />
+                        <Icon name="menu" style={styles.ButtonIcon} />
                     </TouchableOpacity>
                     <Text style={{ color: "#000", fontSize: fonts.font18 }}>Product Detail</Text>
                 </View>
                 <FastImage
-                    source={image}
+                    source={{ uri: image }}
                     style={styles.wrapImage}
                 />
                 <Text

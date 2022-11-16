@@ -9,14 +9,17 @@ import { useNavigation } from "@react-navigation/native";
 const ItemProductComp = ({ item }: IProductprops) => {
 
     const navigation = useNavigation();
-    const name = item.name
+    // const router = useRoute();
+    const name = item.title
     const price = item.price
-    const image = cat
+    const image = item.images.url
+
+    console.log("image", image)
 
     return (
         <TouchableOpacity
             onPress={() => {
-                navigation.navigate(SCREENNAME.DETAIL_PRODUCT_SCREEN)
+                navigation.navigate(SCREENNAME.DETAIL_PRODUCT_SCREEN, { item: item })
             }}
             style={styles.container}>
             <View style={styles.wrapIcon}>
@@ -34,7 +37,7 @@ const ItemProductComp = ({ item }: IProductprops) => {
             </View>
             <FastImage
                 style={styles.wrapProductImage}
-                source={image}
+                source={{ uri: image }}
                 resizeMode="center"
             />
             <View style={styles.wrapDetail}>

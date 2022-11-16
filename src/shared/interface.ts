@@ -28,9 +28,16 @@ export interface IProductWishList {
 }
 
 export interface IProduct {
-    name: string
+    title: string
     price: string
-    assets: Assets
+    images: Images,
+    description: string,
+    amount: string,
+}
+
+export interface Images {
+    public_id: string
+    url: string
 }
 
 export interface Assets {
