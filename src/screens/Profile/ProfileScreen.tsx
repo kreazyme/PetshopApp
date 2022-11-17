@@ -6,9 +6,11 @@ import Icon from "react-native-vector-icons/MaterialIcons"
 import BlackIcon from "react-native-vector-icons/FontAwesome"
 import DeIcon from "react-native-vector-icons/FontAwesome5"
 import { AppHeader } from "../Header";
+import { useNavigation } from "@react-navigation/native";
 
-export default ({ navigation }: any) => {
+export default () => {
     const renderBody = (() => {
+        const navigation = useNavigation();
         return (
             <ScrollView>
                 <View style={styles.containerBody}>
@@ -50,7 +52,7 @@ export default ({ navigation }: any) => {
                             <View style={styles.container}></View>
                             <Icon name="account-box" style={styles.ButtonIcon} />
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.wrapButton}>
+                        <TouchableOpacity style={styles.wrapButton} onPress={() => navigation.goBack()}>
                             <Text style={styles.ButtonText}>Logout</Text>
                             <View style={styles.container}></View>
                             <Icon name="logout" style={styles.ButtonIcon} />

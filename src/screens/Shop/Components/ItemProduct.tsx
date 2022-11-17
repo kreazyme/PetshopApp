@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import FastImage from "react-native-fast-image";
-import { cat, fonts, ic_add_shop, ic_dot_orange, ic_heart, IProductprops, SCREENNAME } from "../../../shared";
+import { fonts, ic_add_shop, ic_dot_orange, ic_heart, IProductprops, SCREENNAME } from "../../../shared";
 import colors from "../../../shared/colors";
 import { useNavigation } from "@react-navigation/native";
 
@@ -19,7 +19,7 @@ const ItemProductComp = ({ item }: IProductprops) => {
     return (
         <TouchableOpacity
             onPress={() => {
-                navigation.navigate(SCREENNAME.DETAIL_PRODUCT_SCREEN, { item: item })
+                navigation.navigate(SCREENNAME.DETAIL_PRODUCT_SCREEN, {item: item})
             }}
             style={styles.container}>
             <View style={styles.wrapIcon}>
@@ -55,12 +55,7 @@ const ItemProductComp = ({ item }: IProductprops) => {
                     style={styles.imgIcon}
                 />
             </View>
-<<<<<<< HEAD
-        </View>
-
-=======
         </TouchableOpacity>
->>>>>>> 060bff8d21be1f9e6cce9590c63c616d5f3eeb85
     );
 }
 

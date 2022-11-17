@@ -14,12 +14,12 @@ import Icon from "react-native-vector-icons/MaterialIcons"
 import BIcon from "react-native-vector-icons/MaterialCommunityIcons"
 import CIcon from "react-native-vector-icons/AntDesign"
 import FastImage from "react-native-fast-image";
-
+import { useNavigation } from "@react-navigation/native";
 const Main_Menu = 'Main_Menu'
 const Categories = 'Categories'
 const avatar = img_avatar;
-const DrawerContentComp = ({ navigation }: any) => {
-
+const DrawerContentComp = () => {
+    
     const [page, setPage] = React.useState(Main_Menu);
     return (
         <View style={{ flex: 1 }}>
@@ -37,7 +37,7 @@ const DrawerContentComp = ({ navigation }: any) => {
                         />
                     )}
                     label="Sign out"
-                    onPress={() => { }}
+                    onPress={() => {}}
                 />
             </Drawer.Section>
         </View >
