@@ -9,7 +9,7 @@ import colors from "../../shared/colors";
 import CartScreen from "../Cart/CartScreen";
 import { EditProfileScreen } from "../Profile/EditProfileScreen";
 import ProfileScreen from "../Profile/ProfileScreen";
-import { ShopScreen } from "../Shop";
+import { DetailProductScreen, ShopScreen } from "../Shop";
 import { WishListScreen } from "../WishList";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DrawerScreen } from "../Drawer";
@@ -95,6 +95,11 @@ const appNavigationComp = () => {
                 name={SCREENNAME.HOME_STACK}
                 options={{ headerShown: false }}
                 component={HomeStack}
+            />
+            <Stack.Screen
+                name={SCREENNAME.DETAIL_PRODUCT_SCREEN}
+                options={{ headerShown: false }}
+                component={DetailProductScreen}
             />
             <Stack.Screen
                 name={SCREENNAME.EDIT_PROFILE_SCREEN}
