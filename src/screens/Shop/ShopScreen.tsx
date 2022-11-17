@@ -20,7 +20,6 @@ const ShopScreenComp = () => {
         { label: 'Cat Food', value: 'cat' },
         { label: 'Dog Food', value: 'dog' }
     ]);
-
     const loadData = async () => {
         fetch('https://demoaapi.free.beeceptor.com/demo12')
             .then((response) => response.json())
@@ -31,12 +30,13 @@ const ShopScreenComp = () => {
                 console.error(error);
             });
     }
-
+    
     React.useEffect(() => {
         loadData();
     }, [])
     const renderItem = ({ item }: IProductprops) => {
-        return <ItemProduct item={item} />
+        return <View style={{paddingBottom:100}}></View>
+        //return <ItemProduct item={item} />
     }
     const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
 
@@ -79,6 +79,7 @@ const ShopScreenComp = () => {
                 keyExtractor={keyExtractor}
                 numColumns={2}
                 ListHeaderComponent={headerComponent}
+
             />
         </View>
     );
