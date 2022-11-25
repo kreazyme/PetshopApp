@@ -19,10 +19,10 @@ const ItemProductComp = ({ item }: IProductprops) => {
     return (
         <TouchableOpacity
             onPress={() => {
-                navigation.navigate(SCREENNAME.DETAIL_PRODUCT_SCREEN, {item: item})
+                navigation.navigate(SCREENNAME.DETAIL_PRODUCT_SCREEN, { item: item })
             }}
             style={styles.container}>
-            
+
             <View style={styles.wrapIcon}>
                 <FastImage
                     source={ic_dot_orange}
