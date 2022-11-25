@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import FastImage from "react-native-fast-image";
 import { fonts, ic_heart, ic_shop, ic_store, ic_user, SCREENNAME } from "../../shared";
 import colors from "../../shared/colors";
@@ -12,9 +12,8 @@ import ProfileScreen from "../Profile/ProfileScreen";
 import { DetailProductScreen, ShopScreen } from "../Shop";
 import { WishListScreen } from "../WishList";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { DrawerScreen } from "../Drawer";
 import { DrawerContent } from "../Drawer/DrawerContent"
-import { LoginScreen } from "../Authentication";
+import { ForgetPassword, LoginScreen } from "../Authentication";
 import { useSelector } from "react-redux";
 
 const appNavigationComp = () => {
@@ -105,6 +104,11 @@ const appNavigationComp = () => {
                 name={SCREENNAME.EDIT_PROFILE_SCREEN}
                 options={{ headerShown: false }}
                 component={EditProfileScreen}
+            />
+            <Stack.Screen
+                name={SCREENNAME.FORGOT_PASSWORD_SCREEN}
+                options={{ headerShown: false }}
+                component={ForgetPassword}
             />
         </Stack.Navigator>
     })

@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const ItemProductComp = ({ item }: IProductprops) => {
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
     // const router = useRoute();
     const name = item.title
     const price = item.price
