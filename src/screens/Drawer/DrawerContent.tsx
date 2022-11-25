@@ -14,12 +14,13 @@ import Icon from "react-native-vector-icons/MaterialIcons"
 import BIcon from "react-native-vector-icons/MaterialCommunityIcons"
 import CIcon from "react-native-vector-icons/AntDesign"
 import FastImage from "react-native-fast-image";
+import { DrawerActions,useNavigation } from "@react-navigation/native";
 
 const Main_Menu = 'Main_Menu'
 const Categories = 'Categories'
 const avatar = img_avatar;
-const DrawerContentComp = ({ navigation }: any) => {
-
+const DrawerContentComp = () => {
+    
     const [page, setPage] = React.useState(Main_Menu);
     return (
         <View style={{ flex: 1 }}>
@@ -37,7 +38,7 @@ const DrawerContentComp = ({ navigation }: any) => {
                         />
                     )}
                     label="Sign out"
-                    onPress={() => { }}
+                    onPress={() => {}}
                 />
             </Drawer.Section>
         </View >
@@ -45,6 +46,7 @@ const DrawerContentComp = ({ navigation }: any) => {
 }
 export const DrawerContent = React.memo(DrawerContentComp)
 const HeadComponent = ({ page, setPage }: any) => {
+    const navigation = useNavigation();
     return (
         <View style={styles.drawerContent}>
             <TouchableOpacity
@@ -62,7 +64,8 @@ const HeadComponent = ({ page, setPage }: any) => {
                 {page === Categories ? <View style={styles.wrapText}></View> : null}
 
             </TouchableOpacity>
-            <TouchableOpacity style={styles.DrawerClose} >
+            <TouchableOpacity style={styles.DrawerClose} 
+                onPress={() => navigation.dispatch(DrawerActions.closeDrawer())} >
                 <FastImage
                     source={ic_close}
                     resizeMode="contain"

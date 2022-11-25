@@ -20,7 +20,6 @@ const ShopScreenComp = () => {
         { label: 'Cat Food', value: 'cat' },
         { label: 'Dog Food', value: 'dog' }
     ]);
-
     const loadData = async () => {
         fetch('https://petshopdut.herokuapp.com/api/products')
             .then((response) => response.json())
@@ -32,7 +31,7 @@ const ShopScreenComp = () => {
                 console.error(error);
             });
     }
-
+    
     React.useEffect(() => {
         loadData();
     }, [])
@@ -71,6 +70,7 @@ const ShopScreenComp = () => {
                 keyExtractor={keyExtractor}
                 numColumns={2}
                 ListHeaderComponent={headerComponent}
+
             />
         </View>
     );
