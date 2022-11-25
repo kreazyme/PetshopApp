@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const ItemProductComp = ({ item }: IProductprops) => {
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
     // const router = useRoute();
     const name = item.title
     const price = item.price
@@ -22,6 +22,7 @@ const ItemProductComp = ({ item }: IProductprops) => {
                 navigation.navigate(SCREENNAME.DETAIL_PRODUCT_SCREEN, {item: item})
             }}
             style={styles.container}>
+            
             <View style={styles.wrapIcon}>
                 <FastImage
                     source={ic_dot_orange}

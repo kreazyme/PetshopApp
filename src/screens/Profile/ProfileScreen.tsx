@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 
 export default () => {
     const renderBody = (() => {
-        const navigation = useNavigation();
+        const navigation = useNavigation<any>();
         return (
             <ScrollView>
                 <View style={styles.containerBody}>

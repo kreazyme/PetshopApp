@@ -36,8 +36,7 @@ const ShopScreenComp = () => {
         loadData();
     }, [])
     const renderItem = ({ item }: IProductprops) => {
-        return <View style={{paddingBottom:100}}></View>
-        //return <ItemProduct item={item} />
+        return <ItemProduct item={item} />
     }
     const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
 

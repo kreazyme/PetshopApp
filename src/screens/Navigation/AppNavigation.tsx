@@ -15,14 +15,14 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DrawerScreen } from "../Drawer";
 import { DrawerContent } from "../Drawer/DrawerContent"
 import { LoginScreen } from "../Authentication";
-import { useSelector } from "react-redux";
+import { useSelector} from "react-redux";
 
 const appNavigationComp = () => {
 
     const Stack = createNativeStackNavigator();
     const Tab = createBottomTabNavigator();
     const Drawer = createDrawerNavigator();
-    const token = useSelector(state => state?.appReducer.token);
+    const token = useSelector(state  => state?.appReducer.token);
     console.log("Token: " + token)
     const tabbarIcon = ((focus: any, icon: any, txtName: String) => {
         return (

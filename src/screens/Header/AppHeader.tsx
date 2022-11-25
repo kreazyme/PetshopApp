@@ -3,18 +3,17 @@ import { View, StyleSheet, Text, TextInput, Button, Alert, TouchableOpacity, Dra
 import FastImage from "react-native-fast-image";
 import { fonts, ic_app_logo, ic_menu, ic_search } from "../../shared";
 import colors from "../../shared/colors";
-import { NavigationContainer } from '@react-navigation/native';
-const appAppHeaderComp = ({ navigation }: any) => {
-    //const [searchToken, setSearchToken] = React.useState<String>("");
+import { DrawerActions,useNavigation } from "@react-navigation/native";
+const appAppHeaderComp = () => {
     return (
         <AppNavbar />
     );
 }
 
 export const AppHeader = React.memo(appAppHeaderComp)
-const AppNavbar = ({navigation}: any) => {
+const AppNavbar = () => {
     const [searchToken, setSearchToken] = React.useState<String>("");
-    
+    const navigation = useNavigation();
     return (
         <View style={styles.wrapHeader}>
             <View style={styles.wrapHeaderLogo}>
@@ -23,7 +22,7 @@ const AppNavbar = ({navigation}: any) => {
                     resizeMode="contain"
                     style={styles.wrapLogo}
                 />
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
                     <FastImage
                         source={ic_menu}
                         resizeMode="contain"
