@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, StyleSheet, FlatList, TextInput, ActivityIndicator } from "react-native";
+import { View, StyleSheet, FlatList, TextInput, ActivityIndicator, RefreshControl } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import FastImage from "react-native-fast-image";
 import { fonts, ic_app_logo, ic_menu, ic_search, IProduct, IProductprops } from "../../shared";
@@ -11,9 +11,12 @@ import { ItemProduct } from "./Components";
 const ShopScreenComp = () => {
     const [searchToken, setSearchToken] = React.useState<String>("");
     // const [data, setData] = React.useState<any>([]);
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const [value, setValue] = useState("all");
     const [data, setData] = useState<IProduct[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
+
     const [items, setItems] = useState([
         { label: 'All Product', value: 'all' },
         { label: `Pet's Toys`, value: 'toys' },
@@ -21,17 +24,24 @@ const ShopScreenComp = () => {
         { label: 'Dog Food', value: 'dog' }
     ]);
     const loadData = async () => {
+        setIsLoading(true);
         fetch('https://petshopdut.herokuapp.com/api/products')
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(JSON.stringify(responseJson));
                 setData(responseJson.products);
             })
             .catch((error) => {
                 console.error(error);
             });
+        setIsLoading(false);
     }
-    
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        loadData();
+        setRefreshing(false);
+    }
+
     React.useEffect(() => {
         loadData();
     }, [])
@@ -64,14 +74,29 @@ const ShopScreenComp = () => {
     return (
         <View style={styles.container}>
             <AppHeader />
-            <FlatList
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={keyExtractor}
-                numColumns={2}
-                ListHeaderComponent={headerComponent}
-
-            />
+            {
+                isLoading
+                    ?
+                    <ActivityIndicator
+                        size={"large"}
+                        color={colors.cyan}
+                    />
+                    :
+                    <FlatList
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                            />
+                        }
+                        refreshing={true}
+                        data={data}
+                        renderItem={renderItem}
+                        keyExtractor={keyExtractor}
+                        numColumns={2}
+                        ListHeaderComponent={headerComponent}
+                    />
+            }
         </View>
     );
 }
