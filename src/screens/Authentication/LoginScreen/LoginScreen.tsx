@@ -17,8 +17,8 @@ const LoginScreenComp = ({ navigation }: any) => {
     const handleLogin = (async () => {
         setIsLoading(true);
         var body = JSON.stringify({
-            email: email,
-            password: password
+            email: "admin@gmail.com",
+            password: "123456"
         })
         await fetch('https://petshopdut.herokuapp.com/user/login',
             {
