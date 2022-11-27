@@ -28,11 +28,35 @@ export interface IProductWishList {
 }
 
 export interface IProduct {
+    _id: string
+    category: string
+    checked: boolean
+    description: string
+    feedbacks: Feedback[]
+    images: Images
+    sold: number
     title: string
-    price: string
-    images: Images,
-    description: string,
-    amount: string,
+    types: Type[]
+}
+
+export interface Feedback {
+    _id: string
+    content: string
+    rating: number
+    product_id: string
+    user_id: string
+    createdAt: string
+    updatedAt: string
+    image_url?: string
+}
+
+export interface Type {
+    _id: string
+    name: string
+    price: number
+    amount: number
+    createdAt: string
+    updatedAt: string
 }
 
 export interface Images {
