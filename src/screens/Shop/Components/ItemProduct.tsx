@@ -11,18 +11,16 @@ const ItemProductComp = ({ item }: IProductprops) => {
     const navigation = useNavigation<any>();
     // const router = useRoute();
     const name = item.title
-    const price = item.price
+    const price = item?.price
     const image = item.images.url
-
-    console.log("image", image)
 
     return (
         <TouchableOpacity
             onPress={() => {
-                navigation.navigate(SCREENNAME.DETAIL_PRODUCT_SCREEN, {item: item})
+                navigation.navigate(SCREENNAME.DETAIL_PRODUCT_SCREEN, { productID: item._id })
             }}
             style={styles.container}>
-            
+
             <View style={styles.wrapIcon}>
                 <FastImage
                     source={ic_dot_orange}
@@ -44,17 +42,14 @@ const ItemProductComp = ({ item }: IProductprops) => {
             <View style={styles.wrapDetail}>
                 <View style={styles.wrapTxtDetail}>
                     <Text style={styles.txtPrice}>
-                        {price}
+                        {"20000"}
                     </Text>
-                    <Text style={styles.txtName}>
+                    <Text
+                        numberOfLines={2}
+                        style={styles.txtName}>
                         {name}
                     </Text>
                 </View>
-                <FastImage
-                    source={ic_add_shop}
-                    resizeMode="contain"
-                    style={styles.imgIcon}
-                />
             </View>
         </TouchableOpacity>
     );
@@ -95,15 +90,19 @@ const styles = StyleSheet.create({
         justifyContent: "space-around"
     },
     txtName: {
-        fontSize: fonts.font22,
-        color: colors.orage_bg
+        fontSize: fonts.font18,
+        color: colors.cyan_text,
+        marginHorizontal: 10,
+        marginBottom: 4
     },
     wrapTxtDetail: {
         flexDirection: "column",
 
     },
     txtPrice: {
-        fontSize: fonts.font18,
-        color: colors.black
+        fontSize: fonts.font22,
+        color: colors.red,
+        fontWeight: "bold",
+        marginHorizontal: 10
     },
 });

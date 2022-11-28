@@ -4,7 +4,7 @@ import { decreaseAction, increaseAction } from "../../../redux/actions";
 import Icon from "react-native-vector-icons/AntDesign";
 const windownWidth = Dimensions.get('window').width;
 
-const ForgetSignInComp = () => {
+const ForgetPasswordComp = () => {
 
     return (
         <View style={styles.container}>
@@ -20,7 +20,7 @@ const ForgetSignInComp = () => {
         </View>
     );
 }
-export const ForgetSignIn = React.memo(ForgetSignInComp)
+export const ForgetPassword = React.memo(ForgetPasswordComp)
 const HeaderComponent = () => {
     return (
         <View style={styles.container}>
@@ -44,7 +44,7 @@ const BodyComponent = () => {
                 <TextInput style={styles.InputEmail} placeholder="Email" />
             </View>
             <Text style={styles.LableError}>A link to set a new password will be sent to your email address</Text>
-            
+
             <TouchableOpacity style={styles.ButtonLogin}>
                 <Text style={{ color: 'white', fontSize: 16 }}>Register</Text>
             </TouchableOpacity>
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     containerJust: {
-        height: '100%', 
-        width: '100%', 
+        height: '100%',
+        width: '100%',
         justifyContent: 'center'
     },
     ViewSignIn: {
@@ -102,51 +102,51 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20
     },
     TextLogin: {
-        fontSize: 20, 
+        fontSize: 20,
         marginLeft: 30,
     },
     LabelEmail: {
-        width: windownWidth - 60, 
-        height: 50, 
+        width: windownWidth - 60,
+        height: 50,
         marginTop: 20,
-        marginLeft: 30, 
-        borderWidth: 1, 
-        flexDirection: 'row', 
-        alignItems: 'center', 
+        marginLeft: 30,
+        borderWidth: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
         borderRadius: 150 / 2
     },
-    InputEmail:{
-        height: '100%', 
-        flex: 1, 
-        fontSize: 23, 
+    InputEmail: {
+        height: '100%',
+        flex: 1,
+        fontSize: 23,
         padding: 10
     },
     LableError: {
-        paddingTop: 30, 
-        fontSize: 18, 
+        paddingTop: 30,
+        fontSize: 18,
         marginLeft: 30
     },
     ButtonLogin: {
         height: 50,
-        width: windownWidth - 60, 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        backgroundColor: '#5250A4', 
-        marginLeft: 30, 
-        marginTop: 10, 
+        width: windownWidth - 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#5250A4',
+        marginLeft: 30,
+        marginTop: 10,
         borderRadius: 100
     },
     ViewEnd: {
-        height: 40, 
-        width: windownWidth - 60, 
-        marginLeft: 30, 
-        flexDirection: 'row', 
-        justifyContent: 'center', 
+        height: 40,
+        width: windownWidth - 60,
+        marginLeft: 30,
+        flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center'
     },
     ViewG: {
-        height: 1, 
-        width: '30%', 
+        height: 1,
+        width: '30%',
         backgroundColor: '#CFCFCF'
     }
 })

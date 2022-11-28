@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TextInput, Button, Alert, TouchableOpacity, Dra
 import FastImage from "react-native-fast-image";
 import { fonts, ic_app_logo, ic_menu, ic_search } from "../../shared";
 import colors from "../../shared/colors";
-import { DrawerActions,useNavigation } from "@react-navigation/native";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 const appAppHeaderComp = () => {
     return (
         <AppNavbar />
@@ -29,8 +29,8 @@ const AppNavbar = () => {
                         style={styles.wrapMenu}>
                     </FastImage>
                 </TouchableOpacity>
-
             </View>
+
             <View style={styles.wrapSearchBox}>
                 <TextInput
                     placeholder="Search here"
@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
     },
     wrapHeader: {
         padding: 30,
-        height: 160,
         justifyContent: "center",
         backgroundColor: colors.cyan
     },
@@ -63,14 +62,15 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         flex: 1,
+        backgroundColor: "green"
     },
     wrapLogo: {
         height: 38,
-        width: 165
+        aspectRatio: 1
     },
     wrapMenu: {
         height: 25,
-        aspectRatio: 1,
+        aspectRatio: 10,
     },
     wrapSearch: {
         height: 25,
