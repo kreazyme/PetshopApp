@@ -9,18 +9,21 @@ import {
     Drawer,
 
 } from 'react-native-paper'
-import { img_avatar, ic_back, ic_close } from "../../shared";
+import { img_avatar, ic_back, ic_close, SCREENNAME } from "../../shared";
 import Icon from "react-native-vector-icons/MaterialIcons"
 import BIcon from "react-native-vector-icons/MaterialCommunityIcons"
 import CIcon from "react-native-vector-icons/AntDesign"
 import FastImage from "react-native-fast-image";
-import { DrawerActions,useNavigation } from "@react-navigation/native";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
+import colors from "../../shared/colors";
+import { StackActions } from "react-navigation";
+import { closeDrawer } from "react-navigation-drawer/lib/typescript/src/routers/DrawerActions";
 
 const Main_Menu = 'Main_Menu'
 const Categories = 'Categories'
 const avatar = img_avatar;
-const DrawerContentComp = () => {
-    
+const DrawerContentComp = ({navigation}:any) => {
+    // const navigation = useNavigation();
     const [page, setPage] = React.useState(Main_Menu);
     return (
         <View style={{ flex: 1 }}>
@@ -63,14 +66,6 @@ const HeadComponent = ({ page, setPage }: any) => {
                 <Text style={styles.DrawerText}>Shop by Categories</Text>
                 {page === Categories ? <View style={styles.wrapText}></View> : null}
 
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.DrawerClose} 
-                onPress={() => navigation.dispatch(DrawerActions.closeDrawer())} >
-                <FastImage
-                    source={ic_close}
-                    resizeMode="contain"
-                    style={styles.wrapButtonBack}
-                />
             </TouchableOpacity>
         </View>
     );
@@ -163,11 +158,8 @@ const styles = StyleSheet.create({
         height: 3,
         width: "100%",
         position: 'absolute',
-        bottom: 0
-    },
-    wrapButtonBack: {
-        height: 30,
-        aspectRatio: 1,
+        bottom: 0,
+        
     },
     wrapAvaName: {
         flexDirection: 'row',
@@ -175,15 +167,16 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
     },
     drawerContent: {
-        backgroundColor: "#F6F5F5",
+        backgroundColor: "#FFFFFF",
         marginTop: 30,
-        height: 50,
+        height: 70,
         flexDirection: 'row',
     },
     DrawerHeaderMain: {
-        width: '30%',
+        width: '40%',
         justifyContent: 'center',
         alignItems: 'center',
+        
     },
     DrawerHeaderCategories: {
         width: '60%',
@@ -197,7 +190,8 @@ const styles = StyleSheet.create({
         //borderWidth: 1,
     },
     DrawerText: {
-        fontSize: 15,
+        fontWeight:"bold",
+        fontSize: 17,
     },
     drawerList: {
         //borderWidth: 1,
@@ -218,5 +212,9 @@ const styles = StyleSheet.create({
     bottomDrawerSection: {
         marginBottom: 15,
         //borderTopWidth: 1,
+    },
+    wrapHeaderLogo: {
+        height: 100,
+        backgroundColor: colors.cyan
     },
 });

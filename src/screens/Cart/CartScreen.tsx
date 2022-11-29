@@ -1,10 +1,10 @@
 import React from "react";
 import { View, StyleSheet, Dimensions, Button, Text, Alert, ScrollView, TouchableOpacity, TextInput, StatusBar, FlatList } from "react-native";
-import { cat, fonts, IProductCart } from "../../shared";
+import { cat, fonts, IProductCart, SCREENNAME } from "../../shared";
 import colors from "../../shared/colors";
 import { AppHeader } from "../Header";
 import { CartComponent } from "./Components";
-
+import { useNavigation } from "@react-navigation/native";
 const listProduct = [
     {
         image: cat,
@@ -48,6 +48,7 @@ interface IProductCartParams {
 }
 
 export default () => {
+    const navigation = useNavigation<any>();
     const [total, setTotal] = React.useState<number>(0)
     React.useEffect(() => {
         var price = 0;
@@ -57,7 +58,8 @@ export default () => {
         setTotal(price)
     }, [])
     const renderCheckout = (() => {
-        return <TouchableOpacity style={styles.wrapCheckout}>
+        
+        return <TouchableOpacity style={styles.wrapCheckout} onPress={() => {navigation.navigate(SCREENNAME.PAYMENT_SCREEN)}}>
             <Text style={styles.txtCheckout}>{`Check out: ${total} VND`}</Text>
         </TouchableOpacity>
     })

@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     },
     wrapHeader: {
         padding: 30,
+        height: 160,
         justifyContent: "center",
         backgroundColor: colors.cyan
     },
@@ -62,15 +63,15 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         flex: 1,
-        backgroundColor: "green"
     },
     wrapLogo: {
         height: 38,
+        width: 165,
         aspectRatio: 1
     },
     wrapMenu: {
         height: 25,
-        aspectRatio: 10,
+        aspectRatio: 1,
     },
     wrapSearch: {
         height: 25,

@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, TextInput, Alert, ScrollView } from "react-native";
-import Icon from "react-native-vector-icons/AntDesign";
 import { ActivityIndicator } from "react-native-paper";
 import colors from "../../../shared/colors";
 import { img_login, SCREENNAME } from "../../../shared";
 import { useDispatch } from "react-redux";
 import { SAVE_APP_TOKEN } from "../../../redux/actions/actionTypes";
 import FastImage from "react-native-fast-image";
+import { useTheme } from 'react-native-paper';
+import BIcon from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
 const LoginScreenComp = ({ navigation }: any) => {
 
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
-
+    const { colors } = useTheme();
     const handleLogin = (async () => {
         setIsLoading(true);
         var body = JSON.stringify({
@@ -76,20 +78,32 @@ const LoginScreenComp = ({ navigation }: any) => {
             </View>
             <Text style={styles.txtDetail}>Email</Text>
             <View style={styles.wrapBorderInput}  >
+                <BIcon
+                    name="user-o"
+                    color={colors.text}
+                    size={20}
+                    style={{marginLeft:10}}
+                />
                 <TextInput
                     style={styles.txtInput}
                     numberOfLines={1}
                     value={email}
-                    placeholder={"Enter your email"}
+                    placeholder={"Email"}
                     onChangeText={(value) => setEmail(value)}
                 />
             </View>
             <Text style={styles.txtDetail}>Password</Text>
             <View style={styles.wrapBorderInput}  >
+                <Feather
+                    name="lock"
+                    color={colors.text}
+                    size={20}
+                    style={{marginLeft:10}}
+                />
                 <TextInput
                     style={styles.txtInput}
                     numberOfLines={1}
-                    placeholder={"Enter your password"}
+                    placeholder={"Password"}
                     value={password}
                     onChangeText={(value) => setPassword(value)}
                 />
@@ -144,13 +158,16 @@ const styles = StyleSheet.create({
         alignSelf: "center",
     },
     wrapBorderInput: {
+        flexDirection: 'row',
         borderWidth: 1,
         borderColor: colors.cyan,
         borderRadius: 10,
         marginHorizontal: 20,
         marginBottom: 24,
+        alignItems: 'center'
     },
     txtInput: {
+        flex: 1,
         fontSize: 20,
         color: colors.cyan,
         marginHorizontal: 10
@@ -170,9 +187,10 @@ const styles = StyleSheet.create({
     },
     txtDetail: {
         fontSize: 18,
-        color: "gray",
+        color: "#05375a",
         marginHorizontal: 20,
-        paddingBottom: 10
+        paddingBottom: 10,
+        fontWeight: 'bold',
     },
     txtDetailCreate: {
         fontSize: 16,

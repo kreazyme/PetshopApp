@@ -21,37 +21,43 @@ export default () => {
                     </View>
                     <View style={styles.wrapBody}>
                         <TouchableOpacity
-                            onPress={() => { navigation.navigate(SCREENNAME.EDIT_PROFILE_SCREEN) }}
+                            onPress={() => { navigation.navigate(SCREENNAME.PROFILE_PAGE) }}
                             style={styles.wrapButton}>
                             <Text style={styles.ButtonText}>Person</Text>
                             <View style={styles.container}></View>
                             <Icon name="person" style={styles.ButtonIcon} />
                         </TouchableOpacity>
+
                         <TouchableOpacity style={styles.wrapButton}>
                             <Text style={styles.ButtonText}>Dasdboard</Text>
                             <View style={styles.container}></View>
                             <Icon name="dashboard" style={styles.ButtonIcon} />
                         </TouchableOpacity>
+
                         <TouchableOpacity style={styles.wrapButton}>
                             <Text style={styles.ButtonText}>Orders</Text>
                             <View style={styles.container}></View>
                             <DeIcon name="border-all" style={styles.ButtonIcon} />
                         </TouchableOpacity>
+
                         <TouchableOpacity style={styles.wrapButton}>
                             <Text style={styles.ButtonText}>Downloads</Text>
                             <View style={styles.container}></View>
                             <BlackIcon name="download" style={styles.ButtonIcon} />
                         </TouchableOpacity>
+
                         <TouchableOpacity style={styles.wrapButton}>
                             <Text style={styles.ButtonText}>Addresses</Text>
                             <View style={styles.container}></View>
                             <DeIcon name="map-marked-alt" style={styles.ButtonIcon} />
                         </TouchableOpacity>
+                        
                         <TouchableOpacity style={styles.wrapButton}>
                             <Text style={styles.ButtonText}>Account details</Text>
                             <View style={styles.container}></View>
                             <Icon name="account-box" style={styles.ButtonIcon} />
                         </TouchableOpacity>
+                        
                         <TouchableOpacity style={styles.wrapButton} onPress={() => navigation.goBack()}>
                             <Text style={styles.ButtonText}>Logout</Text>
                             <View style={styles.container}></View>

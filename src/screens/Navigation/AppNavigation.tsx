@@ -15,6 +15,8 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DrawerContent } from "../Drawer/DrawerContent"
 import { ForgetPassword, LoginScreen } from "../Authentication";
 import { useSelector } from "react-redux";
+import { ProfilePage } from "../Profile";
+import { PaymentScreen } from "../Cart";
 
 const appNavigationComp = () => {
 
@@ -101,6 +103,11 @@ const appNavigationComp = () => {
                 component={DetailProductScreen}
             />
             <Stack.Screen
+                name={SCREENNAME.PROFILE_PAGE}
+                options={{ headerShown: false }}
+                component={ProfilePage}
+            />
+            <Stack.Screen
                 name={SCREENNAME.EDIT_PROFILE_SCREEN}
                 options={{ headerShown: false }}
                 component={EditProfileScreen}
@@ -109,6 +116,11 @@ const appNavigationComp = () => {
                 name={SCREENNAME.FORGOT_PASSWORD_SCREEN}
                 options={{ headerShown: false }}
                 component={ForgetPassword}
+            />
+            <Stack.Screen
+                name={SCREENNAME.PAYMENT_SCREEN}
+                options={{ headerShown: false }}
+                component={PaymentScreen}
             />
         </Stack.Navigator>
     })
