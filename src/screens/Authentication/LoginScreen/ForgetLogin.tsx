@@ -1,152 +1,150 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Dimensions, Button, Text, Alert, ScrollView, TouchableOpacity, TextInput, StatusBar } from "react-native";
 import { decreaseAction, increaseAction } from "../../../redux/actions";
 import Icon from "react-native-vector-icons/AntDesign";
-const windownWidth = Dimensions.get('window').width;
+import colors from "../../../shared/colors";
+import FastImage from "react-native-fast-image";
+import { img_login, SCREENNAME } from "../../../shared";
+import BIcon from 'react-native-vector-icons/FontAwesome';
+import { useTheme, ActivityIndicator } from "react-native-paper";
 
-const ForgetPasswordComp = () => {
-
+const ForgetPasswordComp = ({navigation}:any) => {
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const { colors } = useTheme();
+    const [email, setEmail] = useState("");
     return (
-        <View style={styles.container}>
-            <View style={styles.Header}>
-                <HeaderComponent />
+        <ScrollView style={styles.container}>
+            <Text style={styles.txtLogin}>
+                Login
+            </Text>
+            <View style={styles.wrapImage}>
+                <FastImage
+                    source={img_login}
+                    style={styles.img}
+                    resizeMode={"cover"}
+                />
             </View>
-            <View style={styles.Body}>
-                <BodyComponent />
+            <Text style={styles.txtDetail}>Email</Text>
+            <View style={styles.wrapBorderInput}  >
+                <BIcon
+                    name="user-o"
+                    color={colors.text}
+                    size={20}
+                    style={{ marginLeft: 10 }}
+                />
+                <TextInput
+                    style={styles.txtInput}
+                    numberOfLines={1}
+                    value={email}
+                    placeholder={"Email"}
+                    onChangeText={(value) => setEmail(value)}
+                />
             </View>
-            <View >
-                <EndComponent />
-            </View>
-        </View>
+            <Text style={styles.LableError}>A link to set a new password will be sent to your email address</Text>
+            <TouchableOpacity>
+                <View style={styles.wrapButtonLogin}>
+                    {
+                        isLoading ?
+                            <ActivityIndicator
+                                size={20}
+                                color={"white"}
+                            />
+                            :
+                            <Text style={styles.txtButtonLogin}>
+                                Register
+                            </Text>
+                    }
+
+                </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => navigation.navigate(SCREENNAME.LOGIN_SCREEN)}
+                style={{ alignItems: "center" }}
+            >
+                <Text style={styles.txtDetailCreate}>You has account?
+                    <Text style={styles.txtCreateAccount}>{" Login now"}</Text>
+                </Text>
+            </TouchableOpacity>
+        </ScrollView>
     );
 }
 export const ForgetPassword = React.memo(ForgetPasswordComp)
-const HeaderComponent = () => {
-    return (
-        <View style={styles.container}>
-            <View style={styles.ViewSignIn} >
-                <Text style={styles.LableSignIn}>Sign in</Text>
-                <View style={{ flex: 1 }} />
-                <TouchableOpacity >
-                    <View style={{ marginRight: 20 }} >
-                        <Icon name="close" size={25} />
-                    </View>
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
-}
-const BodyComponent = () => {
-    return (
-        <View style={styles.containerJust}>
-            <Text style={styles.TextLogin}>Email address *</Text>
-            <View style={styles.LabelEmail}>
-                <TextInput style={styles.InputEmail} placeholder="Email" />
-            </View>
-            <Text style={styles.LableError}>A link to set a new password will be sent to your email address</Text>
-
-            <TouchableOpacity style={styles.ButtonLogin}>
-                <Text style={{ color: 'white', fontSize: 16 }}>Register</Text>
-            </TouchableOpacity>
-        </View>
-    );
-}
-const EndComponent = () => {
-    return (
-        <View style={styles.container}>
-            <View style={styles.ViewEnd}>
-                <View style={styles.ViewG}></View>
-                <View style={styles.ViewG}></View>
-            </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity style={{}}>
-                    <Text style={{ color: 'black', }}>No account yet? Create an Account</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
-}
 
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        height: '100%'
-    },
-    Header: {
-        width: '100%',
-        height: '20%',
-        backgroundColor: 'white'
-    },
-    Body: {
-        height: '45%',
-        width: '100%',
-    },
-    containerJust: {
-        height: '100%',
-        width: '100%',
-        justifyContent: 'center'
-    },
-    ViewSignIn: {
-        height: 70,
-        width: "100%",
-        marginTop: 70,
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        backgroundColor: '#F6F5F5',
-        flexDirection: "row"
-    },
-    LableSignIn: {
-        fontSize: 28,
-        color: 'black',
-        paddingHorizontal: 20
-    },
-    TextLogin: {
-        fontSize: 20,
-        marginLeft: 30,
-    },
-    LabelEmail: {
-        width: windownWidth - 60,
-        height: 50,
-        marginTop: 20,
-        marginLeft: 30,
-        borderWidth: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderRadius: 150 / 2
-    },
-    InputEmail: {
-        height: '100%',
         flex: 1,
-        fontSize: 23,
-        padding: 10
+    },
+    txtLogin: {
+        fontSize: 40,
+        fontWeight: "bold",
+        color: colors.cyan,
+        marginTop: 30,
+        alignSelf: "center",
+    },
+    wrapImage: {
+        flexDirection: "row",
+    },
+    img: {
+        marginHorizontal: 80,
+        marginVertical: 20,
+        aspectRatio: 1,
+        flex: 1,
+    },
+    txtDetail: {
+        fontSize: 18,
+        color: "#05375a",
+        marginHorizontal: 20,
+        paddingBottom: 10,
+        fontWeight: 'bold',
+    },
+    wrapBorderInput: {
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: colors.cyan,
+        borderRadius: 10,
+        marginHorizontal: 20,
+        marginBottom: 24,
+        alignItems: 'center'
+    },
+    txtInput: {
+        flex: 1,
+        fontSize: 20,
+        color: colors.cyan,
+        marginHorizontal: 10
+    },
+    wrapButtonLogin: {
+        backgroundColor: colors.cyan,
+        marginHorizontal: 50,
+        marginTop: 20,
+        borderRadius: 10,
+        alignItems: "center",
+        paddingVertical: 15,
+    },
+    txtButtonLogin: {
+        fontSize: 20,
+        color: colors.white,
+        fontWeight: "bold",
+    },
+    txtDetailCreate: {
+        fontSize: 16,
+        color: "gray",
+        marginVertical: 20,
+    },
+    txtCreateAccount: {
+        fontSize: 16,
+        color: colors.cyan,
+        fontWeight: "bold",
     },
     LableError: {
         paddingTop: 30,
         fontSize: 18,
         marginLeft: 30
     },
-    ButtonLogin: {
-        height: 50,
-        width: windownWidth - 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#5250A4',
-        marginLeft: 30,
-        marginTop: 10,
-        borderRadius: 100
+    Header: {
+        width: '100%',
+        height: '20%',
+        backgroundColor: 'white'
     },
-    ViewEnd: {
-        height: 40,
-        width: windownWidth - 60,
-        marginLeft: 30,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    ViewG: {
-        height: 1,
-        width: '30%',
-        backgroundColor: '#CFCFCF'
-    }
+    
 })
