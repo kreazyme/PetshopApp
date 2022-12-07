@@ -1,22 +1,35 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator, RefreshControl } from "react-native";
 import FastImage from "react-native-fast-image";
-import { cat, fonts, ic_back, IProduct } from "../../shared";
+import { cat, fonts, ic_back, IProduct, IStore } from "../../shared";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../shared/colors";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { useRoute } from "@react-navigation/native";
 import { Rating } from "react-native-ratings";
 import { FeedbackComp } from "./Components/FeedbackComp";
+import DropDownPicker from "react-native-dropdown-picker";
+import { useSelector } from "react-redux";
 
 const DetailProductScreenComp = () => {
 
     const navigation = useNavigation();
     const route = useRoute();
+    const token = useSelector((state: IStore) => state?.appReducer.token);
+
     const { productID } = route.params as { productID: string };
     const [cardCount, setCardCount] = useState<number>(1);
-    const [isLoading, setIsLoading] = React.useState(false);
     const [data, setData] = React.useState<IProduct>();
+    const [refreshing, setRefreshing] = useState(false);
+
+
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [isAddCart, setIsAddCart] = React.useState(false);
+
+
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState<number>(-1);
+    const [items, setItems] = useState([{}]);
 
     const getData = (async () => {
         setIsLoading(true);
@@ -34,7 +47,6 @@ const DetailProductScreenComp = () => {
         }).then((response) => response.json())
             .then((response,) => {
                 setData(response)
-                console.log("data ", data)
             })
             .catch((error) => {
                 console.error(error);
@@ -42,9 +54,61 @@ const DetailProductScreenComp = () => {
         setIsLoading(false);
     })
 
+    const addCart = (async () => {
+        setIsAddCart(true)
+        var body = {
+            "type_id": data?.types[value]._id,
+            "amount": cardCount,
+            "product_id": productID
+        }
+        console.log(JSON.stringify(body))
+        await fetch(`http://pet.kreazy.me/api/cart`,
+            {
+                method: "PUT",
+                headers: {
+                    Accept: '*/*',
+                    'Content-Type': 'application/json',
+                    "Connection": "keep-alive",
+                    "Authorization": `${token}`
+                },
+                body: JSON.stringify(body)
+            }
+        ).finally(() => {
+            setIsAddCart(false);
+        }).then((response) => {
+            return response.json()
+        })
+            .then((response,) => {
+                console.log(response)
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        setIsAddCart(false);
+    })
+
+
+    const onRefresh = (() => {
+        setRefreshing(true);
+        getData()
+        setRefreshing(false);
+    })
+
     React.useEffect(() => {
         getData();
     }, []);
+
+    React.useEffect(() => {
+        setItems([])
+        data?.types.map((item, index) => {
+            setItems((prev) => [...prev, { label: item.name, value: index }])
+        })
+        setValue(0)
+    }, [data])
+
+    React.useEffect(() => {
+        console.log(data?.types[value]?.price ?? "")
+    }, [value])
 
     const renderAddtoCart = (() => {
         return <View style={styles.wrapViewAddcard}>
@@ -76,8 +140,22 @@ const DetailProductScreenComp = () => {
                     </Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.wrapCheckout}>
-                <Text style={styles.txtCheckout}>Add to Cart</Text>
+            <TouchableOpacity
+                style={styles.wrapCheckout}
+                onPress={() => {
+                    addCart()
+                }}
+            >
+                {
+                    isAddCart
+                        ?
+                        <ActivityIndicator
+                            size={"small"}
+                            color={"white"}
+                        />
+                        :
+                        <Text style={styles.txtCheckout}>Add to Cart</Text>
+                }
             </TouchableOpacity>
         </View>
     })
@@ -123,10 +201,22 @@ const DetailProductScreenComp = () => {
                             >{data?.title}</Text>
                             <Text
                                 style={styles.txtPrice}
-                            >{data?.price ?? "20000" + "₫"}</Text>
+                            >{(data?.types[value]?.price ?? "0") + " ₫"}</Text>
                             <Text
                                 style={styles.txtDescription}
                             >{data?.description}</Text>
+
+                            <View style={{ height: open ? (data?.types?.length ?? 1) * 50 : 60 }}>
+                                <DropDownPicker
+                                    open={open}
+                                    value={value}
+                                    items={items}
+                                    setOpen={setOpen}
+                                    setValue={setValue}
+                                    setItems={setItems}
+                                />
+                            </View>
+
                             <FlatList
                                 horizontal={true}
                                 data={[data?.category]}
@@ -135,6 +225,13 @@ const DetailProductScreenComp = () => {
                                         <Text style={styles.txtCategory}>{item}</Text>
                                     </View>
                                 )}
+                                refreshControl={
+                                    <RefreshControl
+                                        refreshing={refreshing}
+                                        onRefresh={onRefresh}
+                                    />
+                                }
+                                refreshing={true}
                                 keyExtractor={keyExtractor}
                             />
 

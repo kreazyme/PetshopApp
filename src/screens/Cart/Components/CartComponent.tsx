@@ -1,24 +1,25 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import FastImage from "react-native-fast-image";
-import { cat, fonts, ic_trash, IProductCart } from "../../../shared";
+import { cat, fonts, ICart, ic_trash, IListOrderItem, IProductCart } from "../../../shared";
 import colors from "../../../shared/colors";
 interface IProductCartParams {
     item: IProductCart
 }
 
-const CartComponentComp = ({ item }: IProductCartParams) => {
+const CartComponentComp = ({ itemType }: IListOrderItem) => {
 
     const [quantity, setQuantity] = React.useState<number>(1);
-    const image = item.image;
-    const productName = item.title
-    const price = item.price;
 
     const HandleIncrease = (() => {
         if (quantity !== 1) {
             setQuantity(quantity - 1)
         }
     })
+
+    React.useEffect(() => {
+        setQuantity(itemType.amount)
+    }, [itemType])
 
     const renderPrice = ((title: String, txtPrice: any) => {
         return <View style={styles.wrapPrice}>
@@ -61,7 +62,7 @@ const CartComponentComp = ({ item }: IProductCartParams) => {
     return (
         <View style={styles.container}>
             <FastImage
-                source={image}
+                source={{ uri: itemType.image }}
                 style={styles.wrapImageProduct}
                 resizeMode="contain"
             />
@@ -70,7 +71,7 @@ const CartComponentComp = ({ item }: IProductCartParams) => {
                     <Text
                         numberOfLines={3}
                         style={styles.txtName}>
-                        {productName || ""}
+                        {itemType.product_name || ""}
                     </Text>
                     <FastImage
                         source={ic_trash}
@@ -78,9 +79,9 @@ const CartComponentComp = ({ item }: IProductCartParams) => {
                         resizeMode="contain"
                     />
                 </View>
-                {renderPrice("Price: ", price)}
+                {renderPrice("Price: ", itemType.price)}
                 {renderQuantity()}
-                {renderPrice("Total Price: ", price * quantity)}
+                {renderPrice("Total Price: ", itemType.amount * itemType.price)}
                 <View style={styles.wrapPadding} />
             </View>
         </View>
