@@ -1,11 +1,12 @@
 import React from "react";
 import { View, StyleSheet, Dimensions, Button, Text, Alert, ScrollView, TouchableOpacity, TextInput, StatusBar, FlatList, ActivityIndicator, RefreshControl } from "react-native";
-import { cat, fonts, ICart, IProductCart, IStore, SCREENNAME } from "../../shared";
+import { cat, fonts, ICart, ic_app_logo, ic_menu, IProductCart, IStore, SCREENNAME } from "../../shared";
 import colors from "../../shared/colors";
 import { AppHeader } from "../Header";
 import { CartComponent } from "./Components";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import FastImage from "react-native-fast-image";
 interface IProductCartParams {
     item: IProductCart
 }
@@ -72,6 +73,22 @@ export default () => {
         </View>
     })
 
+
+    const renderHeader = (() => {
+        return <View style={styles.wrapHeader}>
+            <FastImage
+                source={ic_app_logo}
+                resizeMode="contain"
+                style={styles.wrapLogo}
+            />
+            <FastImage
+                source={ic_menu}
+                resizeMode="contain"
+                style={styles.wrapMenu}>
+            </FastImage>
+        </View>
+    })
+
     const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
     return (
         <View style={{ flex: 1 }}>
@@ -98,6 +115,9 @@ export default () => {
                             keyExtractor={keyExtractor}
                             ListEmptyComponent={renderEmpty}
                             showsVerticalScrollIndicator={false}
+                            ListHeaderComponent={renderHeader}
+                            ListFooterComponent={<View style={{ height: 50 }}></View>}
+                            stickyHeaderIndices={[0]}
                             refreshControl={
                                 <RefreshControl
                                     refreshing={isRefreshing}
@@ -117,8 +137,6 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         flex: 1,
-        padding: 20,
-
     },
     wrapCheckout: {
         height: 50,
@@ -132,7 +150,24 @@ const styles = StyleSheet.create({
         fontSize: fonts.font20,
         fontWeight: "500",
         color: colors.white
-    }
+    },
+    wrapLogo: {
+        height: 38,
+        width: 165,
+        aspectRatio: 1
+    },
+    wrapMenu: {
+        height: 25,
+        aspectRatio: 1,
+    },
+    wrapHeader: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: 20,
+        backgroundColor: colors.cyan,
+        height: 80,
+    },
 });
 
 

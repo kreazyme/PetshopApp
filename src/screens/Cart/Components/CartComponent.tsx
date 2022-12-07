@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import FastImage from "react-native-fast-image";
-import { cat, fonts, ICart, ic_trash, IListOrderItem, IProductCart } from "../../../shared";
+import { cat, fonts, ICart, ic_app_logo, ic_menu, ic_trash, IListOrderItem, IProductCart } from "../../../shared";
 import colors from "../../../shared/colors";
 interface IProductCartParams {
     item: IProductCart
@@ -31,6 +31,7 @@ const CartComponentComp = ({ itemType }: IListOrderItem) => {
             </Text>
         </View>
     })
+
 
     const renderQuantity = (() => {
         return <View style={styles.wrapPrice}>
@@ -92,11 +93,12 @@ export const CartComponent = React.memo(CartComponentComp)
 
 const styles = StyleSheet.create({
     container: {
-        borderTopColor: colors.gray_bg,
-        borderTopWidth: 2,
         flexDirection: "row",
         padding: 10,
-        paddingTop: 20
+        marginTop: 20,
+        backgroundColor: "white",
+        borderRadius: 10,
+        marginHorizontal: 10
     },
     wrapImageProduct: {
         height: 120,
@@ -165,5 +167,5 @@ const styles = StyleSheet.create({
     wrapPadding: {
         height: 30,
         width: 30
-    }
+    },
 });
