@@ -37,6 +37,7 @@ export interface IProduct {
     sold: number
     title: string
     types: Type[]
+    price: string
 }
 
 export interface Feedback {
@@ -66,4 +67,36 @@ export interface Images {
 
 export interface Assets {
     url: string
+}
+
+export interface IStore {
+    appReducer: IReducer
+}
+
+export interface IReducer {
+    token: String
+}
+
+export interface ICart {
+    total: number
+    listOrderItems?: any[]
+    address: string
+    phone: string
+    _id: string
+    user_id: string
+    status: string
+}
+
+export interface IListOrderItem {
+    itemType: IItemType
+}
+
+export interface IItemType {
+    product_id: string
+    type_id: string
+    amount: number
+    image: string
+    product_name: string
+    price: number
+    type_name: string
 }

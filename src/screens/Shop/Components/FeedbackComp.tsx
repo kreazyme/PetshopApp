@@ -44,27 +44,30 @@ const FeedbackCompComp = ({ listFeedback }: any) => {
     const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.txtTitle}>
-                {`Product Feedback`}
-            </Text>
-            <Text style={{
-                fontSize: 16, fontWeight: "normal",
-                marginBottom: 10
-            }}>
-                {` (${data.length} feedbacks)`}
-            </Text>
-            <FlatList
-                data={data}
-                scrollEnabled={false}
-                nestedScrollEnabled={false}
-                renderItem={({ item, index }) => (
-                    <View >
-                        {FeedbackItem(index)}
-                    </View>
-                )}
-                keyExtractor={keyExtractor}
-            />
+        <View>
+            <View style={styles.container}>
+                <Text style={styles.txtTitle}>
+                    {`Product Feedback`}
+                </Text>
+                <Text style={{
+                    fontSize: 16, fontWeight: "normal",
+                    marginBottom: 10
+                }}>
+                    {` (${data?.length} feedbacks)`}
+                </Text>
+                <FlatList
+                    data={data}
+                    scrollEnabled={false}
+                    nestedScrollEnabled={false}
+                    renderItem={({ item, index }) => (
+                        <View >
+                            {FeedbackItem(index)}
+                        </View>
+                    )}
+                    keyExtractor={keyExtractor}
+                />
+            </View>
+            <View style={{ height: 50 }} />
         </View>
     );
 }
