@@ -13,10 +13,11 @@ import DatePicker from "react-native-date-picker";
 const ProfilePageComp = ({ navigation }: any) => {
     const avatar = img_avatar;
     const [date, setDate] = React.useState(new Date())
-    const [name, setName] = React.useState<String>("12312");
+    const [name, setName] = React.useState<String>("Lam Gia Quan");
     const [username, setUsername] = React.useState<String>("Quan")
     const [open, setOpen] = React.useState(false)
-    const [email, setEmail] = React.useState<String>("")
+    const [phone, setPhone] = React.useState<String>("0934596877")
+    const [email, setEmail] = React.useState<String>("admin@gmail.com")
 
     const headerComponent = (() => {
         return (
@@ -46,7 +47,7 @@ const ProfilePageComp = ({ navigation }: any) => {
         )
     })
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.container}>   
             {headerComponent()}
             <View style={{ borderRadius: 100, }}>
                 <FastImage
@@ -76,10 +77,9 @@ const ProfilePageComp = ({ navigation }: any) => {
                 </View>
                 <View style={styles.wrapTextInput}>
                     <Text style={styles.txtTitle}>Phone Number</Text>
-                    <TextInput
-                        placeholder={"Enter your phone number"}
-                        style={styles.txtInput}
-                    />
+                    <Text style={styles.txtInput}>
+                        {phone}
+                    </Text>
                 </View>
                 <View style={{ paddingVertical: 40 }}>
                     <Text style={styles.txtTitle}>Birth day</Text>
