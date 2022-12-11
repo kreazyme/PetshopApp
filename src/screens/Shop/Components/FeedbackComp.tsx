@@ -11,8 +11,8 @@ const FeedbackCompComp = ({ listFeedback }: any) => {
         setData(listFeedback)
     }, [listFeedback])
     console.log(data)
-    const FeedbackItem = (index: number) => {
-        return <View style={styles.wrapItem}>
+    const FeedbackItem = (index: number, key: any) => {
+        return <View style={styles.wrapItem} key={key}>
             <View style={{ flex: 1, height: 1, backgroundColor: "gray", marginBottom: 5 }} />
             <Text style={{ fontSize: 16, fontWeight: "bold" }}>
                 {data[index].user_id}
@@ -41,8 +41,6 @@ const FeedbackCompComp = ({ listFeedback }: any) => {
             }
         </View>
     }
-    const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
-
     return (
         <View>
             <View style={styles.container}>
@@ -55,17 +53,11 @@ const FeedbackCompComp = ({ listFeedback }: any) => {
                 }}>
                     {` (${data?.length} feedbacks)`}
                 </Text>
-                <FlatList
-                    data={data}
-                    scrollEnabled={false}
-                    nestedScrollEnabled={false}
-                    renderItem={({ item, index }) => (
-                        <View >
-                            {FeedbackItem(index)}
-                        </View>
-                    )}
-                    keyExtractor={keyExtractor}
-                />
+                {
+                    data.map((item: any, index: number) => {
+                        return FeedbackItem(index, index)
+                    })
+                }
             </View>
             <View style={{ height: 50 }} />
         </View>

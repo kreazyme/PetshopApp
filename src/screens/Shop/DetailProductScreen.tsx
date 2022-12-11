@@ -111,9 +111,6 @@ const DetailProductScreenComp = () => {
 
 
     const renderAddtoCart = (() => {
-        if (data?.types == null) {
-            return <></>
-        }
         return <View style={styles.wrapViewAddcard}>
             <View style={styles.wrapBorder}>
                 <TouchableOpacity
@@ -181,94 +178,99 @@ const DetailProductScreenComp = () => {
                 </TouchableOpacity>
                 <Text style={{ color: "#000", fontSize: fonts.font18 }}>Product Detail</Text>
             </View>
-            {
-                isLoading
-                    ?
-                    <View style={{ flex: 1, justifyContent: "center", flexDirection: "column" }}>
-                        <ActivityIndicator
-                            size={"large"}
-                            color={colors.cyan}
-                        />
-                    </View>
-                    :
-                    <View>
-                        {
-                            data?._id == null
-                                ?
-                                <View style={{ flex: 1, alignItems: "center", paddingTop: 100 }}>
-                                    <FastImage
-                                        source={img_error}
-                                        style={{ height: 300, width: 300, }}
-                                        resizeMode={"contain"}
-                                    />
-                                </View>
-                                :
-                                <ScrollView
-                                    showsVerticalScrollIndicator={false}
-                                >
-                                    <View style={{ backgroundColor: "white", paddingVertical: 20, paddingHorizontal: 10, borderRadius: 10 }}>
+            <View style={{ flex: 1 }}>
+                {
+                    isLoading
+                        ?
+                        <View style={{ flex: 1, justifyContent: "center", flexDirection: "column" }}>
+                            <ActivityIndicator
+                                size={"large"}
+                                color={colors.cyan}
+                            />
+                        </View>
+                        :
+                        <View>
+                            {
+                                data?._id == null
+                                    ?
+                                    <View style={{ flex: 1, alignItems: "center", paddingTop: 100 }}>
                                         <FastImage
-                                            source={{ uri: data?.images?.url ?? "" }}
-                                            style={styles.wrapImage}
+                                            source={img_error}
+                                            style={{ height: 300, width: 300, }}
+                                            resizeMode={"contain"}
                                         />
-                                        <Text
-                                            style={styles.txtTitle}
-                                        >{data?.title}</Text>
-                                        <Text
-                                            style={styles.txtPrice}
-                                        >{(data?.types[value]?.price ?? "0") + " ₫"}</Text>
-                                        <Text
-                                            style={styles.txtDescription}
-                                        >{data?.description}</Text>
-
-                                        <View style={{ height: open ? (data?.types?.length ?? 1) * 50 : 60 }}>
-                                            <DropDownPicker
-                                                open={open}
-                                                value={value}
-                                                items={items}
-                                                setOpen={setOpen}
-                                                setValue={setValue}
-                                                setItems={setItems}
-                                            />
-                                        </View>
-
-                                        <FlatList
-                                            horizontal={true}
-                                            data={[data?.category]}
-                                            renderItem={({ item }) => (
-                                                <View style={styles.wrapCategory}>
-                                                    <Text style={styles.txtCategory}>{item}</Text>
-                                                </View>
-                                            )}
-                                            refreshControl={
-                                                <RefreshControl
-                                                    refreshing={refreshing}
-                                                    onRefresh={onRefresh}
-                                                />
-                                            }
-                                            refreshing={true}
-                                            keyExtractor={keyExtractor}
-                                        />
-
-                                        <Text
-                                            style={styles.txtDescription}
-                                        >{`Sold out: ${data?.sold}`}</Text>
                                     </View>
-                                    <View style={{ height: 50 }} />
-                                    {
-                                        data?.feedbacks.length == 0
-                                            ?
-                                            <View></View>
-                                            :
-                                            <FeedbackComp
-                                                listFeedback={data?.feedbacks}
+                                    :
+                                    <ScrollView
+                                        showsVerticalScrollIndicator={false}
+                                    >
+                                        <View style={{ backgroundColor: "white", paddingVertical: 20, paddingHorizontal: 10, borderRadius: 10 }}>
+                                            <FastImage
+                                                source={{ uri: data?.images?.url ?? "" }}
+                                                style={styles.wrapImage}
                                             />
-                                    }
-                                </ScrollView>
-                        }
-                    </View>
+                                            <Text
+                                                style={styles.txtTitle}
+                                            >{data?.title}</Text>
+                                            <Text
+                                                style={styles.txtPrice}
+                                            >{(data?.types[value]?.price ?? "0") + " ₫"}</Text>
+                                            <Text
+                                                style={styles.txtDescription}
+                                            >{data?.description}</Text>
+
+                                            <View style={{ height: open ? (data?.types?.length ?? 1) * 50 : 60, }}>
+                                                <DropDownPicker
+                                                    open={open}
+                                                    value={value}
+                                                    items={items}
+                                                    setOpen={setOpen}
+                                                    setValue={setValue}
+                                                    setItems={setItems}
+                                                    listMode={"SCROLLVIEW"}
+                                                />
+                                            </View>
+
+                                            <FlatList
+                                                horizontal={true}
+                                                data={[data?.category]}
+                                                renderItem={({ item }) => (
+                                                    <View style={styles.wrapCategory}>
+                                                        <Text style={styles.txtCategory}>{item}</Text>
+                                                    </View>
+                                                )}
+                                                refreshControl={
+                                                    <RefreshControl
+                                                        refreshing={refreshing}
+                                                        onRefresh={onRefresh}
+                                                    />
+                                                }
+                                                refreshing={true}
+                                                keyExtractor={keyExtractor}
+                                            />
+
+                                            <Text
+                                                style={styles.txtDescription}
+                                            >{`Sold out: ${data?.sold}`}</Text>
+                                        </View>
+                                        <View style={{ height: 50 }} />
+                                        {
+                                            data?.feedbacks.length == 0
+                                                ?
+                                                <View></View>
+                                                :
+                                                <FeedbackComp
+                                                    listFeedback={data?.feedbacks}
+                                                />
+                                        }
+                                    </ScrollView>
+                            }
+                        </View>
+                }
+            </View>
+            {
+                renderAddtoCart()
             }
-            {renderAddtoCart()}
         </View>
     );
 }
