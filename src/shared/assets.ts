@@ -17,3 +17,4 @@ export const ic_close = require("../assets/icons/ic_close.png");
 export const cat = require("../assets/images/cat_demo.jpg");
 export const img_avatar = require("../assets/images/img_avatar.png");
 export const img_login = require("../assets/images/img_login.png");
+export const img_error = require("../assets/images/img_error.png");
