@@ -34,7 +34,12 @@ export default () => {
                             <Icon name="dashboard" style={styles.ButtonIcon} />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.wrapButton}>
+                        <TouchableOpacity
+                            style={styles.wrapButton}
+                            onPress={() => {
+                                navigation.navigate(SCREENNAME.HISTORY_SCREEN)
+                            }}
+                        >
                             <Text style={styles.ButtonText}>Orders</Text>
                             <View style={styles.container}></View>
                             <DeIcon name="border-all" style={styles.ButtonIcon} />
@@ -51,13 +56,13 @@ export default () => {
                             <View style={styles.container}></View>
                             <DeIcon name="map-marked-alt" style={styles.ButtonIcon} />
                         </TouchableOpacity>
-                        
+
                         <TouchableOpacity style={styles.wrapButton}>
                             <Text style={styles.ButtonText}>Account details</Text>
                             <View style={styles.container}></View>
                             <Icon name="account-box" style={styles.ButtonIcon} />
                         </TouchableOpacity>
-                        
+
                         <TouchableOpacity style={styles.wrapButton} onPress={() => navigation.goBack()}>
                             <Text style={styles.ButtonText}>Logout</Text>
                             <View style={styles.container}></View>

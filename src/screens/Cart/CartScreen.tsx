@@ -61,7 +61,7 @@ export default () => {
             disabled={total === 0}
             style={styles.wrapCheckout}
             onPress={() => {
-                navigation.navigate(SCREENNAME.PAYMENT_SCREEN)
+                navigation.navigate(SCREENNAME.PAYMENT_SCREEN, { orderID: data?._id, totalPay: data?.total })
             }}>
             <Text style={styles.txtCheckout}>{`Check out: ${total} VND`}</Text>
         </TouchableOpacity>
