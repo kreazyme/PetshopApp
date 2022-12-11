@@ -111,9 +111,6 @@ const DetailProductScreenComp = () => {
 
 
     const renderAddtoCart = (() => {
-        if (data?.types == null) {
-            return <></>
-        }
         return <View style={styles.wrapViewAddcard}>
             <View style={styles.wrapBorder}>
                 <TouchableOpacity
@@ -221,7 +218,7 @@ const DetailProductScreenComp = () => {
                                             style={styles.txtDescription}
                                         >{data?.description}</Text>
 
-                                        <View style={{ height: open ? (data?.types?.length ?? 1) * 50 : 60 }}>
+                                        <View style={{ height: open ? (data?.types?.length ?? 1) * 50 : 60, }}>
                                             <DropDownPicker
                                                 open={open}
                                                 value={value}
@@ -229,6 +226,7 @@ const DetailProductScreenComp = () => {
                                                 setOpen={setOpen}
                                                 setValue={setValue}
                                                 setItems={setItems}
+                                                listMode={"SCROLLVIEW"}
                                             />
                                         </View>
 
@@ -268,7 +266,9 @@ const DetailProductScreenComp = () => {
                         }
                     </View>
             }
-            {renderAddtoCart()}
+            {
+                renderAddtoCart()
+            }
         </View>
     );
 }
