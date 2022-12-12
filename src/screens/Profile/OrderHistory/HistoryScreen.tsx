@@ -1,12 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Text, FlatList, ActivityIndicator, RefreshControl } from "react-native";
+import { View, StyleSheet, Text, FlatList, ActivityIndicator, RefreshControl, TouchableOpacity } from "react-native";
 import FastImage from "react-native-fast-image";
 import { useSelector } from "react-redux";
-import { ICart, ic_back, IStore } from "../../../shared";
+import { fonts, ICart, ic_back, IStore } from "../../../shared";
 import colors from "../../../shared/colors";
 import { HistoryItem } from "./Components";
 
-const HistoryScreenComp = () => {
+const HistoryScreenComp = ({ navigation }: any) => {
 
 
     const token = useSelector((state: IStore) => state?.appReducer.token);
@@ -62,14 +62,21 @@ const HistoryScreenComp = () => {
     return (
         <View style={styles.container}>
             <View style={styles.wrapHeader}>
-                <FastImage
-                    source={ic_back}
-                    resizeMode="contain"
-                    style={{ width: 20, height: 20, marginRight: 20 }}
-                />
-                <Text style={styles.txtHeader}>
-                    Order History
-                </Text>
+                <TouchableOpacity
+                    onPress={() => { navigation.goBack() }}
+                >
+                    <FastImage
+                        source={ic_back}
+                        resizeMode="contain"
+                        style={{ width: 20, height: 20, marginRight: 20 }}
+                    />
+                </TouchableOpacity>
+                <View style={styles.wrapTextHeader}>
+                    <Text style={styles.txtHeader}>
+                        Order History
+                    </Text>
+                </View>
+
             </View>
             <View>
                 {
@@ -113,8 +120,14 @@ const styles = StyleSheet.create({
         borderBottomColor: "#E5E5E5",
         paddingHorizontal: 20,
         paddingVertical: 10,
+        alignItems:'center'
+    },
+    wrapTextHeader: {
+        flex: 1,
+        justifyContent: "center",
     },
     txtHeader: {
-        fontSize: 20,
-    }
+        fontSize: fonts.font20,
+        color: colors.black,
+    },
 });

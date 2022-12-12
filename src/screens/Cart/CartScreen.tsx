@@ -4,7 +4,7 @@ import { cat, fonts, ICart, ic_app_logo, ic_menu, IProductCart, IStore, SCREENNA
 import colors from "../../shared/colors";
 import { AppHeader } from "../Header";
 import { CartComponent } from "./Components";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation ,DrawerActions} from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import FastImage from "react-native-fast-image";
 interface IProductCartParams {
@@ -81,11 +81,14 @@ export default () => {
                 resizeMode="contain"
                 style={styles.wrapLogo}
             />
-            <FastImage
-                source={ic_menu}
-                resizeMode="contain"
-                style={styles.wrapMenu}>
-            </FastImage>
+            <TouchableOpacity onPress={()=> navigation.dispatch(DrawerActions.openDrawer())}>
+                <FastImage
+                    source={ic_menu}
+                    resizeMode="contain"
+                    style={styles.wrapMenu}>
+                </FastImage>
+            </TouchableOpacity>
+
         </View>
     })
 
