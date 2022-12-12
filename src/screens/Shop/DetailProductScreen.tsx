@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator, RefreshControl } from "react-native";
 import FastImage from "react-native-fast-image";
-import { cat, fonts, ic_back, IProduct, IStore } from "../../shared";
+import { cat, fonts, ic_back, img_error, IProduct, IStore } from "../../shared";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../shared/colors";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
@@ -100,15 +100,15 @@ const DetailProductScreenComp = () => {
 
     React.useEffect(() => {
         setItems([])
-        data?.types.map((item, index) => {
-            setItems((prev) => [...prev, { label: item.name, value: index }])
-        })
+        if (data?.types != null) {
+            data?.types.map((item, index) => {
+                setItems((prev) => [...prev, { label: item.name, value: index }])
+            })
+        }
+        console.log(data)
         setValue(0)
     }, [data])
 
-    React.useEffect(() => {
-        console.log(data?.types[value]?.price ?? "")
-    }, [value])
 
     const renderAddtoCart = (() => {
         return <View style={styles.wrapViewAddcard}>
@@ -178,80 +178,99 @@ const DetailProductScreenComp = () => {
                 </TouchableOpacity>
                 <Text style={{ color: "#000", fontSize: fonts.font18 }}>Product Detail</Text>
             </View>
-            {
-                isLoading
-                    ?
-                    <View style={{ flex: 1, justifyContent: "center", flexDirection: "column" }}>
-                        <ActivityIndicator
-                            size={"large"}
-                            color={colors.cyan}
-                        />
-                    </View>
-                    :
-                    <ScrollView
-                        showsVerticalScrollIndicator={false}
-                    >
-                        <View style={{ backgroundColor: "white", paddingVertical: 20, paddingHorizontal: 10, borderRadius: 10 }}>
-                            <FastImage
-                                source={{ uri: data?.images.url }}
-                                style={styles.wrapImage}
+            <View style={{ flex: 1 }}>
+                {
+                    isLoading
+                        ?
+                        <View style={{ flex: 1, justifyContent: "center", flexDirection: "column" }}>
+                            <ActivityIndicator
+                                size={"large"}
+                                color={colors.cyan}
                             />
-                            <Text
-                                style={styles.txtTitle}
-                            >{data?.title}</Text>
-                            <Text
-                                style={styles.txtPrice}
-                            >{(data?.types[value]?.price ?? "0") + " ₫"}</Text>
-                            <Text
-                                style={styles.txtDescription}
-                            >{data?.description}</Text>
-
-                            <View style={{ height: open ? (data?.types?.length ?? 1) * 50 : 60 }}>
-                                <DropDownPicker
-                                    open={open}
-                                    value={value}
-                                    items={items}
-                                    setOpen={setOpen}
-                                    setValue={setValue}
-                                    setItems={setItems}
-                                />
-                            </View>
-
-                            <FlatList
-                                horizontal={true}
-                                data={[data?.category]}
-                                renderItem={({ item }) => (
-                                    <View style={styles.wrapCategory}>
-                                        <Text style={styles.txtCategory}>{item}</Text>
-                                    </View>
-                                )}
-                                refreshControl={
-                                    <RefreshControl
-                                        refreshing={refreshing}
-                                        onRefresh={onRefresh}
-                                    />
-                                }
-                                refreshing={true}
-                                keyExtractor={keyExtractor}
-                            />
-
-                            <Text
-                                style={styles.txtDescription}
-                            >{`Sold out: ${data?.sold}`}</Text>
                         </View>
-                        <View style={{ height: 50 }} />
-                        {
-                            data?.feedbacks.length == 0
-                                ?
-                                <View></View>
-                                :
-                                <FeedbackComp
-                                    listFeedback={data?.feedbacks}
-                                />
-                        }
-                    </ScrollView>
+                        :
+                        <View>
+                            {
+                                data?._id == null
+                                    ?
+                                    <View style={{ flex: 1, alignItems: "center", paddingTop: 100 }}>
+                                        <FastImage
+                                            source={img_error}
+                                            style={{ height: 300, width: 300, }}
+                                            resizeMode={"contain"}
+                                        />
+                                    </View>
+                                    :
+                                    <ScrollView
+                                        showsVerticalScrollIndicator={false}
+                                    >
+                                        <View style={{ backgroundColor: "white", paddingVertical: 20, paddingHorizontal: 10, borderRadius: 10 }}>
+                                            <FastImage
+                                                source={{ uri: data?.images?.url ?? "" }}
+                                                style={styles.wrapImage}
+                                            />
+                                            <Text
+                                                style={styles.txtTitle}
+                                            >{data?.title}</Text>
+                                            <Text
+                                                style={styles.txtPrice}
+                                            >{(data?.types[value]?.price ?? "0") + " ₫"}</Text>
+                                            <Text
+                                                style={styles.txtDescription}
+                                            >{data?.description}</Text>
+
+                                            <View style={{ height: open ? (data?.types?.length ?? 1) * 50 : 60, }}>
+                                                <DropDownPicker
+                                                    open={open}
+                                                    value={value}
+                                                    items={items}
+                                                    setOpen={setOpen}
+                                                    setValue={setValue}
+                                                    setItems={setItems}
+                                                    listMode={"SCROLLVIEW"}
+                                                />
+                                            </View>
+
+                                            <FlatList
+                                                horizontal={true}
+                                                data={[data?.category]}
+                                                renderItem={({ item }) => (
+                                                    <View style={styles.wrapCategory}>
+                                                        <Text style={styles.txtCategory}>{item}</Text>
+                                                    </View>
+                                                )}
+                                                refreshControl={
+                                                    <RefreshControl
+                                                        refreshing={refreshing}
+                                                        onRefresh={onRefresh}
+                                                    />
+                                                }
+                                                refreshing={true}
+                                                keyExtractor={keyExtractor}
+                                            />
+
+                                            <Text
+                                                style={styles.txtDescription}
+                                            >{`Sold out: ${data?.sold}`}</Text>
+                                        </View>
+                                        <View style={{ height: 50 }} />
+                                        {
+                                            data?.feedbacks.length == 0
+                                                ?
+                                                <View></View>
+                                                :
+                                                <FeedbackComp
+                                                    listFeedback={data?.feedbacks}
+                                                />
+                                        }
+                                    </ScrollView>
+                            }
+                        </View>
+                }
+            </View>
+            {
+                renderAddtoCart()
             }
-            {renderAddtoCart()}
         </View>
     );
 }
@@ -278,7 +297,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: "center",
         paddingHorizontal: 20,
-        height: 50
+        height: 50,
+        borderBottomColor: "gray",
+        borderBottomWidth: 1
     },
     txtTitle: {
         fontSize: fonts.font24,

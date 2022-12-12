@@ -1,10 +1,55 @@
+import { useRoute } from '@react-navigation/native';
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { fonts, ic_app_logo, ic_menu } from '../../shared';
+import { useSelector } from 'react-redux';
+import { fonts, ic_app_logo, ic_menu, IStore, SCREENNAME } from '../../shared';
 import colors from '../../shared/colors';
 const PaymentScreenComp = ({ navigation }: any) => {
-    const [total, setTotal] = React.useState<number>(0)
+
+    const route = useRoute();
+    const { orderID } = route.params as { orderID: string };
+    const { totalPay } = route.params as { totalPay: number }
+
+    const [isLoading, setIsLoading] = React.useState<boolean>(false)
+    const token = useSelector((state: IStore) => state?.appReducer.token);
+    const [url, setURL] = React.useState<string>("")
+
+
+    const checkoutOrder = (async () => {
+        setIsLoading(true);
+        var body = JSON.stringify({
+            order_id: orderID
+        })
+        await fetch(`http://pet.kreazy.me/api/cart/checkout`,
+            {
+                method: "POST",
+                headers: {
+                    Accept: '*/*',
+                    'Content-Type': 'application/json',
+                    "Connection": "keep-alive"
+                },
+                body: body,
+            }
+        ).finally(() => {
+            setIsLoading(false);
+        }).then((response) => {
+            return response.json()
+        })
+            .then((response,) => {
+                console.log(JSON.stringify(response))
+                navigation.navigate(SCREENNAME.WEBVIEW_CHECKOUT_SCREEN, { pay_url: response.url })
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        setIsLoading(false);
+    })
+
+    React.useEffect(() => {
+        console.log(url)
+    }, [url])
+
     return (
         <View style={styles.container}>
             <View style={styles.wrapHeaderLogo}>
@@ -20,9 +65,9 @@ const PaymentScreenComp = ({ navigation }: any) => {
 
             <View style={styles.body}>
                 <View style={styles.txtView}>
-                    <Text style={{ fontSize: fonts.font18, color:colors.black }}>Paypal total</Text>
+                    <Text style={{ fontSize: fonts.font18, color: colors.black }}>Total pay: </Text>
                     <View style={styles.container}></View>
-                    <Text style={{ fontSize: fonts.font18, color:colors.black }}>{`${total} VND`}</Text>
+                    <Text style={{ fontSize: fonts.font18, color: colors.black }}>{`${totalPay} VND`}</Text>
                 </View>
 
                 <View style={styles.creditCard}>
@@ -33,8 +78,20 @@ const PaymentScreenComp = ({ navigation }: any) => {
                     <Text style={styles.txtButtonBack}>Cancel Payment</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.wrapButton} >
-                    <Text style={styles.txtButton}>Pay</Text>
+                <TouchableOpacity
+                    style={styles.wrapButton}
+                    onPress={checkoutOrder}
+                >
+                    {
+                        isLoading
+                            ?
+                            <ActivityIndicator
+                                color={colors.white}
+                                size="small"
+                            />
+                            :
+                            <Text style={styles.txtButton}>Pay</Text>
+                    }
                 </TouchableOpacity>
 
             </View>

@@ -17,6 +17,8 @@ import { ForgetPassword, LoginScreen } from "../Authentication";
 import { useSelector } from "react-redux";
 import { ProfilePage } from "../Profile";
 import { PaymentScreen } from "../Cart";
+import { CheckoutWebviewScreen } from "../Cart/Components/CheckoutWebviewScreen";
+import { HistoryScreen } from "../Profile/OrderHistory";
 
 const appNavigationComp = () => {
 
@@ -116,6 +118,16 @@ const appNavigationComp = () => {
                 name={SCREENNAME.FORGOT_PASSWORD_SCREEN}
                 options={{ headerShown: false }}
                 component={ForgetPassword}
+            />
+            <Stack.Screen
+                name={SCREENNAME.WEBVIEW_CHECKOUT_SCREEN}
+                options={{ headerShown: false }}
+                component={CheckoutWebviewScreen}
+            />
+            <Stack.Screen
+                name={SCREENNAME.HISTORY_SCREEN}
+                options={{ headerShown: false }}
+                component={HistoryScreen}
             />
             <Stack.Screen
                 name={SCREENNAME.PAYMENT_SCREEN}
