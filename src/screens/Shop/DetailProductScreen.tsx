@@ -82,7 +82,7 @@ const DetailProductScreenComp = () => {
             if (response.status == 200) {
                 Snackbar.show({
                     text: 'Add this product to cart successfully!',
-                    duration: Snackbar.LENGTH_INDEFINITE,
+                    duration: Snackbar.LENGTH_LONG,
                     action: {
                         text: 'Checkout now',
                         textColor: 'green',
