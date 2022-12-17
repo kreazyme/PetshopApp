@@ -12,7 +12,7 @@ const FeedbackCompComp = ({ listFeedback }: any) => {
     }, [listFeedback])
     console.log(data)
     const FeedbackItem = (index: number) => {
-        return <View style={styles.wrapItem}>
+        return <View style={styles.wrapItem} key={index}>
             <View style={{ flex: 1, height: 1, backgroundColor: "gray", marginBottom: 5 }} />
             <Text style={{ fontSize: 16, fontWeight: "bold" }}>
                 {data[index].user_id}
@@ -55,7 +55,12 @@ const FeedbackCompComp = ({ listFeedback }: any) => {
                 }}>
                     {` (${data?.length} feedbacks)`}
                 </Text>
-                <FlatList
+                {
+                    data.map((item, index) => {
+                        return FeedbackItem(index)
+                    })
+                }
+                {/* <FlatList
                     data={data}
                     scrollEnabled={false}
                     nestedScrollEnabled={false}
@@ -65,7 +70,7 @@ const FeedbackCompComp = ({ listFeedback }: any) => {
                         </View>
                     )}
                     keyExtractor={keyExtractor}
-                />
+                /> */}
             </View>
             <View style={{ height: 50 }} />
         </View>
