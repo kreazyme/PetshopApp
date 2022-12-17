@@ -14,6 +14,10 @@ const HistoryItemComp = ({ item }: IProps) => {
 
     const navigation = useNavigation<any>();
 
+    React.useEffect(() => {
+        console.log(item._id)
+    }, [])
+
     const renderItem = (item: IItemType) => {
         return <TouchableOpacity
             onPress={() => {
@@ -57,6 +61,13 @@ const HistoryItemComp = ({ item }: IProps) => {
             />
             <Text style={styles.txtDate}>{`Order Date: 12/11/2022`}</Text>
             <Text style={styles.txtTotal}>{`Total: $${item.total}`}</Text>
+            <TouchableOpacity
+                onPress={() => {
+                    navigation.navigate(SCREENNAME.DELIVERY_STATUS_SCREEN, { deliveryID: item.delivery })
+                }}
+            >
+                <Text style={styles.wrapDelivery}>Delivery Status</Text>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -111,8 +122,14 @@ const styles = StyleSheet.create({
     txtTotal: {
         fontSize: 22,
         color: "#2b1e1e",
-        fontWeight: "bold",
         textAlign: "right",
         paddingTop: 5
     },
+    wrapDelivery: {
+        textAlign: "right",
+        color: colors.orangeTabbar,
+        fontWeight: "bold",
+        marginTop: 4,
+        fontSize: 18
+    }
 });

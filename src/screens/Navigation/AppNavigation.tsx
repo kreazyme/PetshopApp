@@ -19,6 +19,7 @@ import { ProfilePage } from "../Profile";
 import { PaymentScreen } from "../Cart";
 import { CheckoutWebviewScreen } from "../Cart/Components/CheckoutWebviewScreen";
 import { HistoryScreen } from "../Profile/OrderHistory";
+import { DeliveryStatusScreen } from "../Profile/OrderHistory/Components/DeliveryStatusScreen";
 
 const appNavigationComp = () => {
 
@@ -128,6 +129,11 @@ const appNavigationComp = () => {
                 name={SCREENNAME.HISTORY_SCREEN}
                 options={{ headerShown: false }}
                 component={HistoryScreen}
+            />
+            <Stack.Screen
+                name={SCREENNAME.DELIVERY_STATUS_SCREEN}
+                options={{ headerShown: false }}
+                component={DeliveryStatusScreen}
             />
             <Stack.Screen
                 name={SCREENNAME.PAYMENT_SCREEN}

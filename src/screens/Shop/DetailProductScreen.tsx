@@ -189,7 +189,7 @@ const DetailProductScreenComp = () => {
                             />
                         </View>
                         :
-                        <View>
+                        <View style={{ flex: 1 }}>
                             {
                                 data?._id == null
                                     ?
@@ -280,7 +280,7 @@ export const DetailProductScreen = React.memo(DetailProductScreenComp)
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 10
+        padding: 10,
     },
     wrapImage: {
         aspectRatio: 1,
