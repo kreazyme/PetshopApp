@@ -27,7 +27,7 @@ const CartComponentComp = ({ itemType }: IListOrderItem) => {
                 {title}
             </Text>
             <Text style={styles.txtName}>
-                {`${txtPrice} VND`}
+                {`${txtPrice*quantity} VND`}
             </Text>
         </View>
     })

@@ -9,7 +9,7 @@ import colors from "../../shared/colors";
 const EditProfileScreenComp = ({ navigation }: any) => {
 
     const [image, setImage] = React.useState<String>("");
-    const [name, setName] = React.useState<String>("12312");
+    const [name, setName] = React.useState<String>("Lam");
     const [username, setUsername] = React.useState<String>("")
     const [email, setEmail] = React.useState<String>("")
     const [address, setAddress] = React.useState<String>("")
