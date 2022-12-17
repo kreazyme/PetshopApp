@@ -74,7 +74,8 @@ export interface IStore {
 }
 
 export interface IReducer {
-    token: String
+    token: String,
+    isReloadCart: boolean,
 }
 
 export interface ICart {
