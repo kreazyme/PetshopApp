@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator, RefreshControl } from "react-native";
 import FastImage from "react-native-fast-image";
-import { cat, fonts, ic_back, img_error, IProduct, IStore } from "../../shared";
+import { cat, fonts, ic_back, img_error, IProduct, IStore, SCREENNAME } from "../../shared";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../shared/colors";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
@@ -9,11 +9,14 @@ import { useRoute } from "@react-navigation/native";
 import { Rating } from "react-native-ratings";
 import { FeedbackComp } from "./Components/FeedbackComp";
 import DropDownPicker from "react-native-dropdown-picker";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Snackbar from "react-native-snackbar";
+import { RELOAD_CART } from "../../redux/actions/actionTypes";
 
 const DetailProductScreenComp = () => {
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
+    const dispatch = useDispatch();
     const route = useRoute();
     const token = useSelector((state: IStore) => state?.appReducer.token);
 
@@ -76,6 +79,30 @@ const DetailProductScreenComp = () => {
         ).finally(() => {
             setIsAddCart(false);
         }).then((response) => {
+            if (response.status == 200) {
+                Snackbar.show({
+                    text: 'Add this product to cart successfully!',
+                    duration: Snackbar.LENGTH_LONG,
+                    action: {
+                        text: 'Checkout now',
+                        textColor: 'green',
+                        onPress: () => {
+                            navigation.navigate(SCREENNAME.CART_SCREEN)
+                        },
+                    },
+                });
+                dispatch({
+                    type: RELOAD_CART,
+                    payload: true
+                })
+            }
+            else {
+                Snackbar.show({
+                    text: 'Cannot add to cart!',
+                    duration: Snackbar.LENGTH_LONG
+                });
+
+            }
             return response.json()
         })
             .then((response,) => {

@@ -2,14 +2,18 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import FastImage from "react-native-fast-image";
+import Snackbar from "react-native-snackbar";
 import { WebView } from "react-native-webview";
-import { fonts, ic_back } from "../../../shared";
+import { useDispatch } from "react-redux";
+import { RELOAD_CART } from "../../../redux/actions/actionTypes";
+import { fonts, ic_back, SCREENNAME } from "../../../shared";
 import colors from "../../../shared/colors";
 
 const CheckoutWebviewScreenComp = () => {
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
     const route = useRoute();
+    const dispatch = useDispatch();
     const { pay_url } = route.params as { pay_url: string };
 
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
@@ -22,10 +26,36 @@ const CheckoutWebviewScreenComp = () => {
 
     React.useEffect(() => {
         if (webviewUrl.includes("success")) {
-            navigation.goBack();
+            Snackbar.show({
+                text: 'Checkout Succsess',
+                duration: Snackbar.LENGTH_INDEFINITE,
+                action: {
+                    text: 'Go back to cart',
+                    textColor: 'green',
+                    onPress: () => {
+                        navigation.navigate(SCREENNAME.CART_SCREEN)
+                    },
+                },
+            });
         }
+        if (webviewUrl.includes("cancel")) {
+            Snackbar.show({
+                text: 'Checkout Cancel',
+                duration: Snackbar.LENGTH_INDEFINITE,
+                action: {
+                    text: 'Go back to cart',
+                    textColor: 'green',
+                    onPress: () => {
+                        navigation.navigate(SCREENNAME.CART_SCREEN)
+                    },
+                },
+            });
+        }
+        dispatch({
+            type: RELOAD_CART,
+            payload: true
+        })
     }, [webviewUrl])
-
     return (
         <View style={styles.container}>
             <View

@@ -2,6 +2,7 @@ import { useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, TextInput } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import Snackbar from 'react-native-snackbar';
 import { useSelector } from 'react-redux';
 import { fonts, ic_app_logo, ic_menu, IStore, SCREENNAME } from '../../shared';
 import colors from '../../shared/colors';
@@ -16,7 +17,7 @@ const PaymentScreenComp = ({ navigation }: any) => {
     const [url, setURL] = useState<string>("")
     const [name, setName] = useState("")
     const [phone, setphone] = useState("")
-    const [address,setaddress] = useState("")
+    const [address, setaddress] = useState("")
     const checkoutOrder = (async () => {
         setIsLoading(true);
         var body = JSON.stringify({
@@ -28,7 +29,8 @@ const PaymentScreenComp = ({ navigation }: any) => {
                 headers: {
                     Accept: '*/*',
                     'Content-Type': 'application/json',
-                    "Connection": "keep-alive"
+                    "Connection": "keep-alive",
+                    "Authorization": `${token}`
                 },
                 body: body,
             }
@@ -39,7 +41,15 @@ const PaymentScreenComp = ({ navigation }: any) => {
         })
             .then((response,) => {
                 console.log(JSON.stringify(response))
-                navigation.navigate(SCREENNAME.WEBVIEW_CHECKOUT_SCREEN, { pay_url: response.url })
+                if (response.url == null) {
+                    Snackbar.show({
+                        text: 'An error when checkout order. Please try again later',
+                        duration: Snackbar.LENGTH_INDEFINITE,
+                    });
+                }
+                else {
+                    navigation.navigate(SCREENNAME.WEBVIEW_CHECKOUT_SCREEN, { pay_url: response.url })
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -151,7 +161,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         borderColor: '#D3D3D3',
         borderWidth: 5,
-        paddingRight:60,
+        paddingRight: 60,
 
     },
     txtTitle: {

@@ -4,16 +4,20 @@ import { cat, fonts, ICart, ic_app_logo, ic_menu, IProductCart, IStore, SCREENNA
 import colors from "../../shared/colors";
 import { AppHeader } from "../Header";
 import { CartComponent } from "./Components";
-import { useNavigation ,DrawerActions} from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useNavigation, DrawerActions } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
 import FastImage from "react-native-fast-image";
+import { RELOAD_CART } from "../../redux/actions/actionTypes";
 interface IProductCartParams {
     item: IProductCart
 }
 
 export default () => {
+
+    const dispatch = useDispatch();
     const navigation = useNavigation<any>();
     const token = useSelector((state: IStore) => state?.appReducer.token);
+    const isReloadCart = useSelector((state: IStore) => state?.appReducer.isReloadCart);
 
 
     const [total, setTotal] = React.useState<number>(0)
@@ -56,6 +60,16 @@ export default () => {
         getData();
     }, [])
 
+    React.useEffect(() => {
+        if (isReloadCart) {
+            getData();
+            dispatch({
+                type: RELOAD_CART,
+                payload: false
+            })
+        }
+    }, [isReloadCart])
+
     const renderCheckout = (() => {
         return <TouchableOpacity
             disabled={total === 0}
@@ -81,7 +95,7 @@ export default () => {
                 resizeMode="contain"
                 style={styles.wrapLogo}
             />
-            <TouchableOpacity onPress={()=> navigation.dispatch(DrawerActions.openDrawer())}>
+            <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
                 <FastImage
                     source={ic_menu}
                     resizeMode="contain"
