@@ -102,3 +102,9 @@ export interface IItemType {
     price: number
     type_name: string
 }
+
+export interface IProvinces {
+    name: string
+    code: number
+    value: number
+}
