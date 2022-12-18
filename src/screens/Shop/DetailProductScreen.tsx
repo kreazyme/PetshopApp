@@ -132,7 +132,6 @@ const DetailProductScreenComp = () => {
                 setItems((prev) => [...prev, { label: item.name, value: index }])
             })
         }
-        console.log(data)
         setValue(0)
     }, [data])
 

@@ -1,11 +1,13 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, TextInput, Button } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 import FastImage from 'react-native-fast-image';
 import Snackbar from 'react-native-snackbar';
 import { useSelector } from 'react-redux';
-import { fonts, ic_app_logo, ic_menu, IStore, SCREENNAME } from '../../shared';
+import { fonts, ic_app_logo, ic_menu, IProvinces, IStore, SCREENNAME } from '../../shared';
 import colors from '../../shared/colors';
+
 const PaymentScreenComp = ({ navigation }: any) => {
 
     const route = useRoute();
@@ -13,11 +15,27 @@ const PaymentScreenComp = ({ navigation }: any) => {
     const { totalPay } = route.params as { totalPay: number }
 
     const [isLoading, setIsLoading] = React.useState<boolean>(false)
+
+    const [open, setOpen] = useState(false);
+    const [provinces, setProvinces] = useState([{}])
+    const [provinceIndex, setProvinceIndex] = useState<number>(-2);
+
+
+    const [districts, setDistricts] = useState<any>([])
+    const [isLoadingDistrict, setIsLoadingDistrict] = useState<boolean>(false);
+    const [openDistric, setOpenDistrict] = useState(false);
+    const [districtIndex, setDistrictIndex] = useState<number>(-2);
+
+    const [wards, setWards] = useState<any>([])
+    const [isLoadingWard, setIsLoadingWard] = useState<boolean>(false);
+    const [openWard, setOpenWard] = useState(false);
+    const [wardIndex, setWardIndex] = useState<number>(-2);
+
     const token = useSelector((state: IStore) => state?.appReducer.token);
     const [url, setURL] = useState<string>("")
     const [name, setName] = useState("")
     const [phone, setphone] = useState("")
-    const [address, setaddress] = useState("")
+
     const checkoutOrder = (async () => {
         setIsLoading(true);
         var body = JSON.stringify({
@@ -57,9 +75,120 @@ const PaymentScreenComp = ({ navigation }: any) => {
         setIsLoading(false);
     })
 
-    React.useEffect(() => {
+    const getProvinces = (async () => {
+        await fetch(`https://vn-public-apis.fpo.vn/provinces/getAll?limit=-1`,
+            {
+                method: "GET",
+                headers: {
+                    Accept: '*/*',
+                    'Content-Type': 'application/json',
+                    "Connection": "keep-alive",
+                },
+            }
+        ).finally(() => {
+            setIsLoading(false);
+        }).then((response) => {
+            return response.json()
+        })
+            .then((response) => {
+                var provinceData = [{ label: "Select province", value: -1, code: 0 }];
+                response.data.data.map((item: any, index: number) => {
+                    provinceData = [...provinceData, { label: item.name, value: index, code: item.code }]
+                });
+                setProvinces(provinceData)
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    })
+
+    const getDistricts = async () => {
+        setIsLoadingDistrict(true);
+        const code: any = provinces[provinceIndex + 1]
+        const url = `https://vn-public-apis.fpo.vn/districts/getByProvince?limit=-1&provinceCode=${code.code}`
         console.log(url)
-    }, [url])
+        await fetch(url,
+            {
+                method: "GET",
+                headers: {
+                    Accept: '*/*',
+                    'Content-Type': 'application/json',
+                    "Connection": "keep-alive",
+                },
+            }
+        ).finally(() => {
+            setIsLoading(false);
+        }).then((response) => {
+            return response.json()
+        })
+            .then((response) => {
+                var districData = [{ label: "Select districts", value: -1 }];
+                response.data.data.map((item: any, index: number) => {
+                    districData = [...districData, { label: item.name, value: index }]
+                });
+                setDistricts(districData)
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        setIsLoadingDistrict(false);
+    }
+
+
+
+    // const getWards = async () => {
+    //     setIsLoadingDistrict(true);
+    //     const code: any = provinces[provinceIndex + 1]
+    //     const url = `https://vn-public-apis.fpo.vn/districts/getByProvince?limit=-1&provinceCode=${code.code}`
+    //     console.log(url)
+    //     await fetch(url,
+    //         {
+    //             method: "GET",
+    //             headers: {
+    //                 Accept: '*/*',
+    //                 'Content-Type': 'application/json',
+    //                 "Connection": "keep-alive",
+    //             },
+    //         }
+    //     ).finally(() => {
+    //         setIsLoading(false);
+    //     }).then((response) => {
+    //         return response.json()
+    //     })
+    //         .then((response) => {
+    //             var districData = [{ label: "Select districts", value: -1 }];
+    //             response.data.data.map((item: any, index: number) => {
+    //                 districData = [...districData, { label: item.name, value: index }]
+    //             });
+    //             setDistricts(districData)
+    //         })
+    //         .catch((error) => {
+    //             console.error(error);
+    //         });
+    //     setIsLoadingDistrict(false);
+    // }
+
+    React.useEffect(() => {
+        getProvinces()
+    }, [])
+
+    React.useEffect(() => {
+        if (provinceIndex >= 0) {
+            getDistricts()
+            console.log("getojiadf")
+        }
+    }, [provinceIndex])
+
+    React.useEffect(() => {
+        if (provinces)
+            console.log(provinces.length)
+    }, [provinces])
+
+    React.useEffect(() => {
+        console.log("provinceIndex: " + JSON.stringify(provinces[provinceIndex]))
+        setDistrictIndex(-2)
+        setDistricts([])
+    }, [provinceIndex])
 
     return (
         <View style={styles.container}>
@@ -73,7 +202,6 @@ const PaymentScreenComp = ({ navigation }: any) => {
             <View style={styles.header}>
                 <Text style={styles.txtTitle}>Payment by Paypal</Text>
             </View>
-
             <View style={styles.body}>
                 <View style={styles.txtView}>
                     <Text style={{ fontSize: fonts.font18, color: colors.black }}>Total pay: </Text>
@@ -97,13 +225,51 @@ const PaymentScreenComp = ({ navigation }: any) => {
                         placeholderTextColor='#C1C1C1'
                         onChangeText={(value) => setphone(value)}
                     />
-                    <TextInput
-                        placeholder='Delivery address'
-                        value={address}
-                        style={styles.txtInput}
-                        placeholderTextColor='#C1C1C1'
-                        onChangeText={(value) => setaddress(value)}
-                    />
+                    {
+                        provinces.length < 2
+                            ?
+                            <ActivityIndicator
+                                color={colors.cyan}
+                                size={"large"}
+                            />
+                            :
+                            <View>
+                                <DropDownPicker
+                                    open={open}
+                                    value={provinceIndex}
+                                    items={provinces}
+                                    setOpen={setOpen}
+                                    setValue={setProvinceIndex}
+                                    setItems={setProvinces}
+                                    listMode={"MODAL"}
+                                />
+                            </View>
+                    }
+                    {
+                        isLoadingDistrict
+                            ?
+                            <ActivityIndicator
+                                color={colors.cyan}
+                                size={"large"}
+                            />
+                            :
+                            <></>
+                    }
+                    {
+                        districts.length < 1
+                            ?
+                            <></>
+                            :
+                            <DropDownPicker
+                                open={openDistric}
+                                value={districtIndex}
+                                items={districts}
+                                setOpen={setOpenDistrict}
+                                setValue={setDistrictIndex}
+                                setItems={setDistricts}
+                                listMode={"MODAL"}
+                            />
+                    }
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -216,5 +382,4 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
         marginLeft: 20
     },
-
 })
