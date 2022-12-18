@@ -7,10 +7,13 @@ import BlackIcon from "react-native-vector-icons/FontAwesome"
 import DeIcon from "react-native-vector-icons/FontAwesome5"
 import { AppHeader } from "../Header";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { SAVE_APP_TOKEN } from "../../redux/actions/actionTypes";
 
 export default () => {
     const renderBody = (() => {
         const navigation = useNavigation<any>();
+        const dispatch = useDispatch<any>();
         return (
             <ScrollView>
                 <View style={styles.containerBody}>
@@ -63,7 +66,20 @@ export default () => {
                             <Icon name="account-box" style={styles.ButtonIcon} />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.wrapButton} onPress={() => navigation.goBack()}>
+                        <TouchableOpacity style={styles.wrapButton} onPress={() => {
+                            dispatch({
+                                type: SAVE_APP_TOKEN,
+                                payload: ""
+                            })
+                            navigation.reset({
+                                index: 0,
+                                routes: [
+                                    {
+                                        name: SCREENNAME.LOGIN_SCREEN,
+                                    },
+                                ],
+                            })
+                        }}>
                             <Text style={styles.ButtonText}>Logout</Text>
                             <View style={styles.container}></View>
                             <Icon name="logout" style={styles.ButtonIcon} />

@@ -12,15 +12,15 @@ import Feather from 'react-native-vector-icons/Feather';
 const LoginScreenComp = ({ navigation }: any) => {
 
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("admin@gmail.com");
+    const [password, setPassword] = useState("123456");
     const dispatch = useDispatch();
     const { colors } = useTheme();
     const handleLogin = (async () => {
         setIsLoading(true);
         var body = JSON.stringify({
-            email: "admin@gmail.com",
-            password: "123456"
+            email: email,
+            password: password
         })
         await fetch('https://petshopdut.herokuapp.com/user/login',
             {
@@ -42,11 +42,11 @@ const LoginScreenComp = ({ navigation }: any) => {
             return response.json()
         })
             .then((response,) => {
+                navigation.navigate(SCREENNAME.HOME_STACK)
                 dispatch({
                     type: SAVE_APP_TOKEN,
                     payload: response.accesstoken
                 })
-                navigation.navigate(SCREENNAME.HOME_STACK)
             })
             .catch((error) => {
                 console.error(error);
@@ -82,7 +82,7 @@ const LoginScreenComp = ({ navigation }: any) => {
                     name="user-o"
                     color={colors.text}
                     size={20}
-                    style={{marginLeft:10}}
+                    style={{ marginLeft: 10 }}
                 />
                 <TextInput
                     style={styles.txtInput}
@@ -98,10 +98,11 @@ const LoginScreenComp = ({ navigation }: any) => {
                     name="lock"
                     color={colors.text}
                     size={20}
-                    style={{marginLeft:10}}
+                    style={{ marginLeft: 10 }}
                 />
                 <TextInput
                     style={styles.txtInput}
+                    secureTextEntry={true}
                     numberOfLines={1}
                     placeholder={"Password"}
                     value={password}
