@@ -10,30 +10,58 @@ import { ItemProduct } from "./Components";
 
 const ShopScreenComp = () => {
     const [searchToken, setSearchToken] = React.useState<String>("");
-    // const [data, setData] = React.useState<any>([]);
+
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState("all");
+    const [value, setValue] = useState<any>(-1);
     const [data, setData] = useState<IProduct[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [refreshing, setRefreshing] = useState(false);
 
-    const [items, setItems] = useState([
-        { label: 'All Product', value: 'all' },
-        { label: `Pet's Toys`, value: 'toys' },
-        { label: 'Cat Food', value: 'cat' },
-        { label: 'Dog Food', value: 'dog' }
-    ]);
+    const [items, setItems] = useState([{ label: 'All', value: 'All', index: -1 }]);
+    const [isLoadingCategory, setIsLoadingCategory] = useState<boolean>(false);
+
     const loadData = async () => {
         setIsLoading(true);
         fetch('https://petshopdut.herokuapp.com/api/products')
             .then((response) => response.json())
             .then((responseJson) => {
                 setData(responseJson.products);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.error(error);
+                setIsLoading(false);
+            });
+    }
+
+    const getCategory = () => {
+        setIsLoadingCategory(true);
+        fetch('http://pet.kreazy.me/api/category')
+            .then((response) => response.json())
+            .then((responseJson) => {
+                setItems([{ label: 'All', value: 'All', index: -1 }])
+                responseJson.map((item: any, index: number) => {
+                    setItems(prevState => [...prevState, { label: item.name, value: item._id, index: index }])
+                })
             })
             .catch((error) => {
                 console.error(error);
             });
-        setIsLoading(false);
+        setIsLoadingCategory(false);
+    }
+
+    const getProductbyCategory = async () => {
+        setIsLoading(true);
+        fetch(`https://petshopdut.herokuapp.com/api/products?category=${value}`)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                setData(responseJson.products);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.error(error);
+                setIsLoading(false);
+            });
     }
 
     const onRefresh = () => {
@@ -43,7 +71,17 @@ const ShopScreenComp = () => {
     }
 
     React.useEffect(() => {
+        if (value === "All") {
+            loadData();
+        }
+        else {
+            getProductbyCategory();
+        }
+    }, [value])
+
+    React.useEffect(() => {
         loadData();
+        getCategory();
     }, [])
     const renderItem = ({ item }: IProductprops) => {
         return <ItemProduct item={item} />
@@ -51,7 +89,7 @@ const ShopScreenComp = () => {
     const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
 
     const headerComponent = (() => {
-        return <View style={{ padding: 20, height: open ? 240 : 90 }}>
+        return <View style={{ padding: 20, height: open ? items.length * 60 : 90 }}>
             <DropDownPicker
                 open={open}
                 value={value}
@@ -77,10 +115,12 @@ const ShopScreenComp = () => {
             {
                 isLoading
                     ?
-                    <ActivityIndicator
-                        size={"large"}
-                        color={colors.cyan}
-                    />
+                    <View style={{ flex: 1, justifyContent: "center", marginTop: 100 }}>
+                        <ActivityIndicator
+                            size={"large"}
+                            color={colors.cyan}
+                        />
+                    </View>
                     :
                     <FlatList
                         refreshControl={

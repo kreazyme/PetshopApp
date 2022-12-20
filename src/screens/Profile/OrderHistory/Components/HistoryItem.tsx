@@ -63,7 +63,7 @@ const HistoryItemComp = ({ item }: IProps) => {
             <Text style={styles.txtTotal}>{`Total: $${item.total}`}</Text>
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate(SCREENNAME.DELIVERY_STATUS_SCREEN, { deliveryID: item.delivery })
+                    navigation.navigate(SCREENNAME.DELIVERY_STATUS_SCREEN, { deliveryID: "LLUUGA" })
                 }}
             >
                 <Text style={styles.wrapDelivery}>Delivery Status</Text>

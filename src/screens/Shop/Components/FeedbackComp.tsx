@@ -34,9 +34,9 @@ const FeedbackCompComp = ({ listFeedback }: any) => {
                     <View />
                     :
                     <FastImage
-                        source={{ uri: data[0].image_url }}
+                        source={{ uri: data[index].image_url }}
                         style={styles.wrapImage}
-                        resizeMode={"contain"}
+                        resizeMode={"cover"}
                     />
             }
         </View>

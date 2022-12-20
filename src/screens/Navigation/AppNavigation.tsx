@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 import { ProfilePage } from "../Profile";
 import { PaymentScreen } from "../Cart";
 import { CheckoutWebviewScreen } from "../Cart/Components/CheckoutWebviewScreen";
-import { HistoryScreen } from "../Profile/OrderHistory";
+import { HistoryScreen, MapWebviewScreen } from "../Profile/OrderHistory";
 import { DeliveryStatusScreen } from "../Profile/OrderHistory/Components/DeliveryStatusScreen";
 
 const appNavigationComp = () => {
@@ -124,6 +124,11 @@ const appNavigationComp = () => {
                 name={SCREENNAME.WEBVIEW_CHECKOUT_SCREEN}
                 options={{ headerShown: false }}
                 component={CheckoutWebviewScreen}
+            />
+            <Stack.Screen
+                name={SCREENNAME.WEBVIEW_MAP_SCREEN}
+                options={{ headerShown: false }}
+                component={MapWebviewScreen}
             />
             <Stack.Screen
                 name={SCREENNAME.HISTORY_SCREEN}

@@ -187,7 +187,6 @@ const DetailProductScreenComp = () => {
     })
     const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
 
-
     return (
         <View style={styles.container}>
             <View style={styles.wrapHeader}>
