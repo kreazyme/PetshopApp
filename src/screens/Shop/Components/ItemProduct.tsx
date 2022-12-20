@@ -42,7 +42,7 @@ const ItemProductComp = ({ item }: IProductprops) => {
             <View style={styles.wrapDetail}>
                 <View style={styles.wrapTxtDetail}>
                     <Text style={styles.txtPrice}>
-                        {(`${item?.price ?? "20000"} ₫`)}
+                        {(`$ ${item?.price ?? "20000"}`)}
                     </Text>
                     <Text
                         numberOfLines={2}
@@ -97,7 +97,8 @@ const styles = StyleSheet.create({
     },
     wrapTxtDetail: {
         flexDirection: "column",
-
+        alignItems: "flex-start",
+        flex: 1,
     },
     txtPrice: {
         fontSize: fonts.font22,

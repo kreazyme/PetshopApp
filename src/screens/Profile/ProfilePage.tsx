@@ -1,22 +1,56 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, ActivityIndicator } from "react-native"
 import colors from "../../shared/colors";
-import { fonts, ic_back, img_avatar, SCREENNAME } from "../../shared";
+import { fonts, ic_back, img_avatar, img_profile, IProfile, IStore, SCREENNAME } from "../../shared";
 import FastImage from "react-native-fast-image";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import DatePicker from "react-native-date-picker";
+import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 
 
-const ProfilePageComp = ({ navigation }: any) => {
-    const avatar = img_avatar;
+const ProfilePageComp = () => {
+
+    const token = useSelector((state: IStore) => state?.appReducer.token);
+    const navigation = useNavigation<any>();
+
     const [date, setDate] = React.useState(new Date())
-    const [name, setName] = React.useState<String>("12312");
-    const [username, setUsername] = React.useState<String>("Quan")
     const [open, setOpen] = React.useState(false)
-    const [email, setEmail] = React.useState<String>("")
+    const [isLoading, setIsLoading] = React.useState<boolean>(true)
+    const [data, setData] = React.useState<IProfile>()
+
+    const getData = (() => {
+        setIsLoading(true)
+        fetch('http://pet.kreazy.me/user/infor',
+            {
+                method: "GET",
+                headers: {
+                    Accept: '*/*',
+                    'Content-Type': 'application/json',
+                    "Connection": "keep-alive",
+                    "Authorization": `${token}`
+                },
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                setData(responseJson);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        setIsLoading(false)
+    })
+
+    React.useEffect(() => {
+        getData()
+    }, [])
+
+    React.useEffect(() => {
+        console.log(isLoading)
+    }, [isLoading])
 
     const headerComponent = (() => {
         return (
@@ -48,57 +82,70 @@ const ProfilePageComp = ({ navigation }: any) => {
     return (
         <ScrollView style={styles.container}>
             {headerComponent()}
-            <View style={{ borderRadius: 100, }}>
-                <FastImage
-                    source={avatar}
-                    style={styles.wrapAvatar}
-                    resizeMode="contain"
-                />
-            </View>
-            <View style={styles.wrapEditor}>
-                <View style={styles.wrapTextInput}>
-                    <Text style={styles.txtTitle}>Name</Text>
-                    <Text style={styles.txtInput}>
-                        {name}
-                    </Text>
-                </View>
-                <View style={styles.wrapTextInput}>
-                    <Text style={styles.txtTitle}>Username</Text>
-                    <Text style={styles.txtInput}>
-                        {username}
-                    </Text>
-                </View>
-                <View style={styles.wrapTextInput}>
-                    <Text style={styles.txtTitle}>Email</Text>
-                    <Text style={styles.txtInput}>
-                        {email}
-                    </Text>
-                </View>
-                <View style={styles.wrapTextInput}>
-                    <Text style={styles.txtTitle}>Phone Number</Text>
-                    <TextInput
-                        placeholder={"Enter your phone number"}
-                        style={styles.txtInput}
-                    />
-                </View>
-                <View style={{ paddingVertical: 40 }}>
-                    <Text style={styles.txtTitle}>Birth day</Text>
-                    <Text style={styles.txtInput}>{`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}</Text>
+            {
+                isLoading
+                    ?
+                    <View style={{ justifyContent: "center", marginTop: 200 }}>
+                        <ActivityIndicator
+                            size={"large"}
+                            color={colors.cyan}
+                        />
+                    </View>
+                    :
+                    <>
+                        <View style={{ justifyContent: "center", alignItems: "center" }}>
+                            <FastImage
+                                source={img_profile}
+                                style={styles.wrapAvatar}
+                                resizeMode="contain"
+                            />
+                        </View>
+                        <View style={styles.wrapEditor}>
+                            <View style={styles.wrapTextInput}>
+                                <Text style={styles.txtTitle}>Name</Text>
+                                <Text style={styles.txtInput}>
+                                    {data?.name}
+                                </Text>
+                            </View>
+                            <View style={styles.wrapTextInput}>
+                                <Text style={styles.txtTitle}>Username</Text>
+                                <Text style={styles.txtInput}>
+                                    {data?.phone}
+                                </Text>
+                            </View>
+                            <View style={styles.wrapTextInput}>
+                                <Text style={styles.txtTitle}>Email</Text>
+                                <Text style={styles.txtInput}>
+                                    {data?.email}
+                                </Text>
+                            </View>
+                            <View style={styles.wrapTextInput}>
+                                <Text style={styles.txtTitle}>Phone Number</Text>
+                                <TextInput
+                                    placeholder={"Enter your phone number"}
+                                    style={styles.txtInput}
+                                />
+                            </View>
+                            <View style={{ paddingVertical: 40 }}>
+                                <Text style={styles.txtTitle}>Birth day</Text>
+                                <Text style={styles.txtInput}>{`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}</Text>
 
-                </View>
-                <DatePicker
-                    modal
-                    open={open}
-                    date={date}
-                    onConfirm={(date) => {
-                        setOpen(false)
-                        setDate(date)
-                    }}
-                    onCancel={() => {
-                        setOpen(false)
-                    }}
-                />
-            </View>
+                            </View>
+                            <DatePicker
+                                modal
+                                open={open}
+                                date={date}
+                                onConfirm={(date) => {
+                                    setOpen(false)
+                                    setDate(date)
+                                }}
+                                onCancel={() => {
+                                    setOpen(false)
+                                }}
+                            />
+                        </View>
+                    </>
+            }
         </ScrollView>
     );
 }
@@ -126,10 +173,9 @@ const styles = StyleSheet.create({
     },
     wrapAvatar: {
         height: 150,
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 20,
-        marginTop: 40
+        borderRadius: 100,
+        flex: 1,
+        aspectRatio: 1
     },
     wrapEditor: {
         marginHorizontal: 50
