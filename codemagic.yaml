@@ -7,9 +7,9 @@ workflows:
             - yarn install
             - yarn
             - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
+            - chmod +x gradlew
             - |
                 # build Android
-                chmod +x gradlew
                ./gradlew assembleRelease
         artifacts:
             - android/app/build/outputs/**/**/*.apk
