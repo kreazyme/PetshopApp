@@ -12,7 +12,8 @@ workflows:
           echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
       - name: Install npm dependencies
         script: | 
-          npm install
+          yarn install
+          yarn
       - name: Install Expo CLI and eject
         script: | 
           react-native run-android
