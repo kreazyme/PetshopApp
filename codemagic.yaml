@@ -16,7 +16,7 @@ workflows:
           yarn
       - name: Install Expo CLI and eject
         script: | 
-          react-native run-android
+          yarn react-native run-android
       - name: Set up app/build.gradle
         script: | 
           mv ./support-files/build.gradle android/app 
