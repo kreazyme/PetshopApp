@@ -9,7 +9,7 @@ import {
     Drawer,
 
 } from 'react-native-paper'
-import { img_avatar, ic_back, ic_close, SCREENNAME } from "../../shared";
+import { img_avatar, ic_back, ic_close, SCREENNAME, IProfile, IStore, img_profile } from "../../shared";
 import Icon from "react-native-vector-icons/MaterialIcons"
 import BIcon from "react-native-vector-icons/MaterialCommunityIcons"
 import CIcon from "react-native-vector-icons/AntDesign"
@@ -17,14 +17,129 @@ import FastImage from "react-native-fast-image";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import colors from "../../shared/colors";
 import { StackActions } from "react-navigation";
-import { closeDrawer } from "react-navigation-drawer/lib/typescript/src/routers/DrawerActions";
+import { useDispatch, useSelector } from "react-redux";
+import { SAVE_APP_TOKEN } from "../../redux/actions/actionTypes";
 
 const Main_Menu = 'Main_Menu'
 const Categories = 'Categories'
-const avatar = img_avatar;
-const DrawerContentComp = ({navigation}:any) => {
-    // const navigation = useNavigation();
+const DrawerContentComp = () => {
+    const token = useSelector((state: IStore) => state?.appReducer.token);
+
+    const navigation = useNavigation<any>();
+    const dispatch = useDispatch<any>();
     const [page, setPage] = React.useState(Main_Menu);
+    const [isLoading, setIsLoading] = React.useState<boolean>(true)
+    const [data, setData] = React.useState<IProfile>();
+    const getData = (() => {
+        setIsLoading(true)
+        fetch('http://pet.kreazy.me/user/infor',
+            {
+                method: "GET",
+                headers: {
+                    Accept: '*/*',
+                    'Content-Type': 'application/json',
+                    "Connection": "keep-alive",
+                    "Authorization": `${token}`
+                },
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                setData(responseJson);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        setIsLoading(false)
+
+    })
+    React.useEffect(() => {
+        getData()
+    }, [])
+    React.useEffect(() => {
+        console.log(isLoading)
+    }, [isLoading])
+    const BodyComponent = () => {
+        return (
+            <View style={styles.drawerList}>
+                <View style={styles.wrapAvaName}>
+                    <FastImage
+                        source={img_profile}
+                        style={styles.wrapAvatar}
+                        resizeMode="contain" />
+                    <Text style={styles.wrapName}>
+                        {data?.name}
+                    </Text>
+                </View>
+                <DrawerItem
+                    icon={({ color, size }) => (
+                        <BIcon
+                            name="home-outline"
+                            color={color}
+                            size={size}
+                        />
+                    )}
+                    label="Home"
+                    onPress={() => {}}
+                />
+                <DrawerItem
+                    icon={({ color, size }) => (
+                        <BIcon
+                            name="vector-difference"
+                            color={color}
+                            size={size}
+                        />
+                    )}
+                    label="About"
+                    onPress={() => { }}
+                />
+                <DrawerItem
+                    icon={({ color, size }) => (
+                        <CIcon
+                            name="shoppingcart"
+                            color={color}
+                            size={size}
+                        />
+                    )}
+                    label="Shop"
+                    onPress={() => navigation.navigate(SCREENNAME.SHOP_SCREEN)}
+                />
+                <DrawerItem
+                    icon={({ color, size }) => (
+                        <BIcon
+                            name="page-previous-outline"
+                            color={color}
+                            size={size}
+                        />
+                    )}
+                    label="Pages"
+                    onPress={() => { }}
+                />
+                <DrawerItem
+                    icon={({ color, size }) => (
+                        <CIcon
+                            name="dropbox"
+                            color={color}
+                            size={size}
+                        />
+                    )}
+                    label="Blog"
+                    onPress={() => { }}
+                />
+                <DrawerItem
+                    icon={({ color, size }) => (
+                        <CIcon
+                            name="contacts"
+                            color={color}
+                            size={size}
+                        />
+                    )}
+                    label="Contact"
+                    onPress={() => { }}
+                />
+
+            </View>
+        );
+    }
     return (
         <View style={{ flex: 1 }}>
             <DrawerContentScrollView>
@@ -41,7 +156,20 @@ const DrawerContentComp = ({navigation}:any) => {
                         />
                     )}
                     label="Sign out"
-                    onPress={() => {}}
+                    onPress={() => {
+                        dispatch({
+                            type: SAVE_APP_TOKEN,
+                            payload: ""
+                        })
+                        navigation.reset({
+                            index: 0,
+                            routes: [
+                                {
+                                    name: SCREENNAME.LOGIN_SCREEN,
+                                },
+                            ],
+                        })
+                    }}
                 />
             </Drawer.Section>
         </View >
@@ -70,88 +198,6 @@ const HeadComponent = ({ page, setPage }: any) => {
         </View>
     );
 }
-const BodyComponent = () => {
-    return (
-        <View style={styles.drawerList}>
-            <View style={styles.wrapAvaName}>
-                <FastImage
-                    source={avatar}
-                    style={styles.wrapAvatar}
-                    resizeMode="contain" />
-                <Text style={styles.wrapName}>
-                    Name
-                </Text>
-            </View>
-            <DrawerItem
-                icon={({ color, size }) => (
-                    <BIcon
-                        name="home-outline"
-                        color={color}
-                        size={size}
-                    />
-                )}
-                label="Home"
-                onPress={() => { }}
-            />
-            <DrawerItem
-                icon={({ color, size }) => (
-                    <BIcon
-                        name="vector-difference"
-                        color={color}
-                        size={size}
-                    />
-                )}
-                label="About"
-                onPress={() => { }}
-            />
-            <DrawerItem
-                icon={({ color, size }) => (
-                    <CIcon
-                        name="shoppingcart"
-                        color={color}
-                        size={size}
-                    />
-                )}
-                label="Shop"
-                onPress={() => { }}
-            />
-            <DrawerItem
-                icon={({ color, size }) => (
-                    <BIcon
-                        name="page-previous-outline"
-                        color={color}
-                        size={size}
-                    />
-                )}
-                label="Pages"
-                onPress={() => { }}
-            />
-            <DrawerItem
-                icon={({ color, size }) => (
-                    <CIcon
-                        name="dropbox"
-                        color={color}
-                        size={size}
-                    />
-                )}
-                label="Blog"
-                onPress={() => { }}
-            />
-            <DrawerItem
-                icon={({ color, size }) => (
-                    <CIcon
-                        name="contacts"
-                        color={color}
-                        size={size}
-                    />
-                )}
-                label="Contact"
-                onPress={() => { }}
-            />
-
-        </View>
-    );
-}
 const styles = StyleSheet.create({
     wrapText: {
         backgroundColor: "#3F3C9A",
@@ -159,7 +205,7 @@ const styles = StyleSheet.create({
         width: "100%",
         position: 'absolute',
         bottom: 0,
-        
+
     },
     wrapAvaName: {
         flexDirection: 'row',
@@ -176,7 +222,7 @@ const styles = StyleSheet.create({
         width: '40%',
         justifyContent: 'center',
         alignItems: 'center',
-        
+
     },
     DrawerHeaderCategories: {
         width: '60%',
@@ -190,7 +236,7 @@ const styles = StyleSheet.create({
         //borderWidth: 1,
     },
     DrawerText: {
-        fontWeight:"bold",
+        fontWeight: "bold",
         fontSize: 17,
     },
     drawerList: {

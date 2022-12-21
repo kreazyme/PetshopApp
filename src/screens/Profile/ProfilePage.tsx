@@ -121,10 +121,9 @@ const ProfilePageComp = () => {
                             </View>
                             <View style={styles.wrapTextInput}>
                                 <Text style={styles.txtTitle}>Phone Number</Text>
-                                <TextInput
-                                    placeholder={"Enter your phone number"}
-                                    style={styles.txtInput}
-                                />
+                                <Text style={styles.txtInput}>
+                                    {data?.phone}
+                                </Text>
                             </View>
                             <View style={{ paddingVertical: 40 }}>
                                 <Text style={styles.txtTitle}>Birth day</Text>
