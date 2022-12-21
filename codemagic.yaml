@@ -1,35 +1,14 @@
 workflows:
-  react-native-android:
-    name: React Native Android
-    max_build_duration: 120
-    instance_type: mac_mini_m1
-    environment:
-      node: 16.9.0
-      vars:
-        PACKAGE_NAME: "com.petshopapp"
-    scripts:
-      - name: Set Android SDK location
-        script: | 
-          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
-      - name: Install yarn dependencies
-        script: | 
-          yarn install
-          yarn
-      - name: Launch emulator
-        script: |
-          set -e # exit on first failed command
-
-          cd $ANDROID_HOME/tools
-          emulator -avd emulator &
-          adb wait-for-device
-      - name: export app
-        script: | 
-          yarn react-native run-android
-      - name: Set up app/build.gradle
-        script: | 
-          mv ./support-files/build.gradle android/app 
-      - name: Build Android APK
-        working_directory: android
-        script: ./gradlew assembleRelease
-    artifacts:
-      - android/app/build/outputs/**/*.aab
+    react-native:
+        name: React Native App
+        environment:
+            node: latest
+        scripts:
+            - npm install
+            - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
+            - |
+                # build Android
+                cd android
+                ./gradlew assembleDebug
+        artifacts:
+            - android/app/build/outputs/**/**/*.apk
