@@ -9,6 +9,7 @@ workflows:
             - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
             - |
                 # build Android
-                yarn react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+                chmod +x gradlew
+               ./gradlew assembleRelease
         artifacts:
             - android/app/build/outputs/**/**/*.apk
