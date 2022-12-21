@@ -22,9 +22,9 @@ const ProfilePageComp = () => {
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const [data, setData] = React.useState<IProfile>()
 
-    const getData = (() => {
+    const getData = (async () => {
         setIsLoading(true)
-        fetch('http://pet.kreazy.me/user/infor',
+        await fetch('http://pet.kreazy.me/user/infor',
             {
                 method: "GET",
                 headers: {
@@ -47,10 +47,6 @@ const ProfilePageComp = () => {
     React.useEffect(() => {
         getData()
     }, [])
-
-    React.useEffect(() => {
-        console.log(isLoading)
-    }, [isLoading])
 
     const headerComponent = (() => {
         return (
@@ -79,6 +75,19 @@ const ProfilePageComp = () => {
             </View>
         )
     })
+
+    const renderItemDetail = (title: string, value: string) => {
+        return <View style={styles.wrapTextInput}>
+            <Text style={styles.txtTitle}>{value}</Text>
+            <Text style={styles.txtInput}>
+                {title}
+            </Text>
+        </View>
+    }
+
+    const joinDate = new Date(data?.createdAt ?? new Date().getTime())
+    const birthDay = new Date(data?.birthday ?? new Date().getTime())
+
     return (
         <ScrollView style={styles.container}>
             {headerComponent()}
@@ -95,52 +104,48 @@ const ProfilePageComp = () => {
                     <>
                         <View style={{ justifyContent: "center", alignItems: "center" }}>
                             <FastImage
-                                source={img_profile}
+                                source={data?.avatar ? { uri: data?.avatar } : img_avatar}
                                 style={styles.wrapAvatar}
-                                resizeMode="contain"
+                                resizeMode="cover"
                             />
+                            <Text style={styles.txtFullname}>
+                                {data?.fullName}
+                            </Text>
+                            <Text style={styles.txtUsername}>
+                                {`@${data?.name}`}
+                            </Text>
                         </View>
                         <View style={styles.wrapEditor}>
-                            <View style={styles.wrapTextInput}>
-                                <Text style={styles.txtTitle}>Name</Text>
-                                <Text style={styles.txtInput}>
-                                    {data?.name}
-                                </Text>
-                            </View>
-                            <View style={styles.wrapTextInput}>
-                                <Text style={styles.txtTitle}>Username</Text>
-                                <Text style={styles.txtInput}>
-                                    {data?.phone}
-                                </Text>
-                            </View>
-                            <View style={styles.wrapTextInput}>
-                                <Text style={styles.txtTitle}>Email</Text>
-                                <Text style={styles.txtInput}>
-                                    {data?.email}
-                                </Text>
-                            </View>
-                            <View style={styles.wrapTextInput}>
-                                <Text style={styles.txtTitle}>Phone Number</Text>
-                                <Text style={styles.txtInput}>
-                                    {data?.phone}
-                                </Text>
-                            </View>
-                            <View style={{ paddingVertical: 40 }}>
-                                <Text style={styles.txtTitle}>Birth day</Text>
-                                <Text style={styles.txtInput}>{`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}</Text>
-
-                            </View>
-                            <DatePicker
-                                modal
-                                open={open}
-                                date={date}
-                                onConfirm={(date) => {
-                                    setOpen(false)
-                                    setDate(date)
-                                }}
-                                onCancel={() => {
-                                    setOpen(false)
-                                }}
+                            {
+                                data?.email &&
+                                renderItemDetail(data.email, "Email")
+                            }
+                            {
+                                data?.phone &&
+                                renderItemDetail(data.phone, "Phone Number")
+                            }
+                            {
+                                data?.createdAt &&
+                                renderItemDetail(`${joinDate.getFullYear()} - ${joinDate.getMonth()} - ${joinDate.getDay()}`, "Joined Date")
+                            }
+                            {
+                                data?.birthday &&
+                                renderItemDetail(`${birthDay.getFullYear()} - ${birthDay.getMonth()} - ${birthDay.getDay()}`, "Birthday")
+                            }
+                            {
+                                data?.address &&
+                                renderItemDetail(data.address, "Address")
+                            }
+                            {
+                                data?.sex != null &&
+                                renderItemDetail(data.sex ? "Male" : "Female", "Sex")
+                            }
+                            {
+                                data?.pet.toString() &&
+                                renderItemDetail(data.pet.toString(), "Pet you have")
+                            }
+                            <View
+                                style={{ height: 100 }}
                             />
                         </View>
                     </>
@@ -177,12 +182,14 @@ const styles = StyleSheet.create({
         aspectRatio: 1
     },
     wrapEditor: {
-        marginHorizontal: 50
+        marginHorizontal: 20
     },
     wrapTextInput: {
-        marginTop: 40,
+        marginTop: 5,
         borderBottomColor: colors.gray_bg,
-        borderBottomWidth: 2
+        backgroundColor: "white",
+        borderRadius: 10,
+        padding: 20
     },
     txtInput: {
         marginTop: 10,
@@ -202,4 +209,15 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: 'black',
     },
+    txtFullname: {
+        fontSize: fonts.font24,
+        color: colors.cyan,
+        fontWeight: "bold",
+        marginTop: 10
+    },
+    txtUsername: {
+        fontSize: fonts.font18,
+        color: colors.orangeTabbar,
+        marginBottom: 20
+    }
 })

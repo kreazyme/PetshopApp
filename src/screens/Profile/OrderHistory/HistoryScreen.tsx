@@ -99,6 +99,9 @@ const HistoryScreenComp = ({ navigation }: any) => {
                                     onRefresh={onRefresh}
                                 />
                             }
+                            ListFooterComponent={
+                                <View style={{ height: 100 }} />
+                            }
                         />
                 }
             </View>
@@ -120,7 +123,7 @@ const styles = StyleSheet.create({
         borderBottomColor: "#E5E5E5",
         paddingHorizontal: 20,
         paddingVertical: 10,
-        alignItems:'center'
+        alignItems: 'center'
     },
     wrapTextHeader: {
         flex: 1,

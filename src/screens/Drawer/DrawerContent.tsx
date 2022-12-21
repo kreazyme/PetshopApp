@@ -9,7 +9,7 @@ import {
     Drawer,
 
 } from 'react-native-paper'
-import { img_avatar, ic_back, ic_close, SCREENNAME, IProfile, IStore, img_profile } from "../../shared";
+import { img_avatar, ic_back, SCREENNAME, IStore, IProfile, img_profile } from "../../shared";
 import Icon from "react-native-vector-icons/MaterialIcons"
 import BIcon from "react-native-vector-icons/MaterialCommunityIcons"
 import CIcon from "react-native-vector-icons/AntDesign"
@@ -27,6 +27,9 @@ const DrawerContentComp = () => {
 
     const navigation = useNavigation<any>();
     const dispatch = useDispatch<any>();
+const avatar = img_avatar;
+const DrawerContentComp = ({ navigation }: any) => {
+    // const navigation = useNavigation();
     const [page, setPage] = React.useState(Main_Menu);
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const [data, setData] = React.useState<IProfile>();
@@ -170,6 +173,7 @@ const DrawerContentComp = () => {
                             ],
                         })
                     }}
+                    onPress={() => { }}
                 />
             </Drawer.Section>
         </View >
@@ -263,4 +267,4 @@ const styles = StyleSheet.create({
         height: 100,
         backgroundColor: colors.cyan
     },
-});
+})
