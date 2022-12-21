@@ -107,6 +107,7 @@ const EditProfileScreenComp = ({ navigation }: any) => {
                 </View>
                 <DatePicker
                     modal
+                    mode='date'
                     open={open}
                     date={date}
                     onConfirm={(date) => {
