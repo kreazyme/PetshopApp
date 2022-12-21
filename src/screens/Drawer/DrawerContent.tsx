@@ -9,7 +9,7 @@ import {
     Drawer,
 
 } from 'react-native-paper'
-import { img_avatar, ic_back, ic_close, SCREENNAME } from "../../shared";
+import { img_avatar, ic_back, SCREENNAME } from "../../shared";
 import Icon from "react-native-vector-icons/MaterialIcons"
 import BIcon from "react-native-vector-icons/MaterialCommunityIcons"
 import CIcon from "react-native-vector-icons/AntDesign"
@@ -22,7 +22,7 @@ import { closeDrawer } from "react-navigation-drawer/lib/typescript/src/routers/
 const Main_Menu = 'Main_Menu'
 const Categories = 'Categories'
 const avatar = img_avatar;
-const DrawerContentComp = ({navigation}:any) => {
+const DrawerContentComp = ({ navigation }: any) => {
     // const navigation = useNavigation();
     const [page, setPage] = React.useState(Main_Menu);
     return (
@@ -41,7 +41,7 @@ const DrawerContentComp = ({navigation}:any) => {
                         />
                     )}
                     label="Sign out"
-                    onPress={() => {}}
+                    onPress={() => { }}
                 />
             </Drawer.Section>
         </View >
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
         width: "100%",
         position: 'absolute',
         bottom: 0,
-        
+
     },
     wrapAvaName: {
         flexDirection: 'row',
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
         width: '40%',
         justifyContent: 'center',
         alignItems: 'center',
-        
+
     },
     DrawerHeaderCategories: {
         width: '60%',
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
         //borderWidth: 1,
     },
     DrawerText: {
-        fontWeight:"bold",
+        fontWeight: "bold",
         fontSize: 17,
     },
     drawerList: {
