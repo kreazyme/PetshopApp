@@ -10,6 +10,7 @@ workflows:
             - |
                 # build Android
                 cd android
-                sudo ./gradlew assembleDebug
+                ls
+                ./gradlew assembleRelease
         artifacts:
             - android/app/build/outputs/**/**/*.apk
