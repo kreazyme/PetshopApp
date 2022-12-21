@@ -18,7 +18,7 @@ workflows:
             - |
                 # build Android
                 cd android
-                ./gradlew assembleRelease
+                ./gradlew assembleRelease --warning-mode all
         artifacts:
             - android/app/build/outputs/**/**/*.apk
         publishing:
