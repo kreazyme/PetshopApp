@@ -13,6 +13,10 @@ workflows:
             - |
                 # build Android
                 cd android
-                ./gradlew assembleDebug
+                ./gradlew assembleRelease
         artifacts:
             - android/app/build/outputs/**/**/*.apk
+        publishing:
+          email:
+            recipients:
+              - th.thoong@gmail.com
