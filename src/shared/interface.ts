@@ -210,4 +210,9 @@ export interface IProfile {
     avatar: string
     name: string
     email: string
+    birthday: string
+    fullName: string
+    sex: boolean
+    pet: string[]
+    createdAt: string
 }
