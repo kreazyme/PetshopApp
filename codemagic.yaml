@@ -5,7 +5,6 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       node: 16.9.0
-      npm: latest
       vars:
         PACKAGE_NAME: "com.petshopapp"
     scripts:
