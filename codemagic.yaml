@@ -6,8 +6,13 @@ workflows:
         scripts:
             - yarn install
             - yarn
+            - |
+              # clean gradlew
+              cd android
+              ./gradlew clean
             - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
             - |
+                # make sudo 
                 cd android
                 chmod +x gradlew
             - |
