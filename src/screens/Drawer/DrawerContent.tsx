@@ -22,13 +22,9 @@ import { SAVE_APP_TOKEN } from "../../redux/actions/actionTypes";
 
 const Main_Menu = 'Main_Menu'
 const Categories = 'Categories'
-const DrawerContentComp = () => {
-    const token = useSelector((state: IStore) => state?.appReducer.token);
-
-    const navigation = useNavigation<any>();
-    const dispatch = useDispatch<any>();
-const avatar = img_avatar;
 const DrawerContentComp = ({ navigation }: any) => {
+    const token = useSelector((state: IStore) => state?.appReducer.token);
+    const dispatch = useDispatch<any>();
     // const navigation = useNavigation();
     const [page, setPage] = React.useState(Main_Menu);
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
@@ -173,13 +169,13 @@ const DrawerContentComp = ({ navigation }: any) => {
                             ],
                         })
                     }}
-                    onPress={() => { }}
                 />
             </Drawer.Section>
         </View >
     );
 }
 export const DrawerContent = React.memo(DrawerContentComp)
+
 const HeadComponent = ({ page, setPage }: any) => {
     const navigation = useNavigation();
     return (
@@ -209,7 +205,6 @@ const styles = StyleSheet.create({
         width: "100%",
         position: 'absolute',
         bottom: 0,
-
     },
     wrapAvaName: {
         flexDirection: 'row',
@@ -267,4 +262,4 @@ const styles = StyleSheet.create({
         height: 100,
         backgroundColor: colors.cyan
     },
-})
+});
