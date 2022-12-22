@@ -9,12 +9,12 @@ import {
     Drawer,
 
 } from 'react-native-paper'
-import { img_avatar, ic_back, SCREENNAME, IStore, IProfile, img_profile } from "../../shared";
+import { SCREENNAME, IStore, IProfile, img_profile } from "../../shared";
 import Icon from "react-native-vector-icons/MaterialIcons"
 import BIcon from "react-native-vector-icons/MaterialCommunityIcons"
 import CIcon from "react-native-vector-icons/AntDesign"
 import FastImage from "react-native-fast-image";
-import { DrawerActions, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import colors from "../../shared/colors";
 import { StackActions } from "react-navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,10 +22,11 @@ import { SAVE_APP_TOKEN } from "../../redux/actions/actionTypes";
 
 const Main_Menu = 'Main_Menu'
 const Categories = 'Categories'
-const DrawerContentComp = ({ navigation }: any) => {
+const DrawerContentComp = () => {
     const token = useSelector((state: IStore) => state?.appReducer.token);
     const dispatch = useDispatch<any>();
-    // const navigation = useNavigation();
+    const navigation = useNavigation<any>();
+
     const [page, setPage] = React.useState(Main_Menu);
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
     const [data, setData] = React.useState<IProfile>();
@@ -78,7 +79,7 @@ const DrawerContentComp = ({ navigation }: any) => {
                         />
                     )}
                     label="Home"
-                    onPress={() => {}}
+                    onPress={() => { }}
                 />
                 <DrawerItem
                     icon={({ color, size }) => (
