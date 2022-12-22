@@ -27,15 +27,11 @@ workflows:
                 # build Android
                 cd android
                 ./gradlew assembleRelease --warning-mode all
-            - |
-                # build iOS
-                cd ios
-                pod install
-                xcodebuild build -workspace "$XCODE_WORKSPACE.xcworkspace" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+         
         artifacts:
             - android/app/build/outputs/**/**/*.apk
-            - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
         publishing:
           email:
             recipients:
               - th.thoong@gmail.com
+              - soukthavilay2000@gmail.com
