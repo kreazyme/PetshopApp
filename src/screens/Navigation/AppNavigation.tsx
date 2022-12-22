@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, StatusBar } from "react-native";
 import FastImage from "react-native-fast-image";
 import { fonts, ic_heart, ic_shop, ic_store, ic_user, SCREENNAME } from "../../shared";
 import colors from "../../shared/colors";
@@ -46,8 +46,14 @@ const appNavigationComp = () => {
 
     const HomeStack = (() => {
         return <Tab.Navigator
-            tabBarOptions={{
-                style: styles.wrapTabbar
+            screenOptions={{
+                headerShown: false,
+                tabBarStyle: {
+                    minHeight: 70,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    alignSelf: "center",
+                }
             }}
         >
             <Tab.Screen
