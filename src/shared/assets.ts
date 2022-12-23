@@ -10,6 +10,7 @@ export const ic_menu = require("../assets/icons/ic_menu.png");
 export const ic_search = require("../assets/icons/ic_search.png");
 export const ic_trash = require("../assets/icons/ic_trash.png");
 export const ic_back = require("../assets/icons/ic_back.png");
+export const ic_empty = require("../assets/icons/ic_empty.png");
 
 //images
 export const cat = require("../assets/images/cat_demo.jpg");

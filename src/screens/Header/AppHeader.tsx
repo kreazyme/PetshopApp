@@ -14,38 +14,20 @@ export const AppHeader = React.memo(appAppHeaderComp)
 const AppNavbar = () => {
     const [searchToken, setSearchToken] = React.useState<String>("");
     const navigation = useNavigation();
-    return (
-        <View style={styles.wrapHeader}>
-            <View style={styles.wrapHeaderLogo}>
-                <FastImage
-                    source={ic_app_logo}
-                    resizeMode="contain"
-                    style={styles.wrapLogo}
-                />
-                <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
-                    <FastImage
-                        source={ic_menu}
-                        resizeMode="contain"
-                        style={styles.wrapMenu}>
-                    </FastImage>
-                </TouchableOpacity>
-            </View>
-
-            <View style={styles.wrapSearchBox}>
-                <TextInput
-                    placeholder="Search here"
-                    style={styles.txtSearch}
-                    onChangeText={(value) => { setSearchToken(value) }}
-                />
-                <View style={styles.container} />
-                <FastImage
-                    source={ic_search}
-                    resizeMode="contain"
-                    style={styles.wrapSearch}
-                />
-            </View>
-        </View>
-    );
+    return <View style={styles.wrapHeader}>
+        <FastImage
+            source={ic_app_logo}
+            resizeMode="contain"
+            style={styles.wrapLogo}
+        />
+        <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+            <FastImage
+                source={ic_menu}
+                resizeMode="contain"
+                style={styles.wrapMenu}>
+            </FastImage>
+        </TouchableOpacity>
+    </View>
 }
 const styles = StyleSheet.create({
     container: {
@@ -53,16 +35,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     wrapHeader: {
-        padding: 30,
-        height: 160,
-        justifyContent: "center",
-        backgroundColor: colors.cyan
-    },
-    wrapHeaderLogo: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        flex: 1,
+        padding: 20,
+        backgroundColor: colors.cyan,
+        height: 80,
     },
     wrapLogo: {
         height: 38,
@@ -73,22 +51,4 @@ const styles = StyleSheet.create({
         height: 25,
         aspectRatio: 1,
     },
-    wrapSearch: {
-        height: 25,
-        aspectRatio: 1,
-        marginRight: 20
-    },
-    wrapSearchBox: {
-        backgroundColor: colors.white,
-        borderRadius: 20,
-        marginTop: 20,
-        height: 50,
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "center",
-    },
-    txtSearch: {
-        fontSize: fonts.font20,
-        paddingHorizontal: 20
-    }
 });
