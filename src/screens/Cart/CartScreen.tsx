@@ -102,7 +102,6 @@ export default () => {
                     style={styles.wrapMenu}>
                 </FastImage>
             </TouchableOpacity>
-
         </View>
     })
 

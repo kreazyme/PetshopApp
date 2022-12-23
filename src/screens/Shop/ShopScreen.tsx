@@ -1,15 +1,17 @@
 import { NavigationContainer } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, StyleSheet, FlatList, TextInput, ActivityIndicator, RefreshControl } from "react-native";
+import { View, StyleSheet, FlatList, TextInput, ActivityIndicator, RefreshControl, Text, TouchableOpacity } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import FastImage from "react-native-fast-image";
 import { fonts, ic_app_logo, ic_menu, ic_search, IProduct, IProductprops } from "../../shared";
 import colors from "../../shared/colors";
 import { AppHeader } from "../Header";
 import { ItemProduct } from "./Components";
+import { Keyboard } from "react-native";
+import { ic_empty } from "../../shared/assets";
 
 const ShopScreenComp = () => {
-    const [searchToken, setSearchToken] = React.useState<String>("");
+    const [searchToken, setSearchToken] = React.useState<string>("");
 
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState<any>(-1);
@@ -56,10 +58,29 @@ const ShopScreenComp = () => {
             .then((response) => response.json())
             .then((responseJson) => {
                 setData(responseJson.products);
+                console.log(responseJson.products)
                 setIsLoading(false);
             })
             .catch((error) => {
                 console.error(error);
+                setIsLoading(false);
+            });
+    }
+
+    const onSearchProduct = async () => {
+        setIsLoading(true);
+        const url = `http://pet.kreazy.me/api/products/search?searchToken=${searchToken}`
+        console.log(url)
+        fetch(url)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                setData(responseJson);
+                console.log(responseJson)
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.error(error);
+                console.log(error)
                 setIsLoading(false);
             });
     }
@@ -89,23 +110,51 @@ const ShopScreenComp = () => {
     const keyExtractor = React.useCallback((item: any, index: any) => `${item} ${index}`, []);
 
     const headerComponent = (() => {
-        return <View style={{ padding: 20, height: open ? items.length * 60 : 90 }}>
-            <DropDownPicker
-                open={open}
-                value={value}
-                items={items}
-                setOpen={setOpen}
-                setValue={setValue}
-                setItems={setItems}
-            />
+        return <View>
+            <View style={{ paddingVertical: 10, paddingHorizontal: 20, backgroundColor: colors.cyan, flexDirection: "row", flex: 1 }}>
+                <View style={{ flex: 1 }}>
+                    <TextInput
+                        style={{ backgroundColor: "white", borderRadius: 10, padding: 10 }}
+                        onChangeText={text => setSearchToken(text)}
+                        value={searchToken}
+                        placeholder={"Search"}
+                        onKeyPress={(e) => {
+                            if (e.nativeEvent.key === "Enter") {
+                                console.log("Enter")
+                                onSearchProduct();
+                            }
+                        }}
+                    />
+                </View>
+                <TouchableOpacity onPress={onSearchProduct}>
+                    <FastImage
+                        source={ic_search}
+                        style={{ width: 20, height: 20, position: "absolute", right: 30, top: 15 }}
+                        resizeMode={"contain"}
+                    />
+                </TouchableOpacity>
+            </View>
+            <View style={{ padding: 20, height: open ? items.length * 60 : 90 }}>
+                <DropDownPicker
+                    open={open}
+                    value={value}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setValue}
+                    setItems={setItems}
+                />
+            </View>
         </View>
     })
 
-    if (data.length === 0) {
-        return <View style={styles.wrapLoading}>
-            <ActivityIndicator
-                color={colors.cyan}
-                size={"large"} />
+    const renderEmpty = () => {
+        return <View style={{ justifyContent: "center", marginTop: 100 }}>
+            <FastImage
+                source={ic_empty}
+                style={{ width: 100, height: 100, alignSelf: "center", marginBottom: 10 }}
+                tintColor={colors.cyan}
+            />
+            <Text style={{ fontSize: 18, color: colors.cyan, textAlign: "center" }}>{`Empty Product\nTry remove filter`}</Text>
         </View>
     }
 
@@ -133,6 +182,8 @@ const ShopScreenComp = () => {
                         data={data}
                         renderItem={renderItem}
                         keyExtractor={keyExtractor}
+                        ListEmptyComponent={renderEmpty}
+                        showsVerticalScrollIndicator={false}
                         numColumns={2}
                         ListHeaderComponent={headerComponent}
                     />
