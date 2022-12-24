@@ -49,8 +49,11 @@ const HistoryScreenComp = ({ navigation }: any) => {
 
     React.useEffect(() => {
         getData()
-        console.log(data.length)
     }, [])
+
+    React.useEffect(() => {
+        console.log("243423 ", JSON.stringify(data[0]))
+    }, [data])
 
     const renderItem = ((item: ICart) => {
         return <HistoryItem item={item} />

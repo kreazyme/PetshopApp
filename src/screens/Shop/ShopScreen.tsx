@@ -24,10 +24,11 @@ const ShopScreenComp = () => {
 
     const loadData = async () => {
         setIsLoading(true);
-        fetch('https://petshopdut.herokuapp.com/api/products')
+        fetch('http://petshopdut.herokuapp.com/api/products')
             .then((response) => response.json())
             .then((responseJson) => {
                 setData(responseJson.products);
+                console.log(responseJson.products)
                 setIsLoading(false);
             })
             .catch((error) => {
@@ -54,7 +55,7 @@ const ShopScreenComp = () => {
 
     const getProductbyCategory = async () => {
         setIsLoading(true);
-        fetch(`https://petshopdut.herokuapp.com/api/products?category=${value}`)
+        fetch(`http://petshopdut.herokuapp.com/api/products?category=${value}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 setData(responseJson.products);
@@ -75,12 +76,9 @@ const ShopScreenComp = () => {
             .then((response) => response.json())
             .then((responseJson) => {
                 setData(responseJson);
-                console.log(responseJson)
                 setIsLoading(false);
             })
             .catch((error) => {
-                console.error(error);
-                console.log(error)
                 setIsLoading(false);
             });
     }

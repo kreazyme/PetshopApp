@@ -5,7 +5,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import FastImage from 'react-native-fast-image';
 import Snackbar from 'react-native-snackbar';
 import { useSelector } from 'react-redux';
-import { fonts, ic_app_logo, ic_menu, IProvinces, IStore, SCREENNAME } from '../../shared';
+import { fonts, ic_app_logo, ic_menu, ic_paypal, IProvinces, IStore, SCREENNAME } from '../../shared';
 import colors from '../../shared/colors';
 
 const PaymentScreenComp = ({ navigation }: any) => {
@@ -26,15 +26,11 @@ const PaymentScreenComp = ({ navigation }: any) => {
     const [openDistric, setOpenDistrict] = useState(false);
     const [districtIndex, setDistrictIndex] = useState<number>(-2);
 
-    const [wards, setWards] = useState<any>([])
-    const [isLoadingWard, setIsLoadingWard] = useState<boolean>(false);
-    const [openWard, setOpenWard] = useState(false);
-    const [wardIndex, setWardIndex] = useState<number>(-2);
-
     const token = useSelector((state: IStore) => state?.appReducer.token);
     const [url, setURL] = useState<string>("")
     const [name, setName] = useState("")
     const [phone, setphone] = useState("")
+    const [detailAddress, setDetailAddress] = useState<string>("")
 
     const checkoutOrder = (async () => {
         setIsLoading(true);
@@ -58,7 +54,6 @@ const PaymentScreenComp = ({ navigation }: any) => {
             return response.json()
         })
             .then((response,) => {
-                console.log(JSON.stringify(response))
                 if (response.url == null) {
                     Snackbar.show({
                         text: 'An error when checkout order. Please try again later',
@@ -133,40 +128,36 @@ const PaymentScreenComp = ({ navigation }: any) => {
             });
         setIsLoadingDistrict(false);
     }
-
-
-
-    // const getWards = async () => {
-    //     setIsLoadingDistrict(true);
-    //     const code: any = provinces[provinceIndex + 1]
-    //     const url = `https://vn-public-apis.fpo.vn/districts/getByProvince?limit=-1&provinceCode=${code.code}`
-    //     console.log(url)
-    //     await fetch(url,
-    //         {
-    //             method: "GET",
-    //             headers: {
-    //                 Accept: '*/*',
-    //                 'Content-Type': 'application/json',
-    //                 "Connection": "keep-alive",
-    //             },
-    //         }
-    //     ).finally(() => {
-    //         setIsLoading(false);
-    //     }).then((response) => {
-    //         return response.json()
-    //     })
-    //         .then((response) => {
-    //             var districData = [{ label: "Select districts", value: -1 }];
-    //             response.data.data.map((item: any, index: number) => {
-    //                 districData = [...districData, { label: item.name, value: index }]
-    //             });
-    //             setDistricts(districData)
-    //         })
-    //         .catch((error) => {
-    //             console.error(error);
-    //         });
-    //     setIsLoadingDistrict(false);
-    // }
+    const onSetAddress = async () => {
+        setIsLoading(true);
+        const body = {
+            order_id: orderID,
+            phone: phone,
+            name: name,
+            address: `${detailAddress}, ${districts[districtIndex + 1].label}, ${provinces[provinceIndex + 1].label}`
+        }
+        await fetch(`http://pet.kreazy.me/api/orders`,
+            {
+                method: "PUT",
+                headers: {
+                    Accept: '*/*',
+                    'Content-Type': 'application/json',
+                    "Connection": "keep-alive",
+                    "Authorization": `${token}`
+                },
+                body: JSON.stringify(body)
+            }
+        ).finally(() => {
+        }).then((response) => {
+            return response.json()
+        })
+            .then((response) => {
+                checkoutOrder();
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
     React.useEffect(() => {
         getProvinces()
@@ -190,6 +181,7 @@ const PaymentScreenComp = ({ navigation }: any) => {
         setDistricts([])
     }, [provinceIndex])
 
+
     return (
         <View style={styles.container}>
             <View style={styles.wrapHeaderLogo}>
@@ -199,16 +191,7 @@ const PaymentScreenComp = ({ navigation }: any) => {
                     style={styles.wrapLogo}
                 />
             </View>
-            <View style={styles.header}>
-                <Text style={styles.txtTitle}>Payment by Paypal</Text>
-            </View>
             <View style={styles.body}>
-                <View style={styles.txtView}>
-                    <Text style={{ fontSize: fonts.font18, color: colors.black }}>Total pay: </Text>
-                    <View style={styles.container}></View>
-                    <Text style={{ fontSize: fonts.font18, color: colors.black }}>{`${totalPay} VND`}</Text>
-                </View>
-
                 <View style={styles.creditCard}>
 
                     <TextInput
@@ -233,7 +216,7 @@ const PaymentScreenComp = ({ navigation }: any) => {
                                 size={"large"}
                             />
                             :
-                            <View>
+                            <View style={{ marginVertical: 10 }}>
                                 <DropDownPicker
                                     open={open}
                                     value={provinceIndex}
@@ -270,15 +253,32 @@ const PaymentScreenComp = ({ navigation }: any) => {
                                 listMode={"MODAL"}
                             />
                     }
+                    <View style={{ marginTop: 10 }}>
+                        <TextInput
+                            placeholder='Detail Address'
+                            value={detailAddress}
+                            style={styles.txtInput}
+                            placeholderTextColor='#C1C1C1'
+                            onChangeText={(value) => setDetailAddress(value)}
+                        />
+                    </View>
+                </View>
+                <View style={{ flexDirection: "row", justifyContent: "center" }}>
+                    <Text style={{ fontSize: 20, color: colors.cyan }}>$</Text>
+                    <Text style={{ fontSize: 50, color: colors.cyan }}>{`${totalPay}.00`}</Text>
+                </View>
+                <View style={{ justifyContent: "center", alignItems: "center" }}>
+                    <FastImage
+                        source={ic_paypal}
+                        style={{ height: 100, width: 150 }}
+                        resizeMode="contain"
+                    />
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Text style={styles.txtButtonBack}>Cancel Payment</Text>
-                    </TouchableOpacity>
-
                     <TouchableOpacity
-                        style={styles.wrapButton}
-                        onPress={checkoutOrder}
+                        style={[styles.wrapButton, { backgroundColor: (isLoading || name.length < 1 || phone.length < 1 || detailAddress.length < 1 || (districtIndex < 0 && districts.length > 0)) ? "gray" : colors.cyan }]}
+                        disabled={isLoading || name.length < 1 || phone.length < 1 || detailAddress.length < 1 || (districtIndex < 0 && districts.length > 0)}
+                        onPress={onSetAddress}
                     >
                         {
                             isLoading
@@ -288,12 +288,15 @@ const PaymentScreenComp = ({ navigation }: any) => {
                                     size="small"
                                 />
                                 :
-                                <Text style={styles.txtButton}>Pay</Text>
+                                <View>
+                                    <Text style={styles.txtButton}>Pay</Text>
+                                </View>
                         }
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Text style={styles.txtButtonBack}>Cancel Payment</Text>
+                    </TouchableOpacity>
                 </View>
-
-
             </View>
 
         </View>
@@ -307,7 +310,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F2F2F2'
     },
     body: {
-        marginTop: 50,
+        marginTop: 20,
         flexDirection: 'column',
     },
     header: {
@@ -326,9 +329,7 @@ const styles = StyleSheet.create({
         marginBottom: 50,
         marginHorizontal: 10,
         borderColor: '#D3D3D3',
-        borderWidth: 5,
-        paddingRight: 60,
-
+        borderWidth: 2,
     },
     txtTitle: {
         fontSize: fonts.font20,
@@ -343,14 +344,15 @@ const styles = StyleSheet.create({
     },
 
     txtButton: {
-        fontSize: fonts.font17,
+        fontSize: fonts.font20,
         fontWeight: "500",
         color: colors.white
     },
     txtButtonBack: {
         fontSize: fonts.font17,
         fontWeight: "500",
-        color: colors.cyan
+        color: colors.cyan,
+        marginTop: 20
     },
     txtInput: {
         fontSize: 20,
@@ -363,7 +365,6 @@ const styles = StyleSheet.create({
     wrapButton: {
         height: 50,
         width: 300,
-        backgroundColor: colors.cyan,
         marginTop: 12,
         borderRadius: 50,
         justifyContent: "center",

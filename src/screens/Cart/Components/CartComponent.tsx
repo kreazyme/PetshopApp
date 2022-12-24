@@ -1,20 +1,55 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import FastImage from "react-native-fast-image";
-import { cat, fonts, ICart, ic_app_logo, ic_menu, ic_trash, IListOrderItem, IProductCart } from "../../../shared";
+import { useDispatch, useSelector } from "react-redux";
+import { cat, fonts, ICart, ic_app_logo, ic_menu, ic_trash, IItemType, IListOrderItem, IProductCart, IStore } from "../../../shared";
 import colors from "../../../shared/colors";
 interface IProductCartParams {
-    item: IProductCart
+    itemType: IItemType,
+    order_id: string
 }
 
-const CartComponentComp = ({ itemType }: IListOrderItem) => {
+const CartComponentComp = ({ itemType, order_id }: IProductCartParams) => {
+
+    const token = useSelector((state: IStore) => state?.appReducer.token);
+    const dispatch = useDispatch<any>();
 
     const [quantity, setQuantity] = React.useState<number>(1);
+
 
     const HandleIncrease = (() => {
         if (quantity !== 1) {
             setQuantity(quantity - 1)
         }
+    })
+
+    const onRemoveItem = (async () => {
+        const body = {
+            order_id: order_id,
+            product_id: itemType.product_id
+        }
+        await fetch(`http://pet.kreazy.me/api/orders`,
+            {
+                method: "DELETE",
+                headers: {
+                    Accept: '*/*',
+                    'Content-Type': 'application/json',
+                    "Connection": "keep-alive",
+                    "Authorization": `${token}`
+                },
+                body: JSON.stringify(body)
+            }
+        ).finally(() => {
+        }).then((response) => response.json())
+            .then((response,) => {
+                dispatch({
+                    type: "RELOAD_CART",
+                    payload: true
+                })
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     })
 
     React.useEffect(() => {
@@ -27,7 +62,7 @@ const CartComponentComp = ({ itemType }: IListOrderItem) => {
                 {title}
             </Text>
             <Text style={styles.txtName}>
-                {`${txtPrice*quantity} VND`}
+                {`$${txtPrice * quantity}`}
             </Text>
         </View>
     })
@@ -74,11 +109,15 @@ const CartComponentComp = ({ itemType }: IListOrderItem) => {
                         style={styles.txtName}>
                         {itemType.product_name || ""}
                     </Text>
-                    <FastImage
-                        source={ic_trash}
-                        style={styles.wrapTrash}
-                        resizeMode="contain"
-                    />
+                    <TouchableOpacity
+                        onPress={onRemoveItem}
+                    >
+                        <FastImage
+                            source={ic_trash}
+                            style={styles.wrapTrash}
+                            resizeMode="contain"
+                        />
+                    </TouchableOpacity>
                 </View>
                 {renderPrice("Price: ", itemType.price)}
                 {renderQuantity()}

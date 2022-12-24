@@ -22,7 +22,7 @@ const LoginScreenComp = ({ navigation }: any) => {
             email: email,
             password: password
         })
-        await fetch('https://petshopdut.herokuapp.com/user/login',
+        await fetch('http://petshopdut.herokuapp.com/user/login',
             {
                 method: "POST",
                 headers: {
