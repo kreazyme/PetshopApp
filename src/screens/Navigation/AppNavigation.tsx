@@ -53,6 +53,7 @@ const appNavigationComp = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     alignSelf: "center",
+                    marginTop: 5
                 }
             }}
         >

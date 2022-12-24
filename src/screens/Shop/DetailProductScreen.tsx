@@ -121,6 +121,7 @@ const DetailProductScreenComp = () => {
         setRefreshing(false);
     })
 
+    console.log(data)
     React.useEffect(() => {
         getData();
     }, []);

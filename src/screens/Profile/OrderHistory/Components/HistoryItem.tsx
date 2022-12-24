@@ -13,10 +13,8 @@ interface IProps {
 const HistoryItemComp = ({ item }: IProps) => {
 
     const navigation = useNavigation<any>();
+    const [orderDate, setOrderDate] = React.useState<Date>(new Date(item.updatedAt));
 
-    React.useEffect(() => {
-        console.log(item._id)
-    }, [])
 
     const renderItem = (item: IItemType) => {
         return <TouchableOpacity
@@ -55,11 +53,14 @@ const HistoryItemComp = ({ item }: IProps) => {
 
     return (
         <View style={styles.container}>
+            <Text style={{ fontSize: 16 }}>
+                {`Order ID: ${item._id}\nAddress: ${item.address}\nPhone: ${item.phone}`}
+            </Text>
             <FlatList
                 data={item.listOrderItems}
                 renderItem={(item) => renderItem(item.item)}
             />
-            <Text style={styles.txtDate}>{`Order Date: 12/11/2022`}</Text>
+            <Text style={styles.txtDate}>{`Order Date: ${orderDate.getFullYear()}/${orderDate.getMonth()}/${orderDate.getDate()}`}</Text>
             <Text style={styles.txtTotal}>{`Total: $${item.total}`}</Text>
             <TouchableOpacity
                 onPress={() => {

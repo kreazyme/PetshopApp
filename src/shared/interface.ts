@@ -86,7 +86,8 @@ export interface ICart {
     _id: string
     user_id: string
     status: string
-    delivery: string
+    delivery: string,
+    updatedAt: string
 }
 
 export interface IListOrderItem {

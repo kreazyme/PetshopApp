@@ -34,7 +34,7 @@ const WishListComponentComp = ({ item }: IProductWishListParams) => {
                 {title}
             </Text>
             <Text style={styles.txtName}>
-                {`${txtPrice} VND`}
+                {`$${txtPrice}`}
             </Text>
         </View>
     })

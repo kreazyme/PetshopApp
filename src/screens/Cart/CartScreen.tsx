@@ -42,7 +42,6 @@ export default () => {
             setIsLoading(false);
         }).then((response) => response.json())
             .then((response,) => {
-                console.log(JSON.stringify(response))
                 setData(response)
             })
             .catch((error) => {
@@ -77,7 +76,7 @@ export default () => {
             onPress={() => {
                 navigation.navigate(SCREENNAME.PAYMENT_SCREEN, { orderID: data?._id, totalPay: data?.total })
             }}>
-            <Text style={styles.txtCheckout}>{`Check out: ${total} VND`}</Text>
+            <Text style={styles.txtCheckout}>{`Check out: $${total}`}</Text>
         </TouchableOpacity>
     })
 
@@ -125,7 +124,9 @@ export default () => {
                         :
                         <FlatList
                             renderItem={({ item }) => (
-                                <CartComponent itemType={item} />
+                                <CartComponent
+                                    order_id={data?._id ?? ""}
+                                    itemType={item} />
                             )}
                             data={data?.listOrderItems}
                             keyExtractor={keyExtractor}

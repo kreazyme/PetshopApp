@@ -11,6 +11,7 @@ export const ic_search = require("../assets/icons/ic_search.png");
 export const ic_trash = require("../assets/icons/ic_trash.png");
 export const ic_back = require("../assets/icons/ic_back.png");
 export const ic_empty = require("../assets/icons/ic_empty.png");
+export const ic_paypal = require("../assets/icons/ic_paypal.png");
 
 //images
 export const cat = require("../assets/images/cat_demo.jpg");
