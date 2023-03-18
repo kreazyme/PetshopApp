@@ -5,7 +5,7 @@ workflows:
           events:
             - push
           branch_patterns: 
-            - pattern: develop
+            - pattern: main
               include: false
           cancel_previous_builds: true
         name: React Native App
@@ -34,4 +34,4 @@ workflows:
           email:
             recipients:
               - th.thoong@gmail.com
-              - soukthavilay2000@gmail.com
+              - binhot@pm.me
